@@ -1,3 +1,4 @@
+import { useState } from "react";
 import {
   Alert,
   Button,
@@ -10,6 +11,16 @@ import WordCard from "../components/WordCard";
 import { WORDS } from "../constants/words";
 
 export default function Index() {
+  const [words, setWords] = useState(WORDS);
+
+  const toggleGotIt = (word: string) => {
+    setWords((prev) =>
+      prev.map((item) =>
+        item.word === word ? { ...item, gotIt: !item.gotIt } : item
+      )
+    );
+  };
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
@@ -24,13 +35,15 @@ export default function Index() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         >
-          {WORDS.map((item) => (
+          {words.map((item) => (
             <WordCard
               key={item.word}
               word={item.word}
               meaning={item.meaning}
               example={item.example}
               hint={item.hint}
+              gotIt={item.gotIt}
+              onToggleGotIt={() => toggleGotIt(item.word)}
             />
           ))}
         </ScrollView>

@@ -12,6 +12,8 @@ type WordCardProps = {
   meaning: string;
   example: string;
   hint: string;
+  gotIt: boolean;
+  onToggleGotIt: () => void;
 };
 
 export default function WordCard({
@@ -19,6 +21,8 @@ export default function WordCard({
   meaning,
   example,
   hint,
+  gotIt,
+  onToggleGotIt,
 }: WordCardProps) {
   const [expanded, setExpanded] = useState(false);
 
@@ -28,8 +32,10 @@ export default function WordCard({
   };
 
   return (
-    <Pressable onPress={toggle} style={styles.card}>
-      <Text style={styles.word}>{word}</Text>
+    <View style={[styles.card, gotIt ? styles.cardGotIt : null]}>
+      <Pressable onPress={toggle} style={styles.header}>
+        <Text style={styles.word}>{word}</Text>
+      </Pressable>
       {expanded ? (
         <View style={styles.details}>
           <Text style={styles.label}>Meaning</Text>
@@ -40,9 +46,15 @@ export default function WordCard({
 
           <Text style={styles.label}>Hint</Text>
           <Text style={styles.body}>{hint}</Text>
+
+          <Pressable onPress={onToggleGotIt} style={styles.toggleButton}>
+            <Text style={styles.toggleText}>
+              {gotIt ? "Got it" : "Mark as got it"}
+            </Text>
+          </Pressable>
         </View>
       ) : null}
-    </Pressable>
+    </View>
   );
 }
 
@@ -53,6 +65,12 @@ const styles = StyleSheet.create({
     paddingHorizontal: 20,
     borderRadius: 14,
     backgroundColor: "#FFFFFF",
+  },
+  cardGotIt: {
+    backgroundColor: "#DFF6E3",
+  },
+  header: {
+    alignItems: "center",
   },
   word: {
     fontSize: 20,
@@ -76,5 +94,17 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#2B2B2B",
     lineHeight: 20,
+  },
+  toggleButton: {
+    marginTop: 8,
+    paddingVertical: 10,
+    borderRadius: 10,
+    backgroundColor: "#1F6FEB",
+    alignItems: "center",
+  },
+  toggleText: {
+    color: "#FFFFFF",
+    fontSize: 14,
+    fontWeight: "700",
   },
 });
