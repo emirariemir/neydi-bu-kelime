@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Alert,
   Button,
@@ -7,11 +7,53 @@ import {
   Text,
   View,
 } from "react-native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import WordCard from "../components/WordCard";
 import { WORDS } from "../constants/words";
 
+const STORAGE_KEY = "dailyten.words";
+
+const pickRandomWords = (source: typeof WORDS, count: number) => {
+  const shuffled = [...source].sort(() => Math.random() - 0.5);
+  return shuffled.slice(0, count);
+};
+
 export default function Index() {
   const [words, setWords] = useState(WORDS);
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    let isActive = true;
+    const loadWords = async () => {
+      const stored = await AsyncStorage.getItem(STORAGE_KEY);
+      const delay = new Promise((resolve) => setTimeout(resolve, 2000));
+      await delay;
+      if (!isActive) return;
+      if (stored) {
+        const parsed = JSON.parse(stored);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setWords(parsed);
+          setIsLoaded(true);
+          return;
+        }
+      }
+
+      const selection = pickRandomWords(WORDS, 5);
+      setWords(selection);
+      await AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(selection));
+      setIsLoaded(true);
+    };
+
+    loadWords();
+    return () => {
+      isActive = false;
+    };
+  }, []);
+
+  useEffect(() => {
+    if (!isLoaded) return;
+    AsyncStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+  }, [isLoaded, words]);
 
   const toggleGotIt = (word: string) => {
     setWords((prev) =>
@@ -20,6 +62,15 @@ export default function Index() {
       )
     );
   };
+
+  if (!isLoaded) {
+    return (
+      <View style={[styles.container, styles.loadingContainer]}>
+        <Text style={styles.loadingTitle}>Loading your words...</Text>
+        <Text style={styles.loadingSubtitle}>Getting things ready</Text>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -91,5 +142,19 @@ const styles = StyleSheet.create({
   button: {
     borderRadius: 99,
     overflow: "hidden",
+  },
+  loadingContainer: {
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  loadingTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#1A1A1A",
+    marginBottom: 6,
+  },
+  loadingSubtitle: {
+    fontSize: 14,
+    color: "#4A4A4A",
   },
 });
