@@ -6,8 +6,8 @@ import {
   Text,
   View,
 } from "react-native";
-
-const WORDS = ["Serene", "Luminous", "Wander"];
+import WordCard from "../components/WordCard";
+import { WORDS } from "../constants/words";
 
 export default function Index() {
   return (
@@ -24,10 +24,14 @@ export default function Index() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         >
-          {WORDS.map((word) => (
-            <View key={word} style={styles.wordCard}>
-              <Text style={styles.wordText}>{word}</Text>
-            </View>
+          {WORDS.map((item) => (
+            <WordCard
+              key={item.word}
+              word={item.word}
+              meaning={item.meaning}
+              example={item.example}
+              hint={item.hint}
+            />
           ))}
         </ScrollView>
       </View>
@@ -70,20 +74,6 @@ const styles = StyleSheet.create({
     alignItems: "center",
     gap: 12,
     paddingVertical: 18,
-  },
-  wordCard: {
-    width: "100%",
-    paddingVertical: 18,
-    paddingHorizontal: 20,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
-  },
-  wordText: {
-    fontSize: 20,
-    fontWeight: "600",
-    color: "#1F1F1F",
-    textAlign: "center",
-    letterSpacing: 0.4,
   },
   button: {
     borderRadius: 99,
