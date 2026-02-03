@@ -1,30 +1,18 @@
-import Entypo from "@expo/vector-icons/Entypo";
-import Ionicons from "@expo/vector-icons/Ionicons";
-import { Tabs } from "expo-router";
+import { Stack } from "expo-router";
+import "react-native-reanimated";
+
+export const unstable_settings = {
+  anchor: "(tabs)",
+};
 
 export default function RootLayout() {
   return (
-    <Tabs>
-      <Tabs.Screen
-        name="index"
-        options={{
-          headerShown: false,
-          tabBarLabel: "Home",
-          tabBarIcon: ({ color, size }) => (
-            <Entypo name="home" size={size} color={color} />
-          ),
-        }}
+    <Stack>
+      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      <Stack.Screen
+        name="modal"
+        options={{ presentation: "modal", title: "Modal" }}
       />
-      <Tabs.Screen
-        name="stats"
-        options={{
-          headerShown: false,
-          tabBarLabel: "Stats",
-          tabBarIcon: ({ color, size }) => (
-            <Ionicons name="stats-chart" size={size} color={color} />
-          ),
-        }}
-      />
-    </Tabs>
+    </Stack>
   );
 }
