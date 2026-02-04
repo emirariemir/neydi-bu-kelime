@@ -1,4 +1,4 @@
-export const WORDS = [
+export const EMOTIONS_WORDS = [
   {
     word: "Happy",
     meaning: "Mutlu; sevinçli ve iyi hissetme durumu.",

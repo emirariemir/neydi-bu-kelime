@@ -1,4 +1,4 @@
-export const WORDS = [
+export const TRAVEL_WORDS = [
   {
     word: "Airport",
     meaning: "Uçakların iniş kalkış yaptığı ve yolcu işlemlerinin yürütüldüğü tesis.",

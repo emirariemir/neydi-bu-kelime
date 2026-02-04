@@ -1,4 +1,4 @@
-export const WORDS = [
+export const NATURE_WORDS = [
   {
     word: "Forest",
     meaning: "Orman; yoğun ağaç topluluklarından oluşan geniş doğal alan.",

@@ -1,4 +1,4 @@
-export const WORDS = [
+export const TECHNOLOGY_WORDS = [
   {
     word: "App",
     meaning: "Uygulama; belirli bir işlevi yerine getirmek için tasarlanmış yazılım programı.",

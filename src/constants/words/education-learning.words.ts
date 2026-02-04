@@ -1,4 +1,4 @@
-export const WORDS = [
+export const EDUCATION_WORDS = [
   {
     word: "Study",
     meaning: "Düzenli olarak öğrenmek amacıyla yapılan çalışma süreci.",

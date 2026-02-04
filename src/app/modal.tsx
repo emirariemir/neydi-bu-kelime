@@ -1,3 +1,4 @@
+import { router } from "expo-router";
 import { useState } from "react";
 import {
   ScrollView,
@@ -7,6 +8,8 @@ import {
   View,
 } from "react-native";
 import { CATEGORIES } from "../constants/word-categories";
+import { selectRandomWords } from "../utils/wordSelectionUtils";
+import { CATEGORY_WORDS } from "./(tabs)";
 
 export default function CategorySelectionModal() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -21,6 +24,28 @@ export default function CategorySelectionModal() {
         }
         return prev;
       }
+    });
+  };
+
+  const handleConfirmSelection = () => {
+    if (selectedCategories.length === 0) {
+      return;
+    }
+
+    // Select 10 random words from the chosen categories
+    const randomWords = selectRandomWords(
+      selectedCategories,
+      CATEGORY_WORDS,
+      10,
+    );
+
+    // Navigate back to index with the selected words
+    router.push({
+      pathname: "/",
+      params: {
+        selectedWords: JSON.stringify(randomWords),
+        selectedCategories: JSON.stringify(selectedCategories),
+      },
     });
   };
 
@@ -88,9 +113,7 @@ export default function CategorySelectionModal() {
           selectedCategories.length === 0 && styles.confirmButtonDisabled,
         ]}
         disabled={selectedCategories.length === 0}
-        onPress={() => {
-          console.log("Selected categories:", selectedCategories);
-        }}
+        onPress={handleConfirmSelection}
       >
         <Text style={styles.confirmButtonText}>
           {selectedCategories.length === 0

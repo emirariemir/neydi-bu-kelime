@@ -1,4 +1,4 @@
-export const WORDS = [
+export const FOOD_WORDS = [
   {
     word: "Recipe",
     meaning: "Tarif; belirli bir yemeği hazırlamak için gerekli malzemeleri ve izlenecek adımları açıklayan yönerge.",

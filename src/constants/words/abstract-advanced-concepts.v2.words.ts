@@ -1,4 +1,4 @@
-export const WORDS = [
+export const ABSTRACT_WORDS = [
   {
     word: "Concept",
     meaning: "Kavram; bir düşünceyi, nesneyi veya olguyu zihinde temsil eden genel fikir.",

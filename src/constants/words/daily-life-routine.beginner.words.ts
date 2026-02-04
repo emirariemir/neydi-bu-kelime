@@ -1,4 +1,4 @@
-export const WORDS = [
+export const DAILY_LIFE_WORDS = [
   {
     word: "Wake",
     meaning: "Uyanmak; uykudan uyanma eylemi.",

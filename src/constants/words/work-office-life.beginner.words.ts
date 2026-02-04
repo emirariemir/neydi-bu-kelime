@@ -1,4 +1,4 @@
-export const WORDS = [
+export const WORK_WORDS = [
   {
     word: "Work",
     meaning: "Çalışmak; bir işi yapmak veya emek harcamak.",

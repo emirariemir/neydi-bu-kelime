@@ -1,4 +1,4 @@
-export const WORDS = [
+export const HEALTH_WORDS = [
   {
     word: "Healthy",
     meaning: "Sağlıklı; sağlığı yerinde olan veya sağlığı destekleyen.",
