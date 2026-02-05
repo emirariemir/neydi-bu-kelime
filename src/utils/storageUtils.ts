@@ -9,6 +9,7 @@ export type StoredWordsData = {
   words: Word[];
   categories: string[];
   date: string;
+  learnedWords: string[]; // Array of word strings that have been marked as learned
 };
 
 /**
@@ -38,12 +39,14 @@ const getTodayString = (): string => {
 export const saveDailyWords = async (
   words: Word[],
   categories: string[],
+  learnedWords: string[] = [],
 ): Promise<void> => {
   try {
     const data: StoredWordsData = {
       words,
       categories,
       date: getTodayString(),
+      learnedWords,
     };
 
     await AsyncStorage.setItem(DAILY_WORDS_KEY, JSON.stringify(data));
@@ -99,4 +102,40 @@ export const clearDailyWords = async (): Promise<void> => {
 export const hasTodaysWords = async (): Promise<boolean> => {
   const data = await getDailyWords();
   return data !== null && data.words.length > 0;
+};
+
+/**
+ * Toggle the learned state of a word
+ */
+export const toggleWordLearned = async (word: string): Promise<string[]> => {
+  try {
+    const storedData = await getDailyWords();
+
+    if (!storedData) {
+      throw new Error("No words data found");
+    }
+
+    const learnedWords = storedData.learnedWords || [];
+    let updatedLearnedWords: string[];
+
+    if (learnedWords.includes(word)) {
+      // Remove from learned
+      updatedLearnedWords = learnedWords.filter((w) => w !== word);
+    } else {
+      // Add to learned
+      updatedLearnedWords = [...learnedWords, word];
+    }
+
+    // Save updated data
+    await saveDailyWords(
+      storedData.words,
+      storedData.categories,
+      updatedLearnedWords,
+    );
+
+    return updatedLearnedWords;
+  } catch (error) {
+    console.error("Error toggling word learned state:", error);
+    throw error;
+  }
 };

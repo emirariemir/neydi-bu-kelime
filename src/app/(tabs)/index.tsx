@@ -8,13 +8,18 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import { renderWordCard, type Word } from "../../components/DailyWordCard";
-import { getDailyWords, saveDailyWords } from "../../utils/storageUtils";
+import { WordCard, type Word } from "../../components/DailyWordCard";
+import {
+  getDailyWords,
+  saveDailyWords,
+  toggleWordLearned,
+} from "../../utils/storageUtils";
 
 export default function Index() {
   const params = useLocalSearchParams();
   const [dailyWords, setDailyWords] = useState<Word[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [learnedWords, setLearnedWords] = useState<string[]>([]);
   const [isLoading, setIsLoading] = useState(true);
 
   // Load words from storage on mount
@@ -34,9 +39,10 @@ export default function Index() {
             : [];
 
         // Save to storage and update state
-        saveDailyWords(words, categories).then(() => {
+        saveDailyWords(words, categories, []).then(() => {
           setDailyWords(words);
           setSelectedCategories(categories);
+          setLearnedWords([]);
         });
       } catch (error) {
         console.error("Error parsing selected words:", error);
@@ -52,11 +58,21 @@ export default function Index() {
       if (storedData) {
         setDailyWords(storedData.words);
         setSelectedCategories(storedData.categories);
+        setLearnedWords(storedData.learnedWords || []);
       }
     } catch (error) {
       console.error("Error loading words from storage:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const handleToggleLearned = async (word: string) => {
+    try {
+      const updatedLearnedWords = await toggleWordLearned(word);
+      setLearnedWords(updatedLearnedWords);
+    } catch (error) {
+      console.error("Error toggling learned state:", error);
     }
   };
 
@@ -95,12 +111,15 @@ export default function Index() {
     );
   }
 
+  const learnedCount = learnedWords.length;
+  const totalWords = dailyWords.length;
+
   return (
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.headerTitle}>Today's Words</Text>
         <Text style={styles.headerSubtitle}>
-          {dailyWords.length} words from {selectedCategories.length}{" "}
+          {learnedCount}/{totalWords} learned • {selectedCategories.length}{" "}
           {selectedCategories.length === 1 ? "category" : "categories"}
         </Text>
         <TouchableOpacity
@@ -113,7 +132,14 @@ export default function Index() {
 
       <FlatList
         data={dailyWords}
-        renderItem={renderWordCard}
+        renderItem={({ item, index }) => (
+          <WordCard
+            item={item}
+            index={index}
+            isLearned={learnedWords.includes(item.word)}
+            onToggleLearned={handleToggleLearned}
+          />
+        )}
         keyExtractor={(item, index) => `${item.word}-${index}`}
         contentContainerStyle={styles.listContent}
         showsVerticalScrollIndicator={false}
