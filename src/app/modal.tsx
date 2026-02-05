@@ -1,18 +1,37 @@
 import { router } from "expo-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   ScrollView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
+import { CATEGORY_WORDS } from "../constants/category-words";
 import { CATEGORIES } from "../constants/word-categories";
+import { clearDailyWords, getDailyWords } from "../utils/storageUtils";
 import { selectRandomWords } from "../utils/wordSelectionUtils";
-import { CATEGORY_WORDS } from "./(tabs)";
 
 export default function CategorySelectionModal() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [hasExistingWords, setHasExistingWords] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+
+  useEffect(() => {
+    checkExistingWords();
+  }, []);
+
+  const checkExistingWords = async () => {
+    try {
+      const storedData = await getDailyWords();
+      setHasExistingWords(storedData !== null && storedData.words.length > 0);
+    } catch (error) {
+      console.error("Error checking existing words:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const toggleCategory = (categoryId: string) => {
     setSelectedCategories((prev) => {
@@ -49,9 +68,70 @@ export default function CategorySelectionModal() {
     });
   };
 
+  const handleClearAndContinue = async () => {
+    try {
+      await clearDailyWords();
+      setHasExistingWords(false);
+    } catch (error) {
+      console.error("Error clearing words:", error);
+    }
+  };
+
+  const handleGoBack = () => {
+    router.back();
+  };
+
   const isSelected = (categoryId: string) =>
     selectedCategories.includes(categoryId);
   const canSelectMore = selectedCategories.length < 5;
+
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2E7D32" />
+      </View>
+    );
+  }
+
+  // Show warning if user already has words for today
+  if (hasExistingWords) {
+    return (
+      <View style={styles.container}>
+        <View style={styles.warningContainer}>
+          <Text style={styles.warningIcon}>⚠️</Text>
+          <Text style={styles.warningTitle}>
+            You Already Have Today's Words
+          </Text>
+          <Text style={styles.warningMessage}>
+            You still have words to learn from your current selection. Please
+            complete those first before choosing new categories.
+          </Text>
+          <Text style={styles.warningSubtext}>
+            If you want to reset and get new words, you can clear your current
+            progress.
+          </Text>
+
+          <View style={styles.warningButtons}>
+            <TouchableOpacity
+              style={styles.warningButtonSecondary}
+              onPress={handleGoBack}
+            >
+              <Text style={styles.warningButtonSecondaryText}>Go Back</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={styles.warningButtonDanger}
+              onPress={handleClearAndContinue}
+            >
+              <Text style={styles.warningButtonDangerText}>
+                Clear & Choose New
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </View>
+    );
+  }
 
   return (
     <View style={styles.container}>
@@ -130,6 +210,74 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#F6F4EF",
     padding: 24,
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F6F4EF",
+  },
+  warningContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 20,
+  },
+  warningIcon: {
+    fontSize: 64,
+    marginBottom: 20,
+  },
+  warningTitle: {
+    fontSize: 24,
+    fontWeight: "700",
+    color: "#1A1A1A",
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  warningMessage: {
+    fontSize: 16,
+    color: "#4A4A4A",
+    textAlign: "center",
+    lineHeight: 24,
+    marginBottom: 16,
+  },
+  warningSubtext: {
+    fontSize: 14,
+    color: "#6A6A6A",
+    textAlign: "center",
+    lineHeight: 20,
+    marginBottom: 32,
+  },
+  warningButtons: {
+    flexDirection: "row",
+    gap: 12,
+    width: "100%",
+  },
+  warningButtonSecondary: {
+    flex: 1,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1.5,
+    borderColor: "#D1D1D1",
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  warningButtonSecondaryText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#4A4A4A",
+  },
+  warningButtonDanger: {
+    flex: 1,
+    backgroundColor: "#D32F2F",
+    borderRadius: 12,
+    paddingVertical: 14,
+    alignItems: "center",
+  },
+  warningButtonDangerText: {
+    fontSize: 15,
+    fontWeight: "600",
+    color: "#FFFFFF",
   },
   title: {
     fontSize: 24,

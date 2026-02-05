@@ -1,100 +1,77 @@
 import { router, useLocalSearchParams } from "expo-router";
 import { useEffect, useState } from "react";
 import {
+  ActivityIndicator,
   FlatList,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
 } from "react-native";
-import { ABSTRACT_WORDS } from "../../constants/words/abstract-advanced-concepts.v2.words";
-import { DAILY_LIFE_WORDS } from "../../constants/words/daily-life-routine.beginner.words";
-import { EDUCATION_WORDS } from "../../constants/words/education-learning.words";
-import { EMOTIONS_WORDS } from "../../constants/words/emotions-personality.beginner.words";
-import { FOOD_WORDS } from "../../constants/words/food-cooking-dining.extended.words";
-import { HEALTH_WORDS } from "../../constants/words/health-lifestyle.words";
-import { NATURE_WORDS } from "../../constants/words/nature-environment.v2.words";
-import { TECHNOLOGY_WORDS } from "../../constants/words/technology-internet.words";
-import { TRAVEL_WORDS } from "../../constants/words/travel-transportation.words";
-import { WORK_WORDS } from "../../constants/words/work-office-life.beginner.words";
-
-type Word = {
-  word: string;
-  meaning: string;
-  example: string;
-  hint: string;
-};
-
-export const CATEGORY_WORDS = {
-  daily_life: DAILY_LIFE_WORDS,
-  emotions: EMOTIONS_WORDS,
-  work: WORK_WORDS,
-  education: EDUCATION_WORDS,
-  travel: TRAVEL_WORDS,
-  health: HEALTH_WORDS,
-  technology: TECHNOLOGY_WORDS,
-  food: FOOD_WORDS,
-  nature: NATURE_WORDS,
-  sports: [],
-  abstract: ABSTRACT_WORDS,
-} as const;
+import { renderWordCard, type Word } from "../../components/DailyWordCard";
+import { getDailyWords, saveDailyWords } from "../../utils/storageUtils";
 
 export default function Index() {
   const params = useLocalSearchParams();
   const [dailyWords, setDailyWords] = useState<Word[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [isLoading, setIsLoading] = useState(true);
 
+  // Load words from storage on mount
   useEffect(() => {
-    // Parse the selected words from route params
+    loadWordsFromStorage();
+  }, []);
+
+  // Handle new words from modal
+  useEffect(() => {
     if (params.selectedWords && typeof params.selectedWords === "string") {
       try {
         const words = JSON.parse(params.selectedWords);
-        setDailyWords(words);
+        const categories =
+          params.selectedCategories &&
+          typeof params.selectedCategories === "string"
+            ? JSON.parse(params.selectedCategories)
+            : [];
+
+        // Save to storage and update state
+        saveDailyWords(words, categories).then(() => {
+          setDailyWords(words);
+          setSelectedCategories(categories);
+        });
       } catch (error) {
         console.error("Error parsing selected words:", error);
       }
     }
-
-    // Parse the selected categories
-    if (
-      params.selectedCategories &&
-      typeof params.selectedCategories === "string"
-    ) {
-      try {
-        const categories = JSON.parse(params.selectedCategories);
-        setSelectedCategories(categories);
-      } catch (error) {
-        console.error("Error parsing selected categories:", error);
-      }
-    }
   }, [params.selectedWords, params.selectedCategories]);
+
+  const loadWordsFromStorage = async () => {
+    setIsLoading(true);
+    try {
+      const storedData = await getDailyWords();
+
+      if (storedData) {
+        setDailyWords(storedData.words);
+        setSelectedCategories(storedData.categories);
+      }
+    } catch (error) {
+      console.error("Error loading words from storage:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const handleOpenModal = () => {
     router.push("/modal");
   };
 
-  const renderWordCard = ({ item, index }: { item: Word; index: number }) => (
-    <View style={styles.wordCard}>
-      <View style={styles.wordHeader}>
-        <Text style={styles.wordNumber}>Word {index + 1}</Text>
-        <Text style={styles.wordText}>{item.word}</Text>
+  if (isLoading) {
+    return (
+      <View style={styles.loadingContainer}>
+        <ActivityIndicator size="large" color="#2E7D32" />
+        <Text style={styles.loadingText}>Loading your words...</Text>
       </View>
-      <View style={styles.wordContent}>
-        <View style={styles.wordSection}>
-          <Text style={styles.sectionLabel}>Meaning</Text>
-          <Text style={styles.sectionText}>{item.meaning}</Text>
-        </View>
-        <View style={styles.wordSection}>
-          <Text style={styles.sectionLabel}>Example</Text>
-          <Text style={styles.sectionText}>{item.example}</Text>
-        </View>
-        <View style={styles.wordSection}>
-          <Text style={styles.sectionLabel}>Hint</Text>
-          <Text style={styles.sectionText}>{item.hint}</Text>
-        </View>
-      </View>
-    </View>
-  );
+    );
+  }
 
   if (dailyWords.length === 0) {
     return (
@@ -152,6 +129,17 @@ const styles = StyleSheet.create({
     paddingTop: 48,
     paddingBottom: 32,
     backgroundColor: "#F6F4EF",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F6F4EF",
+  },
+  loadingText: {
+    marginTop: 12,
+    fontSize: 16,
+    color: "#4A4A4A",
   },
   emptyStateContainer: {
     flex: 1,
@@ -222,56 +210,5 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 20,
-  },
-  wordCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 16,
-    padding: 20,
-    marginBottom: 16,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.08,
-    shadowRadius: 8,
-    elevation: 2,
-  },
-  wordHeader: {
-    marginBottom: 16,
-    paddingBottom: 12,
-    borderBottomWidth: 1,
-    borderBottomColor: "#E0E0E0",
-  },
-  wordNumber: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#66BB6A",
-    marginBottom: 4,
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  wordText: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1A1A1A",
-  },
-  wordContent: {
-    gap: 12,
-  },
-  wordSection: {
-    gap: 4,
-  },
-  sectionLabel: {
-    fontSize: 12,
-    fontWeight: "600",
-    color: "#66BB6A",
-    textTransform: "uppercase",
-    letterSpacing: 0.5,
-  },
-  sectionText: {
-    fontSize: 14,
-    color: "#4A4A4A",
-    lineHeight: 20,
   },
 });
