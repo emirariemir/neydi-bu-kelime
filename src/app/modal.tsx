@@ -10,17 +10,41 @@ import {
 } from "react-native";
 import { CATEGORY_WORDS } from "../constants/category-words";
 import { CATEGORIES } from "../constants/word-categories";
-import { clearDailyWords, getDailyWords } from "../utils/storageUtils";
-import { selectRandomWords } from "../utils/wordSelectionUtils";
+import {
+  clearDailyWords,
+  getDailyWords,
+  getLearnedWordsPool,
+} from "../utils/storageUtils";
+import {
+  getAvailableWordsCount,
+  selectRandomWords,
+} from "../utils/wordSelectionUtils";
 
 export default function CategorySelectionModal() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [hasExistingWords, setHasExistingWords] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
+  const [learnedWordsPool, setLearnedWordsPool] = useState<string[]>([]);
+  const [availableWordsCount, setAvailableWordsCount] = useState(0);
 
   useEffect(() => {
     checkExistingWords();
+    loadLearnedWordsPool();
   }, []);
+
+  useEffect(() => {
+    // Update available words count when categories change
+    if (selectedCategories.length > 0) {
+      const count = getAvailableWordsCount(
+        selectedCategories,
+        CATEGORY_WORDS,
+        learnedWordsPool,
+      );
+      setAvailableWordsCount(count);
+    } else {
+      setAvailableWordsCount(0);
+    }
+  }, [selectedCategories, learnedWordsPool]);
 
   const checkExistingWords = async () => {
     try {
@@ -30,6 +54,15 @@ export default function CategorySelectionModal() {
       console.error("Error checking existing words:", error);
     } finally {
       setIsLoading(false);
+    }
+  };
+
+  const loadLearnedWordsPool = async () => {
+    try {
+      const pool = await getLearnedWordsPool();
+      setLearnedWordsPool(pool);
+    } catch (error) {
+      console.error("Error loading learned words pool:", error);
     }
   };
 
@@ -51,12 +84,21 @@ export default function CategorySelectionModal() {
       return;
     }
 
-    // Select 10 random words from the chosen categories
+    // Select 10 random words from the chosen categories, excluding learned words
     const randomWords = selectRandomWords(
       selectedCategories,
       CATEGORY_WORDS,
       10,
+      learnedWordsPool,
     );
+
+    if (randomWords.length === 0) {
+      // Show alert that no words are available
+      alert(
+        "No new words available in selected categories. You've already learned all words from these categories! Try selecting different categories.",
+      );
+      return;
+    }
 
     // Navigate back to index with the selected words
     router.dismissTo({
@@ -135,10 +177,24 @@ export default function CategorySelectionModal() {
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Choose Your Categories</Text>
-      <Text style={styles.subtitle}>
-        Select up to 5 categories ({selectedCategories.length}/5 selected)
-      </Text>
+      <View style={styles.headerSection}>
+        <Text style={styles.title}>Choose Your Categories</Text>
+        <Text style={styles.subtitle}>
+          Select up to 5 categories ({selectedCategories.length}/5 selected)
+        </Text>
+        {learnedWordsPool.length > 0 && (
+          <View style={styles.statsContainer}>
+            <Text style={styles.statsText}>
+              📚 {learnedWordsPool.length} words mastered
+            </Text>
+            {availableWordsCount > 0 && selectedCategories.length > 0 && (
+              <Text style={styles.availableWordsText}>
+                ✨ {availableWordsCount} new words available in selection
+              </Text>
+            )}
+          </View>
+        )}
+      </View>
 
       <ScrollView
         style={styles.scrollView}
@@ -190,15 +246,18 @@ export default function CategorySelectionModal() {
       <TouchableOpacity
         style={[
           styles.confirmButton,
-          selectedCategories.length === 0 && styles.confirmButtonDisabled,
+          (selectedCategories.length === 0 || availableWordsCount === 0) &&
+            styles.confirmButtonDisabled,
         ]}
-        disabled={selectedCategories.length === 0}
+        disabled={selectedCategories.length === 0 || availableWordsCount === 0}
         onPress={handleConfirmSelection}
       >
         <Text style={styles.confirmButtonText}>
           {selectedCategories.length === 0
             ? "Select at least 1 category"
-            : "Confirm Selection"}
+            : availableWordsCount === 0
+              ? "No new words in selection"
+              : "Confirm Selection"}
         </Text>
       </TouchableOpacity>
     </View>
@@ -279,6 +338,9 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#FFFFFF",
   },
+  headerSection: {
+    marginBottom: 20,
+  },
   title: {
     fontSize: 24,
     fontWeight: "700",
@@ -290,7 +352,25 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#4A4A4A",
     textAlign: "center",
-    marginBottom: 20,
+    marginBottom: 12,
+  },
+  statsContainer: {
+    backgroundColor: "#E8F5E9",
+    paddingVertical: 10,
+    paddingHorizontal: 16,
+    borderRadius: 12,
+    gap: 4,
+  },
+  statsText: {
+    fontSize: 13,
+    fontWeight: "600",
+    color: "#2E7D32",
+    textAlign: "center",
+  },
+  availableWordsText: {
+    fontSize: 12,
+    color: "#388E3C",
+    textAlign: "center",
   },
   scrollView: {
     flex: 1,

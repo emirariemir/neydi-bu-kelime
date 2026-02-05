@@ -10,13 +10,15 @@ type CategoryWords = {
 };
 
 /**
- * Randomly selects 10 words from the given categories,
- * ensuring at least one word from each selected category
+ * Randomly selects words from the given categories,
+ * ensuring at least one word from each selected category,
+ * and excluding words that have already been learned
  */
 export function selectRandomWords(
   selectedCategories: string[],
   categoryWords: CategoryWords,
   totalWords: number = 10,
+  learnedWordsPool: string[] = [],
 ): Word[] {
   if (selectedCategories.length === 0) {
     return [];
@@ -46,62 +48,82 @@ export function selectRandomWords(
     usedWordIndices.set(categoryId, new Set());
   });
 
-  // Step 1: Select at least one word from each category
-  validCategories.forEach((categoryId) => {
-    const categoryWordList = categoryWords[categoryId];
-    const randomIndex = Math.floor(Math.random() * categoryWordList.length);
+  // Helper function to check if a word has been learned
+  const isWordLearned = (word: Word): boolean => {
+    return learnedWordsPool.includes(word.word);
+  };
 
-    selectedWords.push({ ...categoryWordList[randomIndex] });
-    usedWordIndices.get(categoryId)!.add(randomIndex);
-  });
+  // Helper function to get an unlearned word from a category
+  const getUnlearnedWord = (
+    categoryId: string,
+    usedIndices: Set<number>,
+  ): { word: Word; index: number } | null => {
+    const categoryWordList = categoryWords[categoryId];
+    const availableIndices: number[] = [];
+
+    // Find all indices of unlearned and unused words
+    for (let i = 0; i < categoryWordList.length; i++) {
+      if (!usedIndices.has(i) && !isWordLearned(categoryWordList[i])) {
+        availableIndices.push(i);
+      }
+    }
+
+    if (availableIndices.length === 0) {
+      return null;
+    }
+
+    // Pick a random available index
+    const randomIndex =
+      availableIndices[Math.floor(Math.random() * availableIndices.length)];
+    return { word: { ...categoryWordList[randomIndex] }, index: randomIndex };
+  };
+
+  // Step 1: Select at least one word from each category
+  for (const categoryId of validCategories) {
+    const usedIndices = usedWordIndices.get(categoryId)!;
+    const result = getUnlearnedWord(categoryId, usedIndices);
+
+    if (result) {
+      selectedWords.push(result.word);
+      usedIndices.add(result.index);
+    } else {
+      // If we can't find an unlearned word from this category,
+      // we'll skip the "at least one per category" requirement for this category
+      console.warn(`No unlearned words available in category: ${categoryId}`);
+    }
+  }
+
+  // If we couldn't get any words at all, return empty array
+  if (selectedWords.length === 0) {
+    console.warn("No unlearned words available in any selected categories");
+    return [];
+  }
 
   // Step 2: Fill remaining slots randomly from all categories
-  const remainingSlots = totalWords - validCategories.length;
+  const remainingSlots = totalWords - selectedWords.length;
 
   for (let i = 0; i < remainingSlots; i++) {
-    // Randomly pick a category
-    const randomCategoryIndex = Math.floor(
-      Math.random() * validCategories.length,
-    );
-    const categoryId = validCategories[randomCategoryIndex];
-    const categoryWordList = categoryWords[categoryId];
-    const usedIndices = usedWordIndices.get(categoryId)!;
+    // Try to find a category with available unlearned words
+    let foundWord = false;
 
-    // If all words from this category are used, try another category
-    if (usedIndices.size >= categoryWordList.length) {
-      // Find a category that still has unused words
-      const availableCategory = validCategories.find((catId) => {
-        const used = usedWordIndices.get(catId)!;
-        return used.size < categoryWords[catId].length;
-      });
+    // Shuffle categories to randomize selection
+    const shuffledCategories = shuffleArray([...validCategories]);
 
-      if (!availableCategory) {
-        // All categories exhausted, stop
+    for (const categoryId of shuffledCategories) {
+      const usedIndices = usedWordIndices.get(categoryId)!;
+      const result = getUnlearnedWord(categoryId, usedIndices);
+
+      if (result) {
+        selectedWords.push(result.word);
+        usedIndices.add(result.index);
+        foundWord = true;
         break;
       }
+    }
 
-      const availableCategoryWordList = categoryWords[availableCategory];
-      const availableUsedIndices = usedWordIndices.get(availableCategory)!;
-
-      // Get a random unused word from this category
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(
-          Math.random() * availableCategoryWordList.length,
-        );
-      } while (availableUsedIndices.has(randomIndex));
-
-      selectedWords.push({ ...availableCategoryWordList[randomIndex] });
-      availableUsedIndices.add(randomIndex);
-    } else {
-      // Get a random unused word from the selected category
-      let randomIndex;
-      do {
-        randomIndex = Math.floor(Math.random() * categoryWordList.length);
-      } while (usedIndices.has(randomIndex));
-
-      selectedWords.push({ ...categoryWordList[randomIndex] });
-      usedIndices.add(randomIndex);
+    // If no unlearned words are available in any category, stop
+    if (!foundWord) {
+      break;
     }
   }
 
@@ -120,3 +142,24 @@ function shuffleArray<T>(array: T[]): T[] {
   }
   return shuffled;
 }
+
+/**
+ * Get count of available unlearned words in categories
+ */
+export const getAvailableWordsCount = (
+  selectedCategories: string[],
+  categoryWords: CategoryWords,
+  learnedWordsPool: string[] = [],
+): number => {
+  let count = 0;
+
+  selectedCategories.forEach((categoryId) => {
+    const words = categoryWords[categoryId] || [];
+    const unlearnedWords = words.filter(
+      (word) => !learnedWordsPool.includes(word.word),
+    );
+    count += unlearnedWords.length;
+  });
+
+  return count;
+};
