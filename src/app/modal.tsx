@@ -40,7 +40,7 @@ export default function CategorySelectionModal() {
     );
 
     // Navigate back to index with the selected words
-    router.push({
+    router.dismissTo({
       pathname: "/",
       params: {
         selectedWords: JSON.stringify(randomWords),
