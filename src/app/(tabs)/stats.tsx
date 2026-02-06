@@ -19,8 +19,6 @@ export default function StatsScreen() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const [joinDate] = useState(() => {
-    // You can store this in AsyncStorage too if needed
-    // For now, using a placeholder
     return "Jan 12, 2026";
   });
 

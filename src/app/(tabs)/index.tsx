@@ -1,5 +1,5 @@
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -8,6 +8,8 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
+import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WordCard, type Word } from "../../components/DailyWordCard";
 import {
   areAllWordsMastered,
@@ -15,7 +17,6 @@ import {
   getDailyWords,
   getLearningStats,
   saveDailyWords,
-  toggleWordLearned,
 } from "../../utils/storageUtils";
 
 export default function Index() {
@@ -26,6 +27,9 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [totalLearnedWords, setTotalLearnedWords] = useState(0);
+  const [isPresented, setIsPresented] = useState(false);
+  const bottomSheetRef = useRef<BottomSheet>(null);
+  const snapPoints = useMemo(() => ["25%"], []);
 
   // Load words from storage on mount
   useEffect(() => {
@@ -102,12 +106,13 @@ export default function Index() {
   };
 
   const handleToggleLearned = async (word: string) => {
-    try {
-      const updatedLearnedWords = await toggleWordLearned(word);
-      setLearnedWords(updatedLearnedWords);
-    } catch (error) {
-      console.error("Error toggling learned state:", error);
-    }
+    bottomSheetRef.current?.expand();
+    // try {
+    //   const updatedLearnedWords = await toggleWordLearned(word);
+    //   setLearnedWords(updatedLearnedWords);
+    // } catch (error) {
+    //   console.error("Error toggling learned state:", error);
+    // }
   };
 
   const handleOpenModal = () => {
@@ -121,69 +126,77 @@ export default function Index() {
 
   if (isLoading) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#2E7D32" />
-        <Text style={styles.loadingText}>Loading your words...</Text>
-      </View>
+      <GestureHandlerRootView style={styles.root}>
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#2E7D32" />
+          <Text style={styles.loadingText}>Loading your words...</Text>
+        </View>
+      </GestureHandlerRootView>
     );
   }
 
   // Show congratulations screen when all words are mastered
   if (showCongratulations) {
     return (
-      <View style={styles.container}>
-        <View style={styles.congratulationsContainer}>
-          <Text style={styles.congratsEmoji}>🎉</Text>
-          <Text style={styles.congratsTitle}>Congratulations!</Text>
-          <Text style={styles.congratsMessage}>
-            You've mastered all {dailyWords.length} words for today!
-          </Text>
-          <Text style={styles.congratsStats}>
-            Total words learned: {totalLearnedWords}
-          </Text>
-          <Text style={styles.congratsSubtext}>
-            Ready to learn more? Choose new categories and continue your
-            learning journey!
-          </Text>
-
-          <TouchableOpacity
-            style={styles.newSessionButton}
-            onPress={handleStartNewSession}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.newSessionButtonText}>
-              Choose New Categories
+      <GestureHandlerRootView style={styles.root}>
+        <View style={styles.container}>
+          <View style={styles.congratulationsContainer}>
+            <Text style={styles.congratsEmoji}>🎉</Text>
+            <Text style={styles.congratsTitle}>Congratulations!</Text>
+            <Text style={styles.congratsMessage}>
+              You've mastered all {dailyWords.length} words for today!
             </Text>
-          </TouchableOpacity>
+            <Text style={styles.congratsStats}>
+              Total words learned: {totalLearnedWords}
+            </Text>
+            <Text style={styles.congratsSubtext}>
+              Ready to learn more? Choose new categories and continue your
+              learning journey!
+            </Text>
+
+            <TouchableOpacity
+              style={styles.newSessionButton}
+              onPress={handleStartNewSession}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.newSessionButtonText}>
+                Choose New Categories
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </GestureHandlerRootView>
     );
   }
 
   if (dailyWords.length === 0) {
     return (
-      <View style={styles.container}>
-        <View style={styles.emptyStateContainer}>
-          <Text style={styles.emptyTitle}>Ready to start your daily goal?</Text>
-          <Text style={styles.emptySubtitle}>
-            Choose your favorite categories and we'll pick words for you to
-            learn every day.
-          </Text>
-          {totalLearnedWords > 0 && (
-            <Text style={styles.totalLearnedBadge}>
-              📚 {totalLearnedWords} words learned so far
+      <GestureHandlerRootView style={styles.root}>
+        <View style={styles.container}>
+          <View style={styles.emptyStateContainer}>
+            <Text style={styles.emptyTitle}>
+              Ready to start your daily goal?
             </Text>
-          )}
+            <Text style={styles.emptySubtitle}>
+              Choose your favorite categories and we'll pick words for you to
+              learn every day.
+            </Text>
+            {totalLearnedWords > 0 && (
+              <Text style={styles.totalLearnedBadge}>
+                📚 {totalLearnedWords} words learned so far
+              </Text>
+            )}
 
-          <TouchableOpacity
-            style={styles.startButton}
-            onPress={handleOpenModal}
-            activeOpacity={0.8}
-          >
-            <Text style={styles.startButtonText}>Choose Categories</Text>
-          </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.startButton}
+              onPress={handleOpenModal}
+              activeOpacity={0.8}
+            >
+              <Text style={styles.startButtonText}>Choose Categories</Text>
+            </TouchableOpacity>
+          </View>
         </View>
-      </View>
+      </GestureHandlerRootView>
     );
   }
 
@@ -191,45 +204,65 @@ export default function Index() {
   const totalWords = dailyWords.length;
 
   return (
-    <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitle}>Today's Words</Text>
-        <Text style={styles.headerSubtitle}>
-          {learnedCount}/{totalWords} learned • {selectedCategories.length}{" "}
-          {selectedCategories.length === 1 ? "category" : "categories"}
-        </Text>
-        {totalLearnedWords > 0 && (
-          <Text style={styles.totalLearnedText}>
-            📚 {totalLearnedWords} total words mastered
+    <GestureHandlerRootView style={styles.root}>
+      <View style={styles.container}>
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Today's Words</Text>
+          <Text style={styles.headerSubtitle}>
+            {learnedCount}/{totalWords} learned • {selectedCategories.length}{" "}
+            {selectedCategories.length === 1 ? "category" : "categories"}
           </Text>
-        )}
-        <TouchableOpacity
-          style={styles.changeCategoriesButton}
-          onPress={handleOpenModal}
-        >
-          <Text style={styles.changeCategoriesText}>Change Categories</Text>
-        </TouchableOpacity>
-      </View>
+          {totalLearnedWords > 0 && (
+            <Text style={styles.totalLearnedText}>
+              📚 {totalLearnedWords} total words mastered
+            </Text>
+          )}
+          <TouchableOpacity
+            style={styles.changeCategoriesButton}
+            onPress={handleOpenModal}
+          >
+            <Text style={styles.changeCategoriesText}>Change Categories</Text>
+          </TouchableOpacity>
+        </View>
 
-      <FlatList
-        data={dailyWords}
-        renderItem={({ item, index }) => (
-          <WordCard
-            item={item}
-            index={index}
-            isLearned={learnedWords.includes(item.word)}
-            onToggleLearned={handleToggleLearned}
-          />
-        )}
-        keyExtractor={(item, index) => `${item.word}-${index}`}
-        contentContainerStyle={styles.listContent}
-        showsVerticalScrollIndicator={false}
-      />
-    </View>
+        <FlatList
+          data={dailyWords}
+          renderItem={({ item, index }) => (
+            <WordCard
+              item={item}
+              index={index}
+              isLearned={learnedWords.includes(item.word)}
+              onToggleLearned={handleToggleLearned}
+            />
+          )}
+          keyExtractor={(item, index) => `${item.word}-${index}`}
+          contentContainerStyle={styles.listContent}
+          showsVerticalScrollIndicator={false}
+        />
+        <BottomSheet
+          ref={bottomSheetRef}
+          index={-1}
+          snapPoints={snapPoints}
+          enablePanDownToClose
+          backgroundStyle={styles.bottomSheetBackground}
+        >
+          <BottomSheetView style={styles.bottomSheetContent}>
+            <Text style={styles.bottomSheetTitle}>Nice work!</Text>
+            <Text style={styles.bottomSheetText}>
+              We’ll track this word as learned.
+            </Text>
+          </BottomSheetView>
+        </BottomSheet>
+      </View>
+    </GestureHandlerRootView>
   );
 }
 
 const styles = StyleSheet.create({
+  root: {
+    flex: 1,
+    backgroundColor: "#F6F4EF",
+  },
   container: {
     flex: 1,
     paddingHorizontal: 24,
@@ -390,5 +423,24 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 20,
+  },
+  bottomSheetBackground: {
+    backgroundColor: "#FFFFFF",
+  },
+  bottomSheetContent: {
+    paddingHorizontal: 24,
+    paddingTop: 12,
+    paddingBottom: 24,
+    gap: 6,
+  },
+  bottomSheetTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1A1A1A",
+  },
+  bottomSheetText: {
+    fontSize: 14,
+    color: "#4A4A4A",
+    lineHeight: 20,
   },
 });
