@@ -36,7 +36,7 @@ export default function Index() {
 
   const containerStyle = [
     styles.container,
-    { paddingTop: 16 + insets.top, paddingBottom: insets.bottom },
+    { paddingTop: 16 + insets.top, paddingBottom: 0 },
   ];
   const loadingStyle = [
     styles.loadingContainer,
@@ -449,6 +449,6 @@ const styles = StyleSheet.create({
     color: "#2E7D32",
   },
   listContent: {
-    paddingBottom: 20,
+    paddingBottom: 0,
   },
 });
