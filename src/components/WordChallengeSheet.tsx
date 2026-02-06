@@ -1,4 +1,7 @@
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetBackdrop,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { useEffect, useState, type RefObject } from "react";
 import {
   Keyboard,
@@ -54,6 +57,14 @@ export default function WordChallengeSheet({
       enablePanDownToClose
       onClose={onClose}
       backgroundStyle={styles.bottomSheetBackground}
+      backdropComponent={(backdropProps) => (
+        <BottomSheetBackdrop
+          {...backdropProps}
+          appearsOnIndex={0}
+          disappearsOnIndex={-1}
+          opacity={0.4}
+        />
+      )}
     >
       <BottomSheetView style={styles.bottomSheetContent}>
         <Text style={styles.bottomSheetTitle}>Quick Challenge</Text>

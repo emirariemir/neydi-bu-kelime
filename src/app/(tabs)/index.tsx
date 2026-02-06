@@ -118,6 +118,18 @@ export default function Index() {
   };
 
   const handleToggleLearned = async (word: string) => {
+    const isCurrentlyLearned = learnedWords.includes(word);
+
+    if (isCurrentlyLearned) {
+      try {
+        const updatedLearnedWords = await toggleWordLearned(word);
+        setLearnedWords(updatedLearnedWords);
+      } catch (error) {
+        console.error("Error toggling learned state:", error);
+      }
+      return;
+    }
+
     setChallengeWord(word);
     bottomSheetRef.current?.expand();
   };
