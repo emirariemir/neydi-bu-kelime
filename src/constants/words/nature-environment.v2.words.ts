@@ -9,14 +9,16 @@ export const NATURE_WORDS = [
   {
     word: "River",
     difficulty: "beginner",
-    meaning: "Nehir; belirli bir yatakta akarak denize, göle veya başka bir akarsuya ulaşan büyük su kütlesi.",
+    meaning:
+      "Nehir; belirli bir yatakta akarak denize, göle veya başka bir akarsuya ulaşan büyük su kütlesi.",
     example: "The river flows quietly past the town.",
     hint: "Sürekli akan serin bir su şeridini ve kıyısındaki taşları düşün.",
   },
   {
     word: "Lake",
     difficulty: "beginner",
-    meaning: "Göl; karalarla çevrili, durağan veya yavaş hareket eden doğal su birikintisi.",
+    meaning:
+      "Göl; karalarla çevrili, durağan veya yavaş hareket eden doğal su birikintisi.",
     example: "The lake looked calm at sunrise.",
     hint: "Sabah ışığında aynaya benzeyen durgun bir su yüzeyi hayal et.",
   },
@@ -30,14 +32,16 @@ export const NATURE_WORDS = [
   {
     word: "Valley",
     difficulty: "intermediate",
-    meaning: "Vadi; iki yükselti arasında uzanan, genellikle akarsu tarafından şekillendirilmiş çukur alan.",
+    meaning:
+      "Vadi; iki yükselti arasında uzanan, genellikle akarsu tarafından şekillendirilmiş çukur alan.",
     example: "A small village sits in the valley.",
     hint: "İki tepenin arasında yeşil bir koridor gibi uzanan sakin bir alan düşün.",
   },
   {
     word: "Ocean",
     difficulty: "intermediate",
-    meaning: "Okyanus; kıtalar arasında uzanan, dünyanın en büyük tuzlu su kütlesi.",
+    meaning:
+      "Okyanus; kıtalar arasında uzanan, dünyanın en büyük tuzlu su kütlesi.",
     example: "The ocean was rough during the storm.",
     hint: "Ucu bucağı görünmeyen dalgaları ve tuzlu rüzgârı hayal et.",
   },
@@ -51,56 +55,64 @@ export const NATURE_WORDS = [
   {
     word: "Rain",
     difficulty: "beginner",
-    meaning: "Yağmur; atmosferdeki su buharının yoğunlaşarak damlacıklar hâlinde yeryüzüne düşmesi.",
+    meaning:
+      "Yağmur; atmosferdeki su buharının yoğunlaşarak damlacıklar hâlinde yeryüzüne düşmesi.",
     example: "It started to rain in the evening.",
     hint: "Camda tık tık ses çıkaran damlaları ve ıslak asfalt kokusunu hayal et.",
   },
   {
     word: "Snow",
     difficulty: "beginner",
-    meaning: "Kar; su buharının donarak kristaller hâlinde yeryüzüne düşmesiyle oluşan yağış türü.",
+    meaning:
+      "Kar; su buharının donarak kristaller hâlinde yeryüzüne düşmesiyle oluşan yağış türü.",
     example: "Snow covered the streets overnight.",
     hint: "Sessizce yağan beyaz tanelerin her şeyi yumuşattığı bir manzarayı düşün.",
   },
   {
     word: "Wind",
     difficulty: "beginner",
-    meaning: "Rüzgâr; hava kütlelerinin basınç farkı nedeniyle yatay yönde hareket etmesi.",
+    meaning:
+      "Rüzgâr; hava kütlelerinin basınç farkı nedeniyle yatay yönde hareket etmesi.",
     example: "The wind was strong near the coast.",
     hint: "Saçlarını uçuran, ağaç yapraklarını hışırdatan serin bir esintiyi hayal et.",
   },
   {
     word: "Cloud",
     difficulty: "beginner",
-    meaning: "Bulut; atmosferde asılı duran su damlacıkları veya buz kristallerinden oluşan kütle.",
+    meaning:
+      "Bulut; atmosferde asılı duran su damlacıkları veya buz kristallerinden oluşan kütle.",
     example: "Dark clouds filled the sky.",
     hint: "Gökyüzünde pamuk gibi dolaşan şekilleri ve gölgelerini düşün.",
   },
   {
     word: "Storm",
     difficulty: "intermediate",
-    meaning: "Fırtına; şiddetli rüzgârla birlikte yağış ve elektriksel olayların görülebildiği hava olayı.",
+    meaning:
+      "Fırtına; şiddetli rüzgârla birlikte yağış ve elektriksel olayların görülebildiği hava olayı.",
     example: "The storm knocked down a few branches.",
     hint: "Gök gürültüsü, hızlanan rüzgâr ve aniden kararan gökyüzünü gözünde canlandır.",
   },
   {
     word: "Thunder",
     difficulty: "intermediate",
-    meaning: "Gök gürültüsü; yıldırımın oluşturduğu ani ısınmanın yarattığı ses olayı.",
+    meaning:
+      "Gök gürültüsü; yıldırımın oluşturduğu ani ısınmanın yarattığı ses olayı.",
     example: "We heard thunder in the distance.",
     hint: "Uzakta patlayan derin bir ses ve ardından gelen kısa bir sessizlik düşün.",
   },
   {
     word: "Lightning",
     difficulty: "intermediate",
-    meaning: "Yıldırım; bulutlar arasında veya bulut ile yer arasında gerçekleşen güçlü elektrik boşalması.",
+    meaning:
+      "Yıldırım; bulutlar arasında veya bulut ile yer arasında gerçekleşen güçlü elektrik boşalması.",
     example: "Lightning flashed across the sky.",
     hint: "Bir anda gökyüzünü yarıp geçen parlak bir çizgiyi hayal et.",
   },
   {
     word: "Fog",
     difficulty: "intermediate",
-    meaning: "Sis; havadaki su buharının yoğunlaşarak görüş mesafesini azaltacak biçimde yere yakın bir tabaka oluşturması.",
+    meaning:
+      "Sis; havadaki su buharının yoğunlaşarak görüş mesafesini azaltacak biçimde yere yakın bir tabaka oluşturması.",
     example: "The fog made the road hard to see.",
     hint: "Her şeyin yumuşakça silikleştiği, sessiz bir sabah sahnesi düşün.",
   },
@@ -114,70 +126,80 @@ export const NATURE_WORDS = [
   {
     word: "Shade",
     difficulty: "intermediate",
-    meaning: "Gölge; ışığın bir cisim tarafından engellenmesi sonucu oluşan karanlık alan.",
+    meaning:
+      "Gölge; ışığın bir cisim tarafından engellenmesi sonucu oluşan karanlık alan.",
     example: "We sat in the shade under a tree.",
     hint: "Sıcak bir günde ağacın altında serin bir köşeyi düşün.",
   },
   {
     word: "Soil",
     difficulty: "intermediate",
-    meaning: "Toprak; bitkilerin yetiştiği, mineral ve organik maddeler içeren yer kabuğu tabakası.",
+    meaning:
+      "Toprak; bitkilerin yetiştiği, mineral ve organik maddeler içeren yer kabuğu tabakası.",
     example: "The soil is rich and good for gardening.",
     hint: "Avucuna aldığında hafif nemli, kokusu belirgin bir toprak parçasını hayal et.",
   },
   {
     word: "Seed",
     difficulty: "intermediate",
-    meaning: "Tohum; bitkilerin çoğalmasını sağlayan, yeni bitkiyi oluşturabilecek yapıda üreme birimi.",
+    meaning:
+      "Tohum; bitkilerin çoğalmasını sağlayan, yeni bitkiyi oluşturabilecek yapıda üreme birimi.",
     example: "She planted a seed in the pot.",
     hint: "Minik bir şeyin zamanla kocaman bir bitkiye dönüştüğünü düşün.",
   },
   {
     word: "Tree",
     difficulty: "beginner",
-    meaning: "Ağaç; genellikle odunsu gövdeye sahip, uzun ömürlü ve çok yıllık bitki.",
+    meaning:
+      "Ağaç; genellikle odunsu gövdeye sahip, uzun ömürlü ve çok yıllık bitki.",
     example: "A tall tree stands near the house.",
     hint: "Dallarıyla gökyüzüne uzanan, altında dinlenilen bir dev hayal et.",
   },
   {
     word: "Leaf",
     difficulty: "beginner",
-    meaning: "Yaprak; bitkilerde fotosentez gibi temel işlevleri üstlenen, genellikle yeşil renkli organ.",
+    meaning:
+      "Yaprak; bitkilerde fotosentez gibi temel işlevleri üstlenen, genellikle yeşil renkli organ.",
     example: "A leaf fell gently to the ground.",
     hint: "Rüzgârla süzülen ince bir yeşil parçayı gözünde canlandır.",
   },
   {
     word: "Wildlife",
     difficulty: "intermediate",
-    meaning: "Yaban hayatı; doğal ortamında yaşayan hayvan ve bitkilerin oluşturduğu yaşam topluluğu.",
+    meaning:
+      "Yaban hayatı; doğal ortamında yaşayan hayvan ve bitkilerin oluşturduğu yaşam topluluğu.",
     example: "This park is home to rich wildlife.",
     hint: "Şehirden uzakta, kendi düzeninde yaşayan hayvanları ve seslerini hayal et.",
   },
   {
     word: "Recycling",
     difficulty: "intermediate",
-    meaning: "Geri dönüşüm; atık materyallerin yeniden işlenerek tekrar kullanılabilir hâle getirilmesi süreci.",
+    meaning:
+      "Geri dönüşüm; atık materyallerin yeniden işlenerek tekrar kullanılabilir hâle getirilmesi süreci.",
     example: "Recycling helps reduce waste.",
     hint: "Boş bir şişenin çöpe gitmek yerine yeni bir şeye dönüşmesini düşün.",
   },
   {
     word: "Pollution",
     difficulty: "intermediate",
-    meaning: "Kirlilik; hava, su veya toprağın zararlı maddelerle kirlenmesi sonucu çevresel kalitenin bozulması durumu.",
+    meaning:
+      "Kirlilik; hava, su veya toprağın zararlı maddelerle kirlenmesi sonucu çevresel kalitenin bozulması durumu.",
     example: "Air pollution can affect our health.",
     hint: "Gökyüzünü gri yapan dumanı ve nefes almayı zorlaştıran havayı hayal et.",
   },
   {
     word: "Climate",
     difficulty: "intermediate",
-    meaning: "İklim; bir bölgenin uzun yıllar boyunca gözlenen ortalama hava koşulları düzeni.",
+    meaning:
+      "İklim; bir bölgenin uzun yıllar boyunca gözlenen ortalama hava koşulları düzeni.",
     example: "The climate here is mild in spring.",
     hint: "Bir yerin yıllar boyunca nasıl bir havaya sahip olduğunu anlatan büyük resmi düşün.",
   },
   {
     word: "Desert",
     difficulty: "intermediate",
-    meaning: "Çöl; çok az yağış alan, bitki örtüsü son derece sınırlı olan geniş kara alanı.",
+    meaning:
+      "Çöl; çok az yağış alan, bitki örtüsü son derece sınırlı olan geniş kara alanı.",
     example: "The desert is extremely hot during the day.",
     hint: "Gündüz kavurucu sıcak, gece serin bir kum denizini hayal et.",
   },
@@ -191,7 +213,8 @@ export const NATURE_WORDS = [
   {
     word: "Waterfall",
     difficulty: "intermediate",
-    meaning: "Şelale; akarsuyun yüksek bir noktadan serbestçe dökülmesiyle oluşan doğal oluşum.",
+    meaning:
+      "Şelale; akarsuyun yüksek bir noktadan serbestçe dökülmesiyle oluşan doğal oluşum.",
     example: "The waterfall attracts many visitors.",
     hint: "Yukarıdan dökülen güçlü su ve çıkan serin sisi hayal et.",
   },
@@ -212,21 +235,24 @@ export const NATURE_WORDS = [
   {
     word: "Glacier",
     difficulty: "intermediate",
-    meaning: "Buzul; uzun yıllar boyunca biriken ve hareket eden büyük buz kütlesi.",
+    meaning:
+      "Buzul; uzun yıllar boyunca biriken ve hareket eden büyük buz kütlesi.",
     example: "Glaciers are melting due to warming.",
     hint: "Yavaşça akan devasa bir buz nehrini düşün.",
   },
   {
     word: "Earthquake",
     difficulty: "intermediate",
-    meaning: "Deprem; yer kabuğunda ani enerji boşalması sonucu oluşan sarsıntı.",
+    meaning:
+      "Deprem; yer kabuğunda ani enerji boşalması sonucu oluşan sarsıntı.",
     example: "The earthquake was felt across the city.",
     hint: "Yerin hafifçe titrediği o ürkütücü anı hayal et.",
   },
   {
     word: "Drought",
     difficulty: "intermediate",
-    meaning: "Kuraklık; uzun süreli yağış eksikliği nedeniyle oluşan su kıtlığı durumu.",
+    meaning:
+      "Kuraklık; uzun süreli yağış eksikliği nedeniyle oluşan su kıtlığı durumu.",
     example: "The region suffered from drought.",
     hint: "Toprağın çatladığı ve yağmurun özlendiği bir manzarayı düşün.",
   },
@@ -261,7 +287,8 @@ export const NATURE_WORDS = [
   {
     word: "Oxygen",
     difficulty: "intermediate",
-    meaning: "Oksijen; canlıların solunum için ihtiyaç duyduğu kimyasal element.",
+    meaning:
+      "Oksijen; canlıların solunum için ihtiyaç duyduğu kimyasal element.",
     example: "Oxygen is essential for life.",
     hint: "Her nefeste fark etmeden aldığın hayati gazı düşün.",
   },
@@ -296,7 +323,8 @@ export const NATURE_WORDS = [
   {
     word: "Temperature",
     difficulty: "intermediate",
-    meaning: "Sıcaklık; bir ortamın ne kadar sıcak veya soğuk olduğunu gösteren ölçü.",
+    meaning:
+      "Sıcaklık; bir ortamın ne kadar sıcak veya soğuk olduğunu gösteren ölçü.",
     example: "The temperature dropped at night.",
     hint: "Termometrede yavaşça değişen sayıyı hayal et.",
   },
@@ -345,14 +373,16 @@ export const NATURE_WORDS = [
   {
     word: "Nature",
     difficulty: "beginner",
-    meaning: "Doğa; insan müdahalesi olmadan var olan tüm canlı ve cansız varlıklar.",
+    meaning:
+      "Doğa; insan müdahalesi olmadan var olan tüm canlı ve cansız varlıklar.",
     example: "Nature helps us relax.",
     hint: "Şehirden uzak, sade ve dengeli bir dünya hayal et.",
   },
   {
     word: "Environment",
     difficulty: "intermediate",
-    meaning: "Çevre; canlıların içinde yaşadığı doğal ve yapay koşullar bütünü.",
+    meaning:
+      "Çevre; canlıların içinde yaşadığı doğal ve yapay koşullar bütünü.",
     example: "We must protect the environment.",
     hint: "Etrafındaki her şeyin bir bütün oluşturduğunu düşün.",
   },
@@ -366,7 +396,8 @@ export const NATURE_WORDS = [
   {
     word: "Sustainability",
     difficulty: "intermediate",
-    meaning: "Sürdürülebilirlik; doğal kaynakları gelecek nesilleri tehlikeye atmadan kullanma yaklaşımı.",
+    meaning:
+      "Sürdürülebilirlik; doğal kaynakları gelecek nesilleri tehlikeye atmadan kullanma yaklaşımı.",
     example: "Sustainability is a global goal.",
     hint: "Bugünü yaşarken yarını da korumayı düşün.",
   },
@@ -376,5 +407,163 @@ export const NATURE_WORDS = [
     meaning: "Hava durumu; belirli bir zamanda atmosferin durumu.",
     example: "The weather changed suddenly.",
     hint: "Güne başlamadan önce dışarı bakıp hissettiğin havayı düşün.",
+  },
+  {
+    word: "Ecosystem",
+    difficulty: "advanced",
+    meaning:
+      "Ekosistem; canlı organizmalar ile bunların fiziksel çevreleri arasında karşılıklı etkileşimlerin gerçekleştiği doğal sistem.",
+    example: "Climate change threatens the balance of the ecosystem.",
+    hint: "Bitkiler, hayvanlar, su ve toprağın kusursuz bir düzen içinde birlikte yaşadığını hayal et.",
+  },
+  {
+    word: "Biodiversity",
+    difficulty: "advanced",
+    meaning:
+      "Biyoçeşitlilik; belirli bir bölgede bulunan canlı türlerinin, genetik yapıların ve ekosistemlerin çeşitliliği.",
+    example: "The rainforest is known for its rich biodiversity.",
+    hint: "Tek bir yerde yüzlerce farklı bitki ve hayvan türünü düşün.",
+  },
+  {
+    word: "Atmosphere",
+    difficulty: "advanced",
+    meaning:
+      "Atmosfer; bir gezegeni çevreleyen ve yaşam için gerekli gazlardan oluşan hava tabakası.",
+    example: "The Earth's atmosphere protects us from harmful radiation.",
+    hint: "Dünyayı görünmez bir battaniye gibi saran havayı hayal et.",
+  },
+  {
+    word: "Climate",
+    difficulty: "advanced",
+    meaning:
+      "İklim; bir bölgede uzun yıllar boyunca gözlemlenen ortalama hava koşulları.",
+    example: "The region has a dry and warm climate.",
+    hint: "Bir yerin yıllarca süren hava karakterini düşün.",
+  },
+  {
+    word: "Habitat",
+    difficulty: "advanced",
+    meaning: "Habitat; bir canlının yaşamını sürdürdüğü doğal çevre.",
+    example: "This beach is a natural habitat for sea turtles.",
+    hint: "Bir hayvanın kendini evinde hissettiği doğal alanı hayal et.",
+  },
+  {
+    word: "Erosion",
+    difficulty: "advanced",
+    meaning:
+      "Erozyon; toprak ve kayaçların rüzgâr, su veya buz etkisiyle aşınarak taşınması süreci.",
+    example: "Soil erosion can damage agricultural land.",
+    hint: "Toprağın yavaş yavaş sürüklenip yok olduğunu düşün.",
+  },
+  {
+    word: "Precipitation",
+    difficulty: "advanced",
+    meaning:
+      "Yağış; yağmur, kar, dolu gibi atmosferden yeryüzüne düşen su biçimleri.",
+    example: "Heavy precipitation caused flooding in the area.",
+    hint: "Gökyüzünden yere düşen tüm yağış türlerini gözünde canlandır.",
+  },
+  {
+    word: "Drought",
+    difficulty: "advanced",
+    meaning:
+      "Kuraklık; uzun süreli yağış eksikliği nedeniyle su kaynaklarının azalması durumu.",
+    example: "The drought affected crops across the region.",
+    hint: "Çatlamış topraklar ve kurumuş tarlaları hayal et.",
+  },
+  {
+    word: "Glacier",
+    difficulty: "advanced",
+    meaning:
+      "Buzul; uzun yıllar boyunca biriken karın sıkışarak oluşturduğu büyük buz kütlesi.",
+    example: "Glaciers are melting due to global warming.",
+    hint: "Yavaşça hareket eden devasa bir buz nehrini düşün.",
+  },
+  {
+    word: "Tectonic",
+    difficulty: "advanced",
+    meaning:
+      "Tektonik; yer kabuğunu oluşturan levhaların hareketleriyle ilgili olan.",
+    example: "Tectonic movements can cause earthquakes.",
+    hint: "Yerin derinliklerinde dev plakaların hareket ettiğini hayal et.",
+  },
+  {
+    word: "Sustainability",
+    difficulty: "advanced",
+    meaning:
+      "Sürdürülebilirlik; doğal kaynakların gelecek nesilleri tehlikeye atmadan kullanılması ilkesi.",
+    example: "Sustainability is essential for environmental protection.",
+    hint: "Doğayı tüketmeden onunla dengede yaşamayı düşün.",
+  },
+  {
+    word: "Deforestation",
+    difficulty: "advanced",
+    meaning:
+      "Ormansızlaşma; orman alanlarının tarım, yerleşim veya sanayi amacıyla yok edilmesi süreci.",
+    example: "Deforestation leads to habitat loss.",
+    hint: "Kesilen ağaçlar ve boşalan orman alanlarını gözünde canlandır.",
+  },
+  {
+    word: "Renewable",
+    difficulty: "advanced",
+    meaning:
+      "Yenilenebilir; doğal olarak kendini kısa sürede yenileyebilen enerji veya kaynak türü.",
+    example: "Solar energy is a renewable resource.",
+    hint: "Bitmeyen bir enerji kaynağını hayal et.",
+  },
+  {
+    word: "Meteorology",
+    difficulty: "advanced",
+    meaning:
+      "Meteoroloji; atmosfer olaylarını ve hava durumunu inceleyen bilim dalı.",
+    example: "Meteorology helps predict weather patterns.",
+    hint: "Hava tahminlerini yapan bilim insanlarını düşün.",
+  },
+  {
+    word: "Carbon Footprint",
+    difficulty: "advanced",
+    meaning:
+      "Karbon ayak izi; bireylerin veya faaliyetlerin atmosfere saldığı toplam sera gazı miktarı.",
+    example: "Reducing your carbon footprint helps the planet.",
+    hint: "Günlük hayatının doğaya bıraktığı izi hayal et.",
+  },
+  {
+    word: "Extinction",
+    difficulty: "advanced",
+    meaning:
+      "Neslin tükenmesi; bir canlı türünün yeryüzünden tamamen yok olması durumu.",
+    example: "Many species face extinction due to human activity.",
+    hint: "Artık hiç var olmayan bir canlıyı düşün.",
+  },
+  {
+    word: "Pollution",
+    difficulty: "advanced",
+    meaning: "Kirlilik; çevrenin zararlı maddelerle bozulması durumu.",
+    example: "Air pollution affects human health.",
+    hint: "Kirli hava, su veya toprağı gözünde canlandır.",
+  },
+  {
+    word: "Ozone Layer",
+    difficulty: "advanced",
+    meaning:
+      "Ozon tabakası; Güneş’ten gelen zararlı ışınları emen atmosfer katmanı.",
+    example: "The ozone layer protects life on Earth.",
+    hint: "Dünyayı zararlı ışınlardan koruyan görünmez bir kalkanı düşün.",
+  },
+  {
+    word: "Natural Disaster",
+    difficulty: "advanced",
+    meaning:
+      "Doğal afet; deprem, sel, kasırga gibi doğal nedenlerle ortaya çıkan yıkıcı olay.",
+    example: "Earthquakes are common natural disasters in this region.",
+    hint: "Doğanın kontrol edilemeyen gücünü hayal et.",
+  },
+  {
+    word: "Ecosphere",
+    difficulty: "advanced",
+    meaning:
+      "Ekosfer; Dünya üzerindeki tüm canlıları ve yaşamı destekleyen çevresel sistemlerin bütünü.",
+    example: "Human actions directly affect the ecosphere.",
+    hint: "Tüm gezegeni kapsayan dev bir yaşam ağı düşün.",
   },
 ] as const;

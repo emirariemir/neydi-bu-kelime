@@ -699,4 +699,153 @@ export const EDUCATION_WORDS = [
     example: "I can see my progress this week.",
     hint: "İlerlemeni haftalık takip et.",
   },
+  {
+    word: "Curriculum",
+    difficulty: "advanced",
+    meaning:
+      "Bir eğitim kurumunda öğretilmesi planlanan dersler ve içeriklerin tamamı.",
+    example:
+      "The university updated its curriculum to include more AI courses.",
+    hint: "Bir bölümde hangi derslerin, hangi sırayla verileceğini düşün.",
+  },
+  {
+    word: "Pedagogy",
+    difficulty: "advanced",
+    meaning: "Eğitim ve öğretim yöntemlerini inceleyen bilim dalı.",
+    example: "She specialized in modern pedagogy during her master's degree.",
+    hint: "Nasıl öğrettiğimizle ilgilenen akademik alan.",
+  },
+  {
+    word: "Assessment",
+    difficulty: "advanced",
+    meaning:
+      "Öğrencinin bilgi ve becerilerinin ölçülmesi ve değerlendirilmesi süreci.",
+    example: "Final exams are an important form of assessment.",
+    hint: "Sınavlar, projeler ve değerlendirme kriterlerini düşün.",
+  },
+  {
+    word: "Syllabus",
+    difficulty: "advanced",
+    meaning:
+      "Bir dersin içeriğini, hedeflerini ve değerlendirme yöntemlerini açıklayan belge.",
+    example: "The professor shared the syllabus on the first day of class.",
+    hint: "Dersin yol haritası gibi düşünebilirsin.",
+  },
+  {
+    word: "Prerequisite",
+    difficulty: "advanced",
+    meaning:
+      "Bir dersi alabilmek için önceden tamamlanması gereken ders veya koşul.",
+    example: "Calculus is a prerequisite for advanced physics courses.",
+    hint: "Önce bunu alman lazım denilen dersler.",
+  },
+  {
+    word: "Comprehension",
+    difficulty: "advanced",
+    meaning: "Okunan veya dinlenen bilgiyi anlama yeteneği.",
+    example: "Reading comprehension improves with regular practice.",
+    hint: "Sadece okumak değil, gerçekten anlamak.",
+  },
+  {
+    word: "Academic",
+    difficulty: "advanced",
+    meaning: "Eğitim, öğretim ve bilimsel çalışmalarla ilgili olan.",
+    example: "She plans to pursue an academic career.",
+    hint: "Üniversite ve araştırma dünyasıyla bağlantılı.",
+  },
+  {
+    word: "Thesis",
+    difficulty: "advanced",
+    meaning:
+      "Akademik bir derece için hazırlanan kapsamlı araştırma çalışması.",
+    example: "He is writing his master's thesis on computer vision.",
+    hint: "Mezuniyetin en büyük yazılı sınavı gibi düşün.",
+  },
+  {
+    word: "Dissertation",
+    difficulty: "advanced",
+    meaning:
+      "Genellikle doktora derecesi için hazırlanan özgün ve kapsamlı akademik çalışma.",
+    example: "Her dissertation took three years to complete.",
+    hint: "Tez ama daha uzun ve daha derin.",
+  },
+  {
+    word: "Plagiarism",
+    difficulty: "advanced",
+    meaning: "Başkasının çalışmalarını kaynak göstermeden kullanma durumu.",
+    example: "Plagiarism is taken very seriously in academia.",
+    hint: "Kopya ama akademik versiyonu.",
+  },
+  {
+    word: "Methodology",
+    difficulty: "advanced",
+    meaning: "Bir araştırmada kullanılan yöntem ve tekniklerin bütünü.",
+    example: "The paper clearly explains its research methodology.",
+    hint: "Bu çalışmayı *nasıl* yaptığını anlatan bölüm.",
+  },
+  {
+    word: "Evaluation",
+    difficulty: "advanced",
+    meaning:
+      "Bir çalışmanın veya performansın belirli ölçütlere göre değerlendirilmesi.",
+    example: "Student evaluation includes exams and assignments.",
+    hint: "Sonuçlara bakıp yorum yapmak.",
+  },
+  {
+    word: "Cognitive",
+    difficulty: "advanced",
+    meaning: "Zihinsel süreçler ve düşünme ile ilgili olan.",
+    example: "Learning a new language improves cognitive skills.",
+    hint: "Beynin nasıl çalıştığıyla ilgili.",
+  },
+  {
+    word: "Literature",
+    difficulty: "advanced",
+    meaning: "Belirli bir akademik alandaki mevcut araştırmaların bütünü.",
+    example: "She reviewed the literature before starting her research.",
+    hint: "Bu konuda daha önce neler yapılmış?",
+  },
+  {
+    word: "Enrollment",
+    difficulty: "advanced",
+    meaning: "Bir okula veya derse resmi olarak kayıt olma süreci.",
+    example: "Enrollment numbers increased this year.",
+    hint: "Okula girişin resmileştiği an.",
+  },
+  {
+    word: "Faculty",
+    difficulty: "advanced",
+    meaning: "Bir üniversitedeki akademik personel veya fakülte birimi.",
+    example: "The faculty consists of experienced researchers.",
+    hint: "Hocaların ve bölümlerin toplu adı.",
+  },
+  {
+    word: "Accreditation",
+    difficulty: "advanced",
+    meaning:
+      "Bir eğitim kurumunun resmi olarak tanınması ve onaylanması durumu.",
+    example: "The program received international accreditation.",
+    hint: "Bu okul gerçekten geçerli mi sorusunun cevabı.",
+  },
+  {
+    word: "Scholarly",
+    difficulty: "advanced",
+    meaning: "Akademik araştırma ve bilimsel çalışmalara dayalı.",
+    example: "He published a scholarly article in a respected journal.",
+    hint: "Bilimsel ve ciddi kaynaklara dayanan.",
+  },
+  {
+    word: "Didactic",
+    difficulty: "advanced",
+    meaning: "Öğretici ve eğitici amaç taşıyan.",
+    example: "The book has a very didactic tone.",
+    hint: "Öğretmeye odaklı anlatım.",
+  },
+  {
+    word: "Inference",
+    difficulty: "advanced",
+    meaning: "Mevcut bilgilerden mantıksal sonuç çıkarma süreci.",
+    example: "Students are expected to make inferences from the text.",
+    hint: "Söylenmeyeni akıl yürüterek bulmak.",
+  },
 ] as const;

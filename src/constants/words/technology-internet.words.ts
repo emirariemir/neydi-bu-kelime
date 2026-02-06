@@ -2,28 +2,32 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "App",
     difficulty: "beginner",
-    meaning: "Uygulama; belirli bir işlevi yerine getirmek için tasarlanmış yazılım programı.",
+    meaning:
+      "Uygulama; belirli bir işlevi yerine getirmek için tasarlanmış yazılım programı.",
     example: "I installed a new app to track my habits.",
     hint: "Telefonunun ekranında küçük bir ikon; dokununca açılan mini bir dünya hayal et.",
   },
   {
     word: "Website",
     difficulty: "beginner",
-    meaning: "Web sitesi; internet üzerinde erişilebilen sayfalar bütününden oluşan dijital alan.",
+    meaning:
+      "Web sitesi; internet üzerinde erişilebilen sayfalar bütününden oluşan dijital alan.",
     example: "This website loads very fast on my phone.",
     hint: "Bir adres yazıp kapısı açılan sanal bir vitrin düşün.",
   },
   {
     word: "Browser",
     difficulty: "beginner",
-    meaning: "Tarayıcı; web sitelerini görüntülemek ve internette gezinmek için kullanılan yazılım.",
+    meaning:
+      "Tarayıcı; web sitelerini görüntülemek ve internette gezinmek için kullanılan yazılım.",
     example: "My browser saved my passwords securely.",
     hint: "Sekmeler arasında gezindiğin, internetin “penceresi” gibi düşün.",
   },
   {
     word: "Search",
     difficulty: "beginner",
-    meaning: "Arama; bilgiye ulaşmak için anahtar kelimelerle sorgulama işlemi.",
+    meaning:
+      "Arama; bilgiye ulaşmak için anahtar kelimelerle sorgulama işlemi.",
     example: "I search for recipes when I cook.",
     hint: "Bir büyüteç ikonuna yazdığın kelimelerin seni hedefe götürdüğünü hayal et.",
   },
@@ -37,14 +41,16 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Upload",
     difficulty: "beginner",
-    meaning: "Yüklemek; bir dosyayı cihazından internete veya bir platforma aktarma işlemi.",
+    meaning:
+      "Yüklemek; bir dosyayı cihazından internete veya bir platforma aktarma işlemi.",
     example: "Please upload your photo to the form.",
     hint: "Telefonundan yukarı doğru giden bir ok ve dosyanın internete taşınması gibi düşün.",
   },
   {
     word: "Link",
     difficulty: "beginner",
-    meaning: "Bağlantı; bir sayfadan başka bir sayfaya yönlendiren tıklanabilir adres.",
+    meaning:
+      "Bağlantı; bir sayfadan başka bir sayfaya yönlendiren tıklanabilir adres.",
     example: "Send me the link so I can join.",
     hint: "Bir zincir halkası gibi; bir yere dokununca başka bir yere ışınlanıyorsun.",
   },
@@ -72,7 +78,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Password",
     difficulty: "beginner",
-    meaning: "Parola; bir hesaba erişim sağlamak için kullanılan gizli karakter dizisi.",
+    meaning:
+      "Parola; bir hesaba erişim sağlamak için kullanılan gizli karakter dizisi.",
     example: "Never share your password with anyone.",
     hint: "Kapıyı açan gizli anahtar gibi; sadece sende olsun.",
   },
@@ -107,14 +114,16 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Profile",
     difficulty: "beginner",
-    meaning: "Profil; hesapla ilgili kişisel bilgilerin ve ayarların bulunduğu sayfa.",
+    meaning:
+      "Profil; hesapla ilgili kişisel bilgilerin ve ayarların bulunduğu sayfa.",
     example: "I updated my profile picture today.",
     hint: "Dijital vitrinin; insanlar seni orada görüyor.",
   },
   {
     word: "Settings",
     difficulty: "beginner",
-    meaning: "Ayarlar; bir uygulama veya cihazın seçeneklerini düzenleme bölümü.",
+    meaning:
+      "Ayarlar; bir uygulama veya cihazın seçeneklerini düzenleme bölümü.",
     example: "Check the settings to change the language.",
     hint: "Bir kontrol paneli; düğmeleri çevirip her şeyi kendine göre ayarlıyorsun.",
   },
@@ -128,7 +137,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Install",
     difficulty: "beginner",
-    meaning: "Kurmak; bir uygulamayı cihaza yükleyip kullanıma hazır hâle getirmek.",
+    meaning:
+      "Kurmak; bir uygulamayı cihaza yükleyip kullanıma hazır hâle getirmek.",
     example: "I install the app from the store.",
     hint: "Kutudan çıkan yeni bir aleti masaya koyup çalıştırmak gibi düşün.",
   },
@@ -149,7 +159,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Smartphone",
     difficulty: "beginner",
-    meaning: "Akıllı telefon; internet ve uygulama özelliklerine sahip cep telefonu.",
+    meaning:
+      "Akıllı telefon; internet ve uygulama özelliklerine sahip cep telefonu.",
     example: "My smartphone takes great photos.",
     hint: "Cebindeki mini bilgisayar; her an yanında.",
   },
@@ -373,7 +384,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Server",
     difficulty: "intermediate",
-    meaning: "Sunucu; hizmet ve verileri kullanıcılara sağlayan bilgisayar sistemi.",
+    meaning:
+      "Sunucu; hizmet ve verileri kullanıcılara sağlayan bilgisayar sistemi.",
     example: "The server is down right now.",
     hint: "Arka planda çalışan büyük bir mutfak; siparişleri hazırlıyor.",
   },
@@ -387,7 +399,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Database",
     difficulty: "intermediate",
-    meaning: "Veritabanı; düzenli biçimde saklanan ve sorgulanabilen veri deposu.",
+    meaning:
+      "Veritabanı; düzenli biçimde saklanan ve sorgulanabilen veri deposu.",
     example: "The app stores users in a database.",
     hint: "Dev bir arşiv odası; raf raf kayıtlar düşün.",
   },
@@ -422,7 +435,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Bug",
     difficulty: "intermediate",
-    meaning: "Hata; yazılımın beklenmeyen şekilde çalışmasına neden olan sorun.",
+    meaning:
+      "Hata; yazılımın beklenmeyen şekilde çalışmasına neden olan sorun.",
     example: "A small bug broke the login screen.",
     hint: "Çarkın arasına kaçan minicik bir taş gibi; sistemi aksatıyor.",
   },
@@ -485,7 +499,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Encryption",
     difficulty: "intermediate",
-    meaning: "Şifreleme; veriyi yetkisiz erişime karşı okunamaz hâle getirme yöntemi.",
+    meaning:
+      "Şifreleme; veriyi yetkisiz erişime karşı okunamaz hâle getirme yöntemi.",
     example: "Encryption keeps messages safe.",
     hint: "Mesajını gizli bir koda çeviren görünmez bir kasa düşün.",
   },
@@ -506,7 +521,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Malware",
     difficulty: "intermediate",
-    meaning: "Zararlı yazılım; sistemi bozmak veya veri çalmak için tasarlanmış yazılım.",
+    meaning:
+      "Zararlı yazılım; sistemi bozmak veya veri çalmak için tasarlanmış yazılım.",
     example: "Malware can steal your passwords.",
     hint: "Bilgisayara sızmaya çalışan kötü niyetli bir misafir gibi.",
   },
@@ -555,14 +571,16 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Streaming",
     difficulty: "intermediate",
-    meaning: "Akış; içeriğin indirilmeksizin anlık olarak izlenmesi/dinlenmesi.",
+    meaning:
+      "Akış; içeriğin indirilmeksizin anlık olarak izlenmesi/dinlenmesi.",
     example: "I watched the game via streaming.",
     hint: "Bir nehir gibi akan video; durmadan sana geliyor.",
   },
   {
     word: "Buffer",
     difficulty: "intermediate",
-    meaning: "Arabellek; akışın kesilmemesi için geçici veri biriktirme işlemi.",
+    meaning:
+      "Arabellek; akışın kesilmemesi için geçici veri biriktirme işlemi.",
     example: "The video paused to buffer.",
     hint: "Video, devam etmek için nefes alıp su içiyor gibi düşün.",
   },
@@ -618,7 +636,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Subscribe",
     difficulty: "intermediate",
-    meaning: "Abone olmak; bir kanalı veya hizmeti düzenli takip etmeyi seçmek.",
+    meaning:
+      "Abone olmak; bir kanalı veya hizmeti düzenli takip etmeyi seçmek.",
     example: "I subscribe to get updates.",
     hint: "Bir kapıyı çalıp ‘beni listene ekle’ demek gibi düşün.",
   },
@@ -632,7 +651,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Hashtag",
     difficulty: "intermediate",
-    meaning: "Etiket; içerikleri konuya göre gruplamak için kullanılan # işareti.",
+    meaning:
+      "Etiket; içerikleri konuya göre gruplamak için kullanılan # işareti.",
     example: "Use a hashtag to reach more people.",
     hint: "Bir dosya etiketi; aynı konudakiler aynı çekmecede toplanıyor.",
   },
@@ -702,7 +722,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Map",
     difficulty: "beginner",
-    meaning: "Harita; konum ve yön bulmaya yarayan dijital veya fiziksel gösterim.",
+    meaning:
+      "Harita; konum ve yön bulmaya yarayan dijital veya fiziksel gösterim.",
     example: "The map shows the fastest route.",
     hint: "Yolların çizildiği bir plan; seni hedefe götürüyor.",
   },
@@ -716,7 +737,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Automation",
     difficulty: "intermediate",
-    meaning: "Otomasyon; işlemlerin insan müdahalesi az olacak şekilde otomatik yürütülmesi.",
+    meaning:
+      "Otomasyon; işlemlerin insan müdahalesi az olacak şekilde otomatik yürütülmesi.",
     example: "Automation saves hours of manual work.",
     hint: "Sen izlemeden çalışan bir robot asistan hayal et.",
   },
@@ -730,14 +752,16 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Two-factor authentication",
     difficulty: "intermediate",
-    meaning: "İki faktörlü doğrulama; girişte ikinci bir doğrulama adımı kullanma yöntemi.",
+    meaning:
+      "İki faktörlü doğrulama; girişte ikinci bir doğrulama adımı kullanma yöntemi.",
     example: "Two-factor authentication protects my account.",
     hint: "Anahtar + kapı zili gibi; iki adımda güvenli giriş.",
   },
   {
     word: "Extension",
     difficulty: "intermediate",
-    meaning: "Eklenti; tarayıcıya veya uygulamaya yeni özellik ekleyen küçük yazılım.",
+    meaning:
+      "Eklenti; tarayıcıya veya uygulamaya yeni özellik ekleyen küçük yazılım.",
     example: "I installed an extension to block ads.",
     hint: "Tarayıcına takılan küçük bir aparat; yeni güç veriyor.",
   },
@@ -751,7 +775,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Framework",
     difficulty: "intermediate",
-    meaning: "Çatı; yazılım geliştirmede temel yapı ve kuralları sağlayan sistem.",
+    meaning:
+      "Çatı; yazılım geliştirmede temel yapı ve kuralları sağlayan sistem.",
     example: "This framework speeds up development.",
     hint: "İnşaat iskelesi gibi; üzerine hızlıca yapı kuruyorsun.",
   },
@@ -772,7 +797,8 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Commit",
     difficulty: "intermediate",
-    meaning: "Kaydetme; sürüm kontrolünde yapılan değişikliği kayıt altına alma.",
+    meaning:
+      "Kaydetme; sürüm kontrolünde yapılan değişikliği kayıt altına alma.",
     example: "I made a commit after fixing the bug.",
     hint: "Bir fotoğraf çekip ‘bu an böyle’ diye arşive koymak gibi.",
   },
@@ -849,8 +875,168 @@ export const TECHNOLOGY_WORDS = [
   {
     word: "Operating system",
     difficulty: "intermediate",
-    meaning: "İşletim sistemi; donanımı yöneten ve uygulamaları çalıştıran temel yazılım.",
+    meaning:
+      "İşletim sistemi; donanımı yöneten ve uygulamaları çalıştıran temel yazılım.",
     example: "The operating system updated overnight.",
     hint: "Cihazın yöneticisi; her şeyi o organize ediyor.",
-  }
+  },
+  {
+    word: "Algorithm",
+    difficulty: "advanced",
+    meaning:
+      "Belirli bir problemi çözmek veya bir görevi yerine getirmek için izlenen adımlar dizisi.",
+    example: "The recommendation algorithm analyzes user behavior.",
+    hint: "Bir problemi adım adım çözen görünmez bir tarif düşün.",
+  },
+  {
+    word: "Encryption",
+    difficulty: "advanced",
+    meaning:
+      "Verilerin yetkisiz erişimi önlemek amacıyla özel yöntemlerle şifrelenmesi işlemi.",
+    example: "All messages are protected with end-to-end encryption.",
+    hint: "Bilgilerin kilitli bir kasada saklandığını hayal et.",
+  },
+  {
+    word: "Bandwidth",
+    difficulty: "advanced",
+    meaning:
+      "Bir ağın belirli bir süre içinde aktarabileceği maksimum veri miktarı.",
+    example: "High-quality streaming requires more bandwidth.",
+    hint: "İnternette akan suyun genişliğini düşün.",
+  },
+  {
+    word: "Latency",
+    difficulty: "advanced",
+    meaning:
+      "Bir veri paketinin kaynaktan hedefe ulaşması için geçen gecikme süresi.",
+    example: "Low latency is crucial for online gaming.",
+    hint: "Tıkladıktan sonra olan minicik bekleme anını düşün.",
+  },
+  {
+    word: "Scalability",
+    difficulty: "advanced",
+    meaning:
+      "Bir sistemin artan kullanıcı veya iş yüküne sorunsuz şekilde uyum sağlayabilme yeteneği.",
+    example: "The platform was designed with scalability in mind.",
+    hint: "Büyüdükçe çökmeyen bir yapı hayal et.",
+  },
+  {
+    word: "Framework",
+    difficulty: "advanced",
+    meaning:
+      "Yazılım geliştirme sürecini kolaylaştıran hazır yapı ve araçlar bütünü.",
+    example: "The app is built using a modern JavaScript framework.",
+    hint: "Kod yazarken seni yönlendiren bir iskelet düşün.",
+  },
+  {
+    word: "Deployment",
+    difficulty: "advanced",
+    meaning:
+      "Bir yazılımın geliştirme ortamından canlı ortama taşınması süreci.",
+    example: "The deployment was completed without downtime.",
+    hint: "Uygulamanın sahneye çıkma anını hayal et.",
+  },
+  {
+    word: "Virtualization",
+    difficulty: "advanced",
+    meaning:
+      "Fiziksel donanım kaynaklarının sanal ortamlar aracılığıyla kullanılmasını sağlayan teknoloji.",
+    example: "Virtualization reduces hardware costs significantly.",
+    hint: "Tek bir bilgisayarın içinde birçok bilgisayar varmış gibi düşün.",
+  },
+  {
+    word: "Cloud Computing",
+    difficulty: "advanced",
+    meaning:
+      "Veri depolama ve işlem gücünün internet üzerinden sağlandığı bilişim modeli.",
+    example: "Cloud computing allows remote access to data.",
+    hint: "Dosyalarının gökyüzünde saklandığını hayal et.",
+  },
+  {
+    word: "API",
+    difficulty: "advanced",
+    meaning:
+      "Farklı yazılımların birbiriyle iletişim kurmasını sağlayan arayüz yapısı.",
+    example: "The app fetches data through a public API.",
+    hint: "Uygulamaların birbiriyle konuştuğu kapıyı düşün.",
+  },
+  {
+    word: "Authentication",
+    difficulty: "advanced",
+    meaning: "Bir kullanıcının kimliğinin doğrulanması süreci.",
+    example: "Authentication is required before accessing the dashboard.",
+    hint: "Gerçekten sen misin diye sorulan dijital kontrol noktası.",
+  },
+  {
+    word: "Authorization",
+    difficulty: "advanced",
+    meaning:
+      "Doğrulanmış bir kullanıcının hangi işlemleri yapabileceğini belirleme süreci.",
+    example: "Authorization defines access levels for users.",
+    hint: "Hangi kapılardan geçebileceğini belirleyen izinler düşün.",
+  },
+  {
+    word: "Data Breach",
+    difficulty: "advanced",
+    meaning:
+      "Gizli veya hassas verilerin yetkisiz kişiler tarafından ele geçirilmesi durumu.",
+    example: "The company reported a major data breach.",
+    hint: "Kilitli dosyaların dışarı sızdığını hayal et.",
+  },
+  {
+    word: "Machine Learning",
+    difficulty: "advanced",
+    meaning:
+      "Bilgisayar sistemlerinin verilerden öğrenerek performansını geliştirmesini sağlayan yöntemler bütünü.",
+    example: "Machine learning improves search accuracy.",
+    hint: "Bilgisayarın zamanla daha akıllı olduğunu düşün.",
+  },
+  {
+    word: "Artificial Intelligence",
+    difficulty: "advanced",
+    meaning:
+      "İnsan benzeri düşünme ve karar verme yeteneklerini taklit eden bilgisayar sistemleri.",
+    example: "Artificial intelligence powers voice assistants.",
+    hint: "Düşünebilen bir yazılım hayal et.",
+  },
+  {
+    word: "Open Source",
+    difficulty: "advanced",
+    meaning:
+      "Kaynak kodu herkese açık olan ve topluluk tarafından geliştirilebilen yazılım modeli.",
+    example: "The project is completely open source.",
+    hint: "Herkesin katkı sağlayabildiği ortak bir kod alanı düşün.",
+  },
+  {
+    word: "Version Control",
+    difficulty: "advanced",
+    meaning:
+      "Yazılım projelerindeki değişiklikleri takip etmeyi ve yönetmeyi sağlayan sistem.",
+    example: "Version control helps teams collaborate efficiently.",
+    hint: "Kodun zaman yolculuğu yapabildiğini hayal et.",
+  },
+  {
+    word: "Continuous Integration",
+    difficulty: "advanced",
+    meaning:
+      "Kod değişikliklerinin düzenli olarak otomatik test ve derleme süreçlerinden geçirilmesi yöntemi.",
+    example: "Continuous integration reduces production bugs.",
+    hint: "Kodun kendini sürekli kontrol ettiğini düşün.",
+  },
+  {
+    word: "Microservices",
+    difficulty: "advanced",
+    meaning:
+      "Bir uygulamanın küçük, bağımsız servisler halinde tasarlanması mimarisi.",
+    example: "The system uses microservices architecture.",
+    hint: "Büyük bir yapının küçük parçalardan oluştuğunu hayal et.",
+  },
+  {
+    word: "Blockchain",
+    difficulty: "advanced",
+    meaning:
+      "Verilerin değiştirilemez bloklar halinde dağıtık olarak saklandığı kayıt teknolojisi.",
+    example: "Blockchain ensures transparent transactions.",
+    hint: "Herkesin görebildiği ama kimsenin silemediği bir defter düşün.",
+  },
 ];

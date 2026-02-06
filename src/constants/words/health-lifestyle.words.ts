@@ -699,4 +699,157 @@ export const HEALTH_WORDS = [
     example: "I use sunscreen on sunny days.",
     hint: "Güneşli bir günde cildini koruduğunu hayal et.",
   },
+  {
+    word: "Sedentary",
+    difficulty: "advanced",
+    meaning:
+      "Hareketsiz; uzun süre oturarak geçirilen ve fiziksel aktivitenin çok az olduğu yaşam biçimi.",
+    example: "A sedentary lifestyle can increase health risks.",
+    hint: "Bütün gün masa başında oturduğun, neredeyse hiç hareket etmediğin bir günü düşün.",
+  },
+  {
+    word: "Wellness",
+    difficulty: "advanced",
+    meaning:
+      "Zindelik; yalnızca hastalık olmaması değil, fiziksel ve zihinsel olarak iyi olma hâli.",
+    example: "She focuses on wellness rather than just fitness.",
+    hint: "Bedenin ve zihnin aynı anda iyi hissettiği o denge anını hayal et.",
+  },
+  {
+    word: "Mindfulness",
+    difficulty: "advanced",
+    meaning:
+      "Bilinçli farkındalık; içinde bulunulan ana dikkatle ve yargısız şekilde odaklanma durumu.",
+    example: "Mindfulness helps reduce daily stress.",
+    hint: "Şu anı acele etmeden, tamamen farkında olarak yaşadığını düşün.",
+  },
+  {
+    word: "Resilience",
+    difficulty: "advanced",
+    meaning:
+      "Dayanıklılık; zorluklardan sonra toparlanabilme ve uyum sağlama yeteneği.",
+    example: "Mental resilience is essential for long-term health.",
+    hint: "Zor bir dönemden sonra yeniden ayağa kalktığını hayal et.",
+  },
+  {
+    word: "Immunity",
+    difficulty: "advanced",
+    meaning:
+      "Bağışıklık; vücudun hastalıklara karşı kendini koruma kapasitesi.",
+    example: "Sleep plays a major role in immunity.",
+    hint: "Vücudunun görünmez bir kalkanla seni koruduğunu düşün.",
+  },
+  {
+    word: "Nourishment",
+    difficulty: "advanced",
+    meaning: "Beslenme; vücudu destekleyen ve güçlendiren besin alımı.",
+    example: "Proper nourishment supports overall health.",
+    hint: "Yediğin şeylerin seni gerçekten beslediğini hayal et.",
+  },
+  {
+    word: "Metabolism",
+    difficulty: "advanced",
+    meaning: "Metabolizma; vücudun enerjiyi üretme ve kullanma süreci.",
+    example: "Exercise can boost your metabolism.",
+    hint: "Vücudunun içten içe sürekli çalıştığını düşün.",
+  },
+  {
+    word: "Hydration",
+    difficulty: "advanced",
+    meaning: "Hidrasyon; vücudun yeterli miktarda sıvı alması durumu.",
+    example: "Hydration is crucial during hot weather.",
+    hint: "Bir bardak su içtikten sonra gelen ferahlığı hatırla.",
+  },
+  {
+    word: "Burnout",
+    difficulty: "advanced",
+    meaning:
+      "Tükenmişlik; uzun süreli stres sonucu oluşan fiziksel ve zihinsel yorgunluk.",
+    example: "He took a break to recover from burnout.",
+    hint: "Her şeyin üst üste geldiği ve enerjinin tükendiği anları düşün.",
+  },
+  {
+    word: "Longevity",
+    difficulty: "advanced",
+    meaning:
+      "Uzun ömür; sağlıklı ve kaliteli bir yaşam süresine sahip olma durumu.",
+    example: "Healthy habits contribute to longevity.",
+    hint: "Uzun ve sağlıklı bir hayat sürdüğünü hayal et.",
+  },
+  {
+    word: "Posture",
+    difficulty: "advanced",
+    meaning: "Duruş; ayakta veya otururken vücudun aldığı pozisyon.",
+    example: "Good posture prevents back pain.",
+    hint: "Dik durduğun ve omuzlarını geriye aldığın anı düşün.",
+  },
+  {
+    word: "Detoxification",
+    difficulty: "advanced",
+    meaning: "Detoksifikasyon; vücudun zararlı maddeleri temizleme süreci.",
+    example: "The liver plays a key role in detoxification.",
+    hint: "Vücudunun kendini temizlediğini hayal et.",
+  },
+  {
+    word: "Endurance",
+    difficulty: "advanced",
+    meaning:
+      "Dayanıklılık; uzun süre fiziksel veya zihinsel çaba gösterebilme gücü.",
+    example: "Running builds cardiovascular endurance.",
+    hint: "Pes etmeden devam ettiğin o uzun anı düşün.",
+  },
+  {
+    word: "Circadian",
+    difficulty: "advanced",
+    meaning:
+      "Sirkadiyen; vücudun biyolojik saatine bağlı günlük ritimle ilgili.",
+    example: "Sleep follows a circadian rhythm.",
+    hint: "Vücudunun gece ve gündüze göre ayarlandığını düşün.",
+  },
+  {
+    word: "Recovery",
+    difficulty: "advanced",
+    meaning:
+      "İyileşme; fiziksel veya zihinsel yorgunluktan sonra toparlanma süreci.",
+    example: "Recovery is as important as training.",
+    hint: "Dinlendikten sonra yeniden güçlü hissettiğin anı hayal et.",
+  },
+  {
+    word: "Holistic",
+    difficulty: "advanced",
+    meaning:
+      "Bütüncül; sağlığı beden, zihin ve yaşam tarzı birlikte ele alan yaklaşım.",
+    example: "She prefers a holistic approach to health.",
+    hint: "Her şeyin birbiriyle bağlantılı olduğunu düşün.",
+  },
+  {
+    word: "Vitality",
+    difficulty: "advanced",
+    meaning: "Canlılık; enerji dolu ve güçlü olma durumu.",
+    example: "Regular exercise improves vitality.",
+    hint: "Güne yüksek enerjiyle başladığın bir sabahı hayal et.",
+  },
+  {
+    word: "Equilibrium",
+    difficulty: "advanced",
+    meaning: "Denge; fiziksel veya zihinsel olarak istikrarlı olma hâli.",
+    example: "Work-life equilibrium is hard to maintain.",
+    hint: "Hayatındaki her şeyin dengede olduğunu düşün.",
+  },
+  {
+    word: "Self-care",
+    difficulty: "advanced",
+    meaning:
+      "Öz bakım; kişinin kendi fiziksel ve zihinsel sağlığına özen göstermesi.",
+    example: "Self-care is essential during stressful periods.",
+    hint: "Kendine bilinçli olarak zaman ayırdığın anları düşün.",
+  },
+  {
+    word: "Sustainability",
+    difficulty: "advanced",
+    meaning:
+      "Sürdürülebilirlik; uzun vadede devam ettirilebilen sağlıklı yaşam alışkanlıkları.",
+    example: "Diet sustainability matters more than quick results.",
+    hint: "Kısa süreli değil, uzun süre devam edebilen alışkanlıkları hayal et.",
+  },
 ] as const;

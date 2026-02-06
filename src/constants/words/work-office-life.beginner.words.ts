@@ -286,4 +286,160 @@ export const WORK_WORDS = [
     example: "Office life can be busy.",
     hint: "Her gün ofiste geçen zaman.",
   },
+  {
+    word: "Stakeholder",
+    difficulty: "advanced",
+    meaning:
+      "Paydaş; bir projenin, kararın veya organizasyonun sonucundan doğrudan veya dolaylı olarak etkilenen kişi ya da grup.",
+    example: "All stakeholders must approve the final decision.",
+    hint: "Masada oturmasa bile karardan etkilenen herkesi düşün.",
+  },
+  {
+    word: "Deliverable",
+    difficulty: "advanced",
+    meaning:
+      "Teslim edilebilir çıktı; bir proje kapsamında belirlenen ve teslim edilmesi gereken somut sonuç.",
+    example: "The final report is the main deliverable of this project.",
+    hint: "Toplantıdan sonra senden beklenen net çıktıyı hayal et.",
+  },
+  {
+    word: "Scalability",
+    difficulty: "advanced",
+    meaning:
+      "Ölçeklenebilirlik; bir sistemin veya sürecin artan iş yüküne uyum sağlayabilme kapasitesi.",
+    example: "Scalability is critical for growing companies.",
+    hint: "Küçük başlayan ama büyüdükçe bozulmayan bir sistem düşün.",
+  },
+  {
+    word: "Alignment",
+    difficulty: "advanced",
+    meaning:
+      "Uyum; hedefler, stratejiler veya ekipler arasında tutarlılık sağlanması durumu.",
+    example: "We need better alignment between teams.",
+    hint: "Herkesin aynı yöne baktığı bir toplantıyı hayal et.",
+  },
+  {
+    word: "Bandwidth",
+    difficulty: "advanced",
+    meaning:
+      "Kapasite; bir kişinin veya ekibin belirli bir zaman diliminde üstlenebileceği iş miktarı.",
+    example: "I don’t have the bandwidth to take on more tasks.",
+    hint: "Zihinsel enerjinin dolu veya boş olmasını düşün.",
+  },
+  {
+    word: "Escalation",
+    difficulty: "advanced",
+    meaning:
+      "Yetki yükseltme; çözülemeyen bir konunun daha üst bir yönetim seviyesine taşınması.",
+    example: "The issue was escalated to senior management.",
+    hint: "Sorunun yukarı kata taşındığını hayal et.",
+  },
+  {
+    word: "Roadmap",
+    difficulty: "advanced",
+    meaning:
+      "Yol haritası; bir projenin veya ürünün gelecekteki adımlarını gösteren plan.",
+    example: "The product roadmap covers the next six months.",
+    hint: "Önünde uzanan bir proje haritasını düşün.",
+  },
+  {
+    word: "Dependency",
+    difficulty: "advanced",
+    meaning:
+      "Bağımlılık; bir görevin başka bir görevin tamamlanmasına bağlı olması durumu.",
+    example: "This task has multiple dependencies.",
+    hint: "Bir işin başlaması için diğerinin bitmesini beklediğini düşün.",
+  },
+  {
+    word: "Feasibility",
+    difficulty: "advanced",
+    meaning:
+      "Yapılabilirlik; bir fikrin teknik, mali veya operasyonel olarak uygulanabilir olma durumu.",
+    example: "We need to assess the feasibility of the proposal.",
+    hint: "Bu gerçekten yapılabilir mi diye sorduğun anı düşün.",
+  },
+  {
+    word: "Accountability",
+    difficulty: "advanced",
+    meaning: "Sorumluluk; bir görev veya sonucun sahipliğini üstlenme durumu.",
+    example: "Clear accountability improves team performance.",
+    hint: "Bu işin sorumlusu kim sorusunu hatırla.",
+  },
+  {
+    word: "Optimization",
+    difficulty: "advanced",
+    meaning:
+      "Optimizasyon; bir süreci veya sistemi en verimli hale getirme çalışması.",
+    example: "We optimized the workflow to save time.",
+    hint: "Aynı işi daha az eforla yaptığını hayal et.",
+  },
+  {
+    word: "Onboarding",
+    difficulty: "advanced",
+    meaning:
+      "İşe alıştırma süreci; yeni çalışanların organizasyona uyum sağlamasını amaçlayan süreç.",
+    example: "The onboarding process takes two weeks.",
+    hint: "Yeni başlayan birinin sisteme alışmasını düşün.",
+  },
+  {
+    word: "Cross-functional",
+    difficulty: "advanced",
+    meaning:
+      "Fonksiyonlar arası; farklı departmanların birlikte çalıştığı yapı.",
+    example: "This was a cross-functional effort.",
+    hint: "Tasarımcı, yazılımcı ve pazarlamacının aynı masada olduğunu düşün.",
+  },
+  {
+    word: "Bottleneck",
+    difficulty: "advanced",
+    meaning: "Darboğaz; bir sürecin yavaşlamasına neden olan aşama.",
+    example: "Testing has become a bottleneck.",
+    hint: "Herkesin beklediği tek bir noktayı hayal et.",
+  },
+  {
+    word: "Delegation",
+    difficulty: "advanced",
+    meaning: "Yetki devri; görevlerin uygun kişilere aktarılması süreci.",
+    example: "Effective delegation saves time.",
+    hint: "İşi tek başına yapmamak gerektiğini fark ettiğin an.",
+  },
+  {
+    word: "Milestone",
+    difficulty: "advanced",
+    meaning: "Kilometre taşı; bir projenin önemli ara hedefi.",
+    example: "We reached a major milestone this week.",
+    hint: "Yolun ortasında durup ilerlemeyi kontrol ettiğini düşün.",
+  },
+  {
+    word: "Compliance",
+    difficulty: "advanced",
+    meaning:
+      "Uyumluluk; kurallara, yasalara veya standartlara uygunluk durumu.",
+    example: "The company must ensure regulatory compliance.",
+    hint: "Kurallara uygun hareket ettiğinden emin olmayı düşün.",
+  },
+  {
+    word: "Turnover",
+    difficulty: "advanced",
+    meaning:
+      "Çalışan devri; belirli bir sürede işten ayrılan ve işe alınan çalışan oranı.",
+    example: "High turnover affects team stability.",
+    hint: "Ekipte insanların sık sık değiştiğini hayal et.",
+  },
+  {
+    word: "Prioritization",
+    difficulty: "advanced",
+    meaning:
+      "Önceliklendirme; yapılacak işler arasında önem sırasına göre düzenleme yapılması.",
+    example: "Prioritization is key to productivity.",
+    hint: "Önce hangisini yapmalıyım diye düşündüğün an.",
+  },
+  {
+    word: "Alignment meeting",
+    difficulty: "advanced",
+    meaning:
+      "Uyum toplantısı; ekiplerin hedef ve beklentilerini netleştirmek amacıyla yapılan toplantı.",
+    example: "We scheduled an alignment meeting for Monday.",
+    hint: "Herkesin aynı sayfada olup olmadığını kontrol etmeyi düşün.",
+  },
 ];

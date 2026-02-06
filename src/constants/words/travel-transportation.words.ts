@@ -2,7 +2,8 @@ export const TRAVEL_WORDS = [
   {
     word: "Airport",
     difficulty: "beginner",
-    meaning: "Uçakların iniş kalkış yaptığı ve yolcu işlemlerinin yürütüldüğü tesis.",
+    meaning:
+      "Uçakların iniş kalkış yaptığı ve yolcu işlemlerinin yürütüldüğü tesis.",
     example: "We arrived at the airport two hours early.",
     hint: "Uçağa binmeden önce gittiğin büyük terminali düşün.",
   },
@@ -16,14 +17,16 @@ export const TRAVEL_WORDS = [
   {
     word: "Ticket",
     difficulty: "beginner",
-    meaning: "Bir yolculuk veya etkinlik için giriş ve kullanım hakkı veren belge.",
+    meaning:
+      "Bir yolculuk veya etkinlik için giriş ve kullanım hakkı veren belge.",
     example: "I bought a ticket online.",
     hint: "Otobüse, trene ya da uçağa binmek için gereken belge.",
   },
   {
     word: "Passport",
     difficulty: "intermediate",
-    meaning: "Yurt dışına çıkış ve kimlik doğrulama için kullanılan resmî seyahat belgesi.",
+    meaning:
+      "Yurt dışına çıkış ve kimlik doğrulama için kullanılan resmî seyahat belgesi.",
     example: "Don’t forget your passport.",
     hint: "Sınır kapısında gösterdiğin resmî defteri düşün.",
   },
@@ -58,7 +61,8 @@ export const TRAVEL_WORDS = [
   {
     word: "Map",
     difficulty: "beginner",
-    meaning: "Bir bölgenin yerleşimini ve yollarını gösteren çizim veya dijital araç.",
+    meaning:
+      "Bir bölgenin yerleşimini ve yollarını gösteren çizim veya dijital araç.",
     example: "We used a map to find the hotel.",
     hint: "Kaybolmamak için baktığın çizim.",
   },
@@ -698,5 +702,156 @@ export const TRAVEL_WORDS = [
     meaning: "Araçların kullandığı yol.",
     example: "The road is closed.",
     hint: "Araba ile gidilen ana yol.",
+  },
+  {
+    word: "Itinerary",
+    difficulty: "advanced",
+    meaning:
+      "Bir seyahat boyunca ziyaret edilecek yerleri ve yapılacak aktiviteleri sıralayan detaylı plan.",
+    example: "Our itinerary includes three cities in five days.",
+    hint: "Gün gün nereye gideceğini yazdığın seyahat planını düşün.",
+  },
+  {
+    word: "Layover",
+    difficulty: "advanced",
+    meaning:
+      "Bir uçuş sırasında, varış noktasına gitmeden önce yapılan kısa süreli aktarma.",
+    example: "We had a three-hour layover in Frankfurt.",
+    hint: "Uçağın değiştiği, biraz beklemek zorunda kaldığın o ara durak.",
+  },
+  {
+    word: "Customs",
+    difficulty: "advanced",
+    meaning:
+      "Ülkeye giriş veya çıkışta eşyaların kontrol edildiği resmi denetim noktası.",
+    example: "We went through customs without any issues.",
+    hint: "Valizinin açılabildiği, soruların sorulduğu kontrol alanı.",
+  },
+  {
+    word: "Immigration",
+    difficulty: "advanced",
+    meaning:
+      "Bir ülkeye giriş yapan kişilerin pasaport ve vize kontrollerinin yapıldığı resmi süreç.",
+    example: "Immigration asked about the purpose of my visit.",
+    hint: "Pasaportunu uzattığın ve neden geldiğini anlattığın gişe.",
+  },
+  {
+    word: "Transit",
+    difficulty: "advanced",
+    meaning:
+      "Başka bir ülke veya şehir üzerinden geçiş yaparak yapılan yolculuk durumu.",
+    example: "This flight requires a transit visa.",
+    hint: "Asıl varıştan önce sadece uğrayıp geçtiğin yer.",
+  },
+  {
+    word: "Boarding pass",
+    difficulty: "advanced",
+    meaning:
+      "Yolcunun uçağa binmesine izin veren, koltuk ve uçuş bilgilerini içeren belge.",
+    example: "Please have your boarding pass ready.",
+    hint: "Uçağa binmeden önce telefonda ya da kağıtta gösterdiğin belge.",
+  },
+  {
+    word: "Checked baggage",
+    difficulty: "advanced",
+    meaning:
+      "Uçuş sırasında uçağın kargo bölümüne verilen ve kabine alınmayan bagaj.",
+    example: "Checked baggage will be collected at baggage claim.",
+    hint: "Teslim edip uçağın altına giden büyük valiz.",
+  },
+  {
+    word: "Carry-on",
+    difficulty: "advanced",
+    meaning: "Uçak kabinine alınmasına izin verilen küçük el bagajı.",
+    example: "This bag counts as a carry-on.",
+    hint: "Üst dolaba koyduğun küçük valiz.",
+  },
+  {
+    word: "Accommodation",
+    difficulty: "advanced",
+    meaning:
+      "Seyahat sırasında konaklama sağlanan yer; otel, hostel veya kiralık ev.",
+    example: "We booked our accommodation online.",
+    hint: "Geceyi geçirdiğin kalacak yerin genel adı.",
+  },
+  {
+    word: "Reservation",
+    difficulty: "advanced",
+    meaning: "Ulaşım veya konaklama için önceden yapılan yer ayırtma işlemi.",
+    example: "I have a reservation under my name.",
+    hint: "Gitmeden önce adını yazdırdığın ayarlama.",
+  },
+  {
+    word: "Departure",
+    difficulty: "advanced",
+    meaning: "Bir taşıtın belirli bir yerden hareket etmesi.",
+    example: "Departure is scheduled for 9 a.m.",
+    hint: "Yolculuğun başladığı an.",
+  },
+  {
+    word: "Arrival",
+    difficulty: "advanced",
+    meaning: "Bir yolculuğun hedef noktada sona ermesi.",
+    example: "Arrival time may be delayed.",
+    hint: "Nihayet vardığın o an.",
+  },
+  {
+    word: "Jet lag",
+    difficulty: "advanced",
+    meaning:
+      "Farklı zaman dilimlerine hızlı geçişten kaynaklanan biyolojik uyum bozukluğu.",
+    example: "Jet lag made me feel exhausted.",
+    hint: "Uçaktan indin ama bedenin hâlâ eski saatte.",
+  },
+  {
+    word: "Travel insurance",
+    difficulty: "advanced",
+    meaning:
+      "Seyahat sırasında yaşanabilecek sağlık, iptal veya kayıp durumlarını kapsayan sigorta.",
+    example: "Travel insurance covered my medical expenses.",
+    hint: "Yolda başına bir şey gelirse seni güvenceye alan belge.",
+  },
+  {
+    word: "Delayed",
+    difficulty: "advanced",
+    meaning: "Planlanan zamandan daha geç gerçekleşen durum.",
+    example: "The flight was delayed due to weather.",
+    hint: "Beklediğinden geç olan her şey.",
+  },
+  {
+    word: "Overbooked",
+    difficulty: "advanced",
+    meaning:
+      "Bir uçuş veya konaklama için kapasiteden fazla rezervasyon yapılmış olması.",
+    example: "The flight was overbooked.",
+    hint: "Herkes sığmadığı için sorun çıkan durum.",
+  },
+  {
+    word: "Visa-free",
+    difficulty: "advanced",
+    meaning: "Bir ülkeye vize almadan giriş yapılabilen durum.",
+    example: "This country is visa-free for tourists.",
+    hint: "Ek belge olmadan rahatça girebildiğin ülke.",
+  },
+  {
+    word: "Border control",
+    difficulty: "advanced",
+    meaning: "Ülke sınırlarında yapılan kimlik ve giriş-çıkış denetimi.",
+    example: "Border control checked my passport.",
+    hint: "Ülkeye girerken son durak.",
+  },
+  {
+    word: "Baggage claim",
+    difficulty: "advanced",
+    meaning: "Uçuş sonrası yolcuların bagajlarını teslim aldığı alan.",
+    example: "Meet me at baggage claim.",
+    hint: "Valizlerin banttan döndüğü yer.",
+  },
+  {
+    word: "Travel advisory",
+    difficulty: "advanced",
+    meaning: "Bir ülke veya bölge için yayımlanan resmi seyahat uyarısı.",
+    example: "The government issued a travel advisory.",
+    hint: "Gitmeden önce kontrol edilen resmi uyarılar.",
   },
 ] as const;

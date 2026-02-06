@@ -55,7 +55,7 @@ export const CATEGORIES = [
   },
   {
     id: "nature",
-    title: "Nature & Weather",
+    title: "Nature",
     description: "Doğa, çevre ve hava durumuyla ilgili İngilizce kelimeler.",
     wordCount: 100,
   },

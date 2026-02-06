@@ -489,4 +489,153 @@ export const EMOTIONS_WORDS = [
     example: "The place feels peaceful.",
     hint: "İç huzurunu hissettiğin an.",
   },
+  {
+    word: "Melancholic",
+    difficulty: "advanced",
+    meaning: "Melankolik; derin, hafif hüzünlü ve düşünceli bir ruh hâli.",
+    example: "He felt melancholic while walking alone at night.",
+    hint: "Sessiz bir akşam, hafif bir hüzün ve düşüncelere dalmak.",
+  },
+  {
+    word: "Resentful",
+    difficulty: "advanced",
+    meaning:
+      "Kin dolu; geçmişte yaşanan bir haksızlıktan dolayı içten içe öfkeli olma durumu.",
+    example: "She grew resentful after being ignored for years.",
+    hint: "İçinde biriken ama dışarı vurulmayan bir kırgınlık düşün.",
+  },
+  {
+    word: "Euphoric",
+    difficulty: "advanced",
+    meaning: "Öforik; aşırı mutlu, coşkulu ve enerjik hissetme durumu.",
+    example: "He felt euphoric after hearing the good news.",
+    hint: "Kalbin hızlı atıyor, her şey mükemmel gibi hissediliyor.",
+  },
+  {
+    word: "Apathetic",
+    difficulty: "advanced",
+    meaning: "Apatik; ilgi, istek veya duygu eksikliği yaşama durumu.",
+    example: "She became apathetic toward things she once loved.",
+    hint: "Hiçbir şeyin seni heyecanlandırmadığı o boşluk hissi.",
+  },
+  {
+    word: "Anxious",
+    difficulty: "advanced",
+    meaning:
+      "Endişeli; gelecekle ilgili belirsizlikten kaynaklanan huzursuzluk.",
+    example: "He felt anxious before the important meeting.",
+    hint: "İçinde hafif bir gerginlik ve bekleme hissi var.",
+  },
+  {
+    word: "Overwhelmed",
+    difficulty: "advanced",
+    meaning:
+      "Bunalmış; duygusal veya zihinsel olarak fazla yük altında hissetme durumu.",
+    example: "She felt overwhelmed by her responsibilities.",
+    hint: "Aynı anda çok fazla şeyle baş etmeye çalışıyorsun.",
+  },
+  {
+    word: "Content",
+    difficulty: "advanced",
+    meaning: "Tatmin olmuş; sahip olduklarıyla huzurlu ve memnun olma durumu.",
+    example: "He felt content with his simple life.",
+    hint: "Her şey yeterli ve yerli yerinde gibi geliyor.",
+  },
+  {
+    word: "Irritated",
+    difficulty: "advanced",
+    meaning: "Sinirlenmiş; küçük şeylere karşı bile tahammülsüz olma durumu.",
+    example: "She felt irritated by the constant noise.",
+    hint: "En ufak şey bile seni rahatsız ediyor.",
+  },
+  {
+    word: "Nostalgic",
+    difficulty: "advanced",
+    meaning: "Nostaljik; geçmişe özlem ve duygusal bağlılık hissetme durumu.",
+    example: "The old song made him feel nostalgic.",
+    hint: "Eski bir anı aklına geliyor ve içini yumuşak bir özlem kaplıyor.",
+  },
+  {
+    word: "Insecure",
+    difficulty: "advanced",
+    meaning:
+      "Güvensiz; kendine veya bir duruma karşı yeterince güven duyamama hâli.",
+    example: "She felt insecure about her abilities.",
+    hint: "Kendini sorguladığın o iç ses.",
+  },
+  {
+    word: "Relieved",
+    difficulty: "advanced",
+    meaning:
+      "Rahatlamış; endişe veya stresin ortadan kalkmasıyla gelen ferahlık.",
+    example: "He felt relieved after the exam ended.",
+    hint: "Omuzlarından büyük bir yük kalkmış gibi.",
+  },
+  {
+    word: "Frustrated",
+    difficulty: "advanced",
+    meaning:
+      "Hayal kırıklığına uğramış; istenen sonuca ulaşılamadığında hissedilen gerginlik.",
+    example: "She felt frustrated by the lack of progress.",
+    hint: "Çabalıyorsun ama sonuç alamıyorsun.",
+  },
+  {
+    word: "Empathetic",
+    difficulty: "advanced",
+    meaning:
+      "Empatik; başkalarının duygularını anlayabilme ve hissedebilme yetisi.",
+    example: "He is very empathetic toward his friends.",
+    hint: "Karşındakinin yerine kendini koyuyorsun.",
+  },
+  {
+    word: "Detached",
+    difficulty: "advanced",
+    meaning: "Mesafeli; duygusal olarak uzak ve kopuk olma durumu.",
+    example: "She remained emotionally detached.",
+    hint: "Olan biteni uzaktan izliyormuş gibi hissetmek.",
+  },
+  {
+    word: "Vulnerable",
+    difficulty: "advanced",
+    meaning: "Savunmasız; duygusal olarak açık ve incinebilir olma hâli.",
+    example: "He felt vulnerable sharing his feelings.",
+    hint: "Kalbin açık ama biraz korunmasız.",
+  },
+  {
+    word: "Conflicted",
+    difficulty: "advanced",
+    meaning: "Çelişkili; birden fazla duygu arasında kalmış olma durumu.",
+    example: "She felt conflicted about her decision.",
+    hint: "İki farklı duygu seni farklı yönlere çekiyor.",
+  },
+  {
+    word: "Ashamed",
+    difficulty: "advanced",
+    meaning:
+      "Utanmış; yapılan bir davranıştan dolayı pişmanlık ve mahcubiyet hissetme durumu.",
+    example: "He felt ashamed of his actions.",
+    hint: "Keşke yapmasaydım dediğin bir an.",
+  },
+  {
+    word: "Hopeful",
+    difficulty: "advanced",
+    meaning: "Umutlu; geleceğe dair olumlu beklenti içinde olma durumu.",
+    example: "She remained hopeful despite the challenges.",
+    hint: "Henüz her şey bitmiş değil hissi.",
+  },
+  {
+    word: "Restless",
+    difficulty: "advanced",
+    meaning: "Huzursuz; yerinde duramama ve içsel rahatlık eksikliği.",
+    example: "He felt restless throughout the night.",
+    hint: "İçinde tarif edemediğin bir kıpırtı var.",
+  },
+  {
+    word: "Fulfilled",
+    difficulty: "advanced",
+    meaning:
+      "Tatmin olmuş; duygusal olarak tamamlanmış ve doyuma ulaşmış hissetme durumu.",
+    example: "She felt fulfilled by helping others.",
+    hint: "İçten gelen bir tamamlanmışlık hissi.",
+  },
 ];

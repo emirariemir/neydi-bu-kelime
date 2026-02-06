@@ -2,7 +2,8 @@ export const FOOD_WORDS = [
   {
     word: "Recipe",
     difficulty: "intermediate",
-    meaning: "Tarif; belirli bir yemeği hazırlamak için gerekli malzemeleri ve izlenecek adımları açıklayan yönerge.",
+    meaning:
+      "Tarif; belirli bir yemeği hazırlamak için gerekli malzemeleri ve izlenecek adımları açıklayan yönerge.",
     example: "I followed a simple recipe for tomato soup.",
     hint: "Bir sayfada adım adım yazılmış, mutfakta sana rehberlik eden kısa talimatları gözünde canlandır.",
   },
@@ -16,28 +17,32 @@ export const FOOD_WORDS = [
   {
     word: "Flavor",
     difficulty: "intermediate",
-    meaning: "Lezzet; bir yiyecek veya içeceğin tat ve koku bileşiminin oluşturduğu duyusal özellik.",
+    meaning:
+      "Lezzet; bir yiyecek veya içeceğin tat ve koku bileşiminin oluşturduğu duyusal özellik.",
     example: "This sauce has a rich flavor.",
     hint: "İlk lokmada ‘işte bu’ dedirten o tadı hayal et.",
   },
   {
     word: "Taste",
     difficulty: "beginner",
-    meaning: "Tat; dilin algıladığı temel duyusal özellik (tatlı, tuzlu, ekşi, acı vb.).",
+    meaning:
+      "Tat; dilin algıladığı temel duyusal özellik (tatlı, tuzlu, ekşi, acı vb.).",
     example: "I like the taste of fresh basil.",
     hint: "Dilin üzerinde kalan o kısa ama net hissi düşün.",
   },
   {
     word: "Spice",
     difficulty: "intermediate",
-    meaning: "Baharat; yiyeceğe aroma ve tat vermek için kullanılan bitkisel kökenli kurutulmuş ürün.",
+    meaning:
+      "Baharat; yiyeceğe aroma ve tat vermek için kullanılan bitkisel kökenli kurutulmuş ürün.",
     example: "Add a little spice to the soup.",
     hint: "Küçük bir tutamın bile bütün yemeği değiştirdiğini hayal et.",
   },
   {
     word: "Salt",
     difficulty: "beginner",
-    meaning: "Tuz; yiyeceğe tat vermek ve bazı gıdaları korumak için kullanılan mineral.",
+    meaning:
+      "Tuz; yiyeceğe tat vermek ve bazı gıdaları korumak için kullanılan mineral.",
     example: "Please pass the salt.",
     hint: "Masadaki küçük tuzluğu; bir çevirişte yemeğe denge kattığını düşün.",
   },
@@ -51,21 +56,24 @@ export const FOOD_WORDS = [
   {
     word: "Oil",
     difficulty: "beginner",
-    meaning: "Yağ; pişirme ve tatlandırma amacıyla kullanılan sıvı veya yarı katı yağlı madde.",
+    meaning:
+      "Yağ; pişirme ve tatlandırma amacıyla kullanılan sıvı veya yarı katı yağlı madde.",
     example: "Heat the oil in a pan.",
     hint: "Tavaya dökülen ince bir yağ tabakasının parlayışını düşün.",
   },
   {
     word: "Butter",
     difficulty: "beginner",
-    meaning: "Tereyağı; süt yağından elde edilen, pişirmede ve sürmede kullanılan yağ ürünü.",
+    meaning:
+      "Tereyağı; süt yağından elde edilen, pişirmede ve sürmede kullanılan yağ ürünü.",
     example: "Butter makes the bread taste better.",
     hint: "Sıcakta yavaşça eriyip mis gibi koku yayan sarı bir parça hayal et.",
   },
   {
     word: "Boil",
     difficulty: "intermediate",
-    meaning: "Kaynatmak; bir sıvıyı kaynama noktasına getirerek pişirmek veya ısıtmak.",
+    meaning:
+      "Kaynatmak; bir sıvıyı kaynama noktasına getirerek pişirmek veya ısıtmak.",
     example: "Boil the pasta for ten minutes.",
     hint: "Tencerede kabarcık kabarcık yükselen suyu ve çıkan buharı gözünde canlandır.",
   },
@@ -86,7 +94,8 @@ export const FOOD_WORDS = [
   {
     word: "Grill",
     difficulty: "intermediate",
-    meaning: "Izgara yapmak; yiyeceği ızgara üzerinde doğrudan ısıyla pişirmek.",
+    meaning:
+      "Izgara yapmak; yiyeceği ızgara üzerinde doğrudan ısıyla pişirmek.",
     example: "They grill chicken with lemon.",
     hint: "Izgara çizgilerini ve hafif is kokusunu hayal et.",
   },
@@ -107,14 +116,16 @@ export const FOOD_WORDS = [
   {
     word: "Mix",
     difficulty: "intermediate",
-    meaning: "Karıştırmak; malzemeleri homojen olacak şekilde bir araya getirmek.",
+    meaning:
+      "Karıştırmak; malzemeleri homojen olacak şekilde bir araya getirmek.",
     example: "Mix the flour and water in a bowl.",
     hint: "Bir kâsede döne döne birleşen malzemeleri gözünde canlandır.",
   },
   {
     word: "Stir",
     difficulty: "intermediate",
-    meaning: "Karıştırmak; özellikle sıvı veya yarı sıvı karışımı kaşıkla çevirerek hareket ettirmek.",
+    meaning:
+      "Karıştırmak; özellikle sıvı veya yarı sıvı karışımı kaşıkla çevirerek hareket ettirmek.",
     example: "Stir the sauce slowly.",
     hint: "Kaşığın tencerede ağır ağır döndüğünü düşün.",
   },
@@ -135,7 +146,8 @@ export const FOOD_WORDS = [
   {
     word: "Order",
     difficulty: "intermediate",
-    meaning: "Sipariş vermek; bir yiyecek veya içeceğin hazırlanmasını talep etmek.",
+    meaning:
+      "Sipariş vermek; bir yiyecek veya içeceğin hazırlanmasını talep etmek.",
     example: "We order two coffees and a sandwich.",
     hint: "Garsona söyleyip birkaç dakika sonra masaya gelen lezzeti hayal et.",
   },
@@ -149,7 +161,8 @@ export const FOOD_WORDS = [
   {
     word: "Bill",
     difficulty: "intermediate",
-    meaning: "Hesap; bir restoranda alınan ürün ve hizmetlerin toplam ücretini gösteren belge veya tutar.",
+    meaning:
+      "Hesap; bir restoranda alınan ürün ve hizmetlerin toplam ücretini gösteren belge veya tutar.",
     example: "Could we have the bill, please?",
     hint: "Yemeğin sonundaki küçük kâğıt; toplamı görüp plan yaptığın anı hayal et.",
   },
@@ -163,7 +176,8 @@ export const FOOD_WORDS = [
   {
     word: "Dessert",
     difficulty: "intermediate",
-    meaning: "Tatlı; genellikle yemeğin sonunda tüketilen, tatlı lezzette yiyecek.",
+    meaning:
+      "Tatlı; genellikle yemeğin sonunda tüketilen, tatlı lezzette yiyecek.",
     example: "Chocolate cake is my favorite dessert.",
     hint: "Son lokmada gelen o tatlı kapanışı hayal et.",
   },
@@ -206,7 +220,8 @@ export const FOOD_WORDS = [
   {
     word: "Bowl",
     difficulty: "intermediate",
-    meaning: "Kâse; genellikle çorba veya sıvı yiyecekler için kullanılan derin kap.",
+    meaning:
+      "Kâse; genellikle çorba veya sıvı yiyecekler için kullanılan derin kap.",
     example: "She served soup in a bowl.",
     hint: "İçinde sıcak çorba olan derin bir kâse düşün.",
   },
@@ -227,7 +242,8 @@ export const FOOD_WORDS = [
   {
     word: "Spoon",
     difficulty: "intermediate",
-    meaning: "Kaşık; sıvı veya yumuşak yiyecekleri yemek için kullanılan gereç.",
+    meaning:
+      "Kaşık; sıvı veya yumuşak yiyecekleri yemek için kullanılan gereç.",
     example: "I eat soup with a spoon.",
     hint: "Kaşığın çorbaya daldığı anı hayal et.",
   },
@@ -325,7 +341,8 @@ export const FOOD_WORDS = [
   {
     word: "Fish",
     difficulty: "beginner",
-    meaning: "Balık; deniz veya tatlı suda yaşayan canlılardan elde edilen besin.",
+    meaning:
+      "Balık; deniz veya tatlı suda yaşayan canlılardan elde edilen besin.",
     example: "Fish is very healthy.",
     hint: "Deniz kokulu, hafif bir yemek hayal et.",
   },
@@ -377,5 +394,124 @@ export const FOOD_WORDS = [
     meaning: "Mutfak; yemek hazırlanan alan.",
     example: "The kitchen smells great.",
     hint: "Tencere ve tabak sesleriyle dolu bir mutfak düşün.",
+  },
+  {
+    word: "Culinary",
+    difficulty: "advanced",
+    meaning: "Mutfakla ilgili; yemek pişirme ve yemek kültürüne dair.",
+    example: "She wants a career in culinary arts.",
+    hint: "Yemek dünyasının profesyonel tarafını düşün.",
+  },
+  {
+    word: "Gastronomy",
+    difficulty: "advanced",
+    meaning:
+      "Gastronomi; yemeğin kültürünü, tarihini ve tekniklerini inceleyen alan.",
+    example: "Gastronomy connects food and culture.",
+    hint: "Yemeğin hikâyesini ve kültürünü araştıran disiplini hayal et.",
+  },
+  {
+    word: "Fermentation",
+    difficulty: "advanced",
+    meaning:
+      "Fermantasyon; mikroorganizmaların gıdayı dönüştürdüğü doğal süreç.",
+    example: "Fermentation gives yogurt its tang.",
+    hint: "Zamanla ekşiyen, kıvamı değişen gıdayı hayal et.",
+  },
+  {
+    word: "Caramelize",
+    difficulty: "advanced",
+    meaning:
+      "Karamelize etmek; şekerin ısıyla kahverengileşip yoğun aroma kazanması.",
+    example: "Caramelize the onions for sweetness.",
+    hint: "Soğanların altın rengine dönmesini düşün.",
+  },
+  {
+    word: "Deglaze",
+    difficulty: "advanced",
+    meaning:
+      "Deglaze etmek; tavada kalan lezzetli parçaları sıvıyla çözüp sos yapmak.",
+    example: "Deglaze the pan with stock.",
+    hint: "Tavanın dibindeki aromayı sıvıyla kaldırıp sosa dönüştürmeyi hayal et.",
+  },
+  {
+    word: "Emulsify",
+    difficulty: "advanced",
+    meaning:
+      "Emülsifiye etmek; yağ ve su gibi iki sıvıyı ayrışmadan birleştirmek.",
+    example: "Emulsify the vinaigrette before serving.",
+    hint: "Pürüzsüz, ayrışmayan bir sosu gözünde canlandır.",
+  },
+  {
+    word: "Marinate",
+    difficulty: "advanced",
+    meaning:
+      "Marine etmek; yiyeceği aromalı bir sıvıda bekleterek tatlandırmak.",
+    example: "Marinate the fish for 30 minutes.",
+    hint: "Etin baharatlı bir karışımda dinlendiğini düşün.",
+  },
+  {
+    word: "Confit",
+    difficulty: "advanced",
+    meaning:
+      "Confit; yiyeceği kendi yağında düşük ısıda yavaşça pişirme yöntemi.",
+    example: "Duck confit is rich and tender.",
+    hint: "Kendi yağında ağır ağır pişen eti hayal et.",
+  },
+  {
+    word: "Reduce",
+    difficulty: "advanced",
+    meaning: "Kıvamını koyulaştırmak; sıvıyı kaynatarak hacmini azaltmak.",
+    example: "Reduce the sauce to intensify flavor.",
+    hint: "Sosun azalıp yoğunlaştığını hayal et.",
+  },
+  {
+    word: "Infuse",
+    difficulty: "advanced",
+    meaning: "Demlemek; bir aromayı sıvıya yavaşça geçirmek.",
+    example: "Infuse the oil with herbs.",
+    hint: "Yağa bitki aromasının geçtiğini düşün.",
+  },
+  {
+    word: "Zest",
+    difficulty: "advanced",
+    meaning: "Rende kabuk; narenciyenin aromatik dış kabuğu.",
+    example: "Add orange zest to the dessert.",
+    hint: "Portakal kabuğunu ince ince rendelediğini düşün.",
+  },
+  {
+    word: "Palate",
+    difficulty: "advanced",
+    meaning: "Damak; tatları algılama ve ayırt etme yetisi.",
+    example: "He has a very sensitive palate.",
+    hint: "Tatları hemen ayırt eden damak tadını düşün.",
+  },
+  {
+    word: "Aftertaste",
+    difficulty: "advanced",
+    meaning: "Son tat; yuttuktan sonra ağızda kalan lezzet.",
+    example: "The coffee leaves a bitter aftertaste.",
+    hint: "Yemekten sonra ağızda kalan iz tadı düşün.",
+  },
+  {
+    word: "Plating",
+    difficulty: "advanced",
+    meaning: "Sunum; yemeği tabakta estetik şekilde düzenleme.",
+    example: "Elegant plating elevates the dish.",
+    hint: "Tabağı bir tablo gibi düzenlediğini hayal et.",
+  },
+  {
+    word: "Artisanal",
+    difficulty: "advanced",
+    meaning: "Zanaatkâr işi; küçük ölçekli ve özenle üretilmiş.",
+    example: "They sell artisanal cheese.",
+    hint: "El emeğiyle yapılan özel ürünleri düşün.",
+  },
+  {
+    word: "Pasteurize",
+    difficulty: "advanced",
+    meaning: "Pastörize etmek; zararlı mikropları azaltmak için ısı uygulamak.",
+    example: "Pasteurize the milk before using it.",
+    hint: "Sütü güvenli hâle getiren kontrollü ısıyı düşün.",
   },
 ];
