@@ -2,6 +2,7 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export type Word = {
   word: string;
+  difficulty: string;
   meaning: string;
   example: string;
   hint: string;
@@ -20,12 +21,20 @@ export const WordCard = ({
   isLearned,
   onToggleLearned,
 }: WordCardProps) => {
+  const formatDifficulty = (difficulty: string) => {
+    if (!difficulty) return "Unknown";
+    return `${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`;
+  };
+
   return (
     <View style={[styles.wordCard, isLearned && styles.wordCardLearned]}>
       <View style={styles.wordHeader}>
         <View style={styles.wordHeaderLeft}>
           <Text style={styles.wordNumber}>Word {index + 1}</Text>
           <Text style={styles.wordText}>{item.word}</Text>
+          <Text style={styles.difficultyText}>
+            Difficulty: {formatDifficulty(item.difficulty)}
+          </Text>
         </View>
         <TouchableOpacity
           style={[
@@ -145,6 +154,12 @@ const styles = StyleSheet.create({
   },
   learnedButtonTextActive: {
     color: "#FFFFFF",
+  },
+  difficultyText: {
+    fontSize: 12,
+    fontWeight: "600",
+    color: "#4A4A4A",
+    marginTop: 4,
   },
   wordContent: {
     gap: 12,
