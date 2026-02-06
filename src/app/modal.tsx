@@ -227,16 +227,6 @@ export default function CategorySelectionModal() {
                 >
                   {category.title}
                 </Text>
-                <Text
-                  style={[
-                    styles.categoryDescription,
-                    selected && styles.categoryDescriptionSelected,
-                    disabled && styles.categoryDescriptionDisabled,
-                  ]}
-                  numberOfLines={2}
-                >
-                  {category.description}
-                </Text>
               </TouchableOpacity>
             );
           })}
@@ -381,47 +371,30 @@ const styles = StyleSheet.create({
   categoriesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 12,
+    gap: 8,
   },
   categoryPill: {
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1.5,
-    borderColor: "#D1D1D1",
-    borderRadius: 16,
-    paddingVertical: 12,
-    paddingHorizontal: 16,
-    minWidth: "47%",
-    maxWidth: "100%",
+    backgroundColor: "#E8E8E8",
+    borderRadius: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 18,
   },
   categoryPillSelected: {
-    backgroundColor: "#E8F5E9",
-    borderColor: "#66BB6A",
+    backgroundColor: "#2E7D32",
   },
   categoryPillDisabled: {
     opacity: 0.4,
   },
   categoryTitle: {
-    fontSize: 15,
+    fontSize: 14,
     fontWeight: "600",
     color: "#1A1A1A",
-    marginBottom: 4,
   },
   categoryTitleSelected: {
-    color: "#2E7D32",
+    color: "#FFFFFF",
   },
   categoryTitleDisabled: {
     color: "#9E9E9E",
-  },
-  categoryDescription: {
-    fontSize: 12,
-    color: "#6A6A6A",
-    lineHeight: 16,
-  },
-  categoryDescriptionSelected: {
-    color: "#388E3C",
-  },
-  categoryDescriptionDisabled: {
-    color: "#BDBDBD",
   },
   confirmButton: {
     backgroundColor: "#2E7D32",
