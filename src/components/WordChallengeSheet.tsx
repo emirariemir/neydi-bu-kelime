@@ -50,7 +50,7 @@ export default function WordChallengeSheet({
     <BottomSheet
       ref={bottomSheetRef}
       index={-1}
-      snapPoints={["40%"]}
+      snapPoints={["85%"]}
       enablePanDownToClose
       onClose={onClose}
       backgroundStyle={styles.bottomSheetBackground}

@@ -8,6 +8,7 @@ import {
   Text,
   View,
 } from "react-native";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 type Stats = {
   totalLearnedWords: number;
@@ -18,9 +19,19 @@ type Stats = {
 export default function StatsScreen() {
   const [stats, setStats] = useState<Stats | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+  const insets = useSafeAreaInsets();
   const [joinDate] = useState(() => {
     return "Jan 12, 2026";
   });
+
+  const containerStyle = [
+    styles.container,
+    { paddingTop: 16 + insets.top, paddingBottom: insets.bottom },
+  ];
+  const loadingStyle = [
+    styles.loadingContainer,
+    { paddingTop: insets.top, paddingBottom: insets.bottom },
+  ];
 
   // Load stats whenever the screen comes into focus
   useFocusEffect(
@@ -43,8 +54,8 @@ export default function StatsScreen() {
 
   if (isLoading) {
     return (
-      <View style={styles.container}>
-        <View style={styles.loadingContainer}>
+      <View style={containerStyle}>
+        <View style={loadingStyle}>
           <ActivityIndicator size="large" color="#2E7D32" />
           <Text style={styles.loadingText}>Loading your stats...</Text>
         </View>
@@ -80,7 +91,7 @@ export default function StatsScreen() {
   ];
 
   return (
-    <View style={styles.container}>
+    <View style={containerStyle}>
       <View style={styles.header}>
         <Text style={styles.title}>Your Progress</Text>
         <Text style={styles.subtitle}>Joined at {joinDate}</Text>

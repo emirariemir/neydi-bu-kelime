@@ -10,6 +10,7 @@ import {
   View,
 } from "react-native";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WordCard, type Word } from "../../components/DailyWordCard";
 import WordChallengeSheet from "../../components/WordChallengeSheet";
 import {
@@ -23,6 +24,7 @@ import {
 
 export default function Index() {
   const params = useLocalSearchParams();
+  const insets = useSafeAreaInsets();
   const [dailyWords, setDailyWords] = useState<Word[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [learnedWords, setLearnedWords] = useState<string[]>([]);
@@ -31,6 +33,15 @@ export default function Index() {
   const [totalLearnedWords, setTotalLearnedWords] = useState(0);
   const [challengeWord, setChallengeWord] = useState<string | null>(null);
   const bottomSheetRef = useRef<BottomSheet | null>(null);
+
+  const containerStyle = [
+    styles.container,
+    { paddingTop: 16 + insets.top, paddingBottom: insets.bottom },
+  ];
+  const loadingStyle = [
+    styles.loadingContainer,
+    { paddingTop: insets.top, paddingBottom: insets.bottom },
+  ];
 
   // Load words from storage on mount
   useEffect(() => {
@@ -139,7 +150,7 @@ export default function Index() {
   if (isLoading) {
     return (
       <GestureHandlerRootView style={styles.root}>
-        <View style={styles.loadingContainer}>
+        <View style={loadingStyle}>
           <ActivityIndicator size="large" color="#2E7D32" />
           <Text style={styles.loadingText}>Loading your words...</Text>
         </View>
@@ -151,7 +162,7 @@ export default function Index() {
   if (showCongratulations) {
     return (
       <GestureHandlerRootView style={styles.root}>
-        <View style={styles.container}>
+        <View style={containerStyle}>
           <View style={styles.congratulationsContainer}>
             <Text style={styles.congratsEmoji}>🎉</Text>
             <Text style={styles.congratsTitle}>Congratulations!</Text>
@@ -184,7 +195,7 @@ export default function Index() {
   if (dailyWords.length === 0) {
     return (
       <GestureHandlerRootView style={styles.root}>
-        <View style={styles.container}>
+        <View style={containerStyle}>
           <View style={styles.emptyStateContainer}>
             <Text style={styles.emptyTitle}>
               Ready to start your daily goal?
@@ -217,7 +228,7 @@ export default function Index() {
 
   return (
     <GestureHandlerRootView style={styles.root}>
-      <View style={styles.container}>
+      <View style={containerStyle}>
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Today's Words</Text>
           <Text style={styles.headerSubtitle}>
