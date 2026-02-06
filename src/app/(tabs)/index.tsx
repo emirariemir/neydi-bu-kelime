@@ -1,5 +1,6 @@
+import BottomSheet from "@gorhom/bottom-sheet";
 import { router, useLocalSearchParams } from "expo-router";
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   FlatList,
@@ -8,15 +9,16 @@ import {
   TouchableOpacity,
   View,
 } from "react-native";
-import BottomSheet, { BottomSheetView } from "@gorhom/bottom-sheet";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { WordCard, type Word } from "../../components/DailyWordCard";
+import WordChallengeSheet from "../../components/WordChallengeSheet";
 import {
   areAllWordsMastered,
   completeTodaysSession,
   getDailyWords,
   getLearningStats,
   saveDailyWords,
+  toggleWordLearned,
 } from "../../utils/storageUtils";
 
 export default function Index() {
@@ -27,9 +29,8 @@ export default function Index() {
   const [isLoading, setIsLoading] = useState(true);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [totalLearnedWords, setTotalLearnedWords] = useState(0);
-  const [isPresented, setIsPresented] = useState(false);
-  const bottomSheetRef = useRef<BottomSheet>(null);
-  const snapPoints = useMemo(() => ["25%"], []);
+  const [challengeWord, setChallengeWord] = useState<string | null>(null);
+  const bottomSheetRef = useRef<BottomSheet | null>(null);
 
   // Load words from storage on mount
   useEffect(() => {
@@ -106,13 +107,24 @@ export default function Index() {
   };
 
   const handleToggleLearned = async (word: string) => {
+    setChallengeWord(word);
     bottomSheetRef.current?.expand();
-    // try {
-    //   const updatedLearnedWords = await toggleWordLearned(word);
-    //   setLearnedWords(updatedLearnedWords);
-    // } catch (error) {
-    //   console.error("Error toggling learned state:", error);
-    // }
+  };
+
+  const handleChallengeCorrect = async (word: string) => {
+    try {
+      const updatedLearnedWords = await toggleWordLearned(word);
+      setLearnedWords(updatedLearnedWords);
+    } catch (error) {
+      console.error("Error toggling learned state:", error);
+    } finally {
+      bottomSheetRef.current?.close();
+      setChallengeWord(null);
+    }
+  };
+
+  const handleChallengeClose = () => {
+    setChallengeWord(null);
   };
 
   const handleOpenModal = () => {
@@ -239,20 +251,12 @@ export default function Index() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />
-        <BottomSheet
-          ref={bottomSheetRef}
-          index={-1}
-          snapPoints={snapPoints}
-          enablePanDownToClose
-          backgroundStyle={styles.bottomSheetBackground}
-        >
-          <BottomSheetView style={styles.bottomSheetContent}>
-            <Text style={styles.bottomSheetTitle}>Nice work!</Text>
-            <Text style={styles.bottomSheetText}>
-              We’ll track this word as learned.
-            </Text>
-          </BottomSheetView>
-        </BottomSheet>
+        <WordChallengeSheet
+          bottomSheetRef={bottomSheetRef}
+          targetWord={challengeWord}
+          onCorrect={handleChallengeCorrect}
+          onClose={handleChallengeClose}
+        />
       </View>
     </GestureHandlerRootView>
   );
@@ -423,24 +427,5 @@ const styles = StyleSheet.create({
   },
   listContent: {
     paddingBottom: 20,
-  },
-  bottomSheetBackground: {
-    backgroundColor: "#FFFFFF",
-  },
-  bottomSheetContent: {
-    paddingHorizontal: 24,
-    paddingTop: 12,
-    paddingBottom: 24,
-    gap: 6,
-  },
-  bottomSheetTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#1A1A1A",
-  },
-  bottomSheetText: {
-    fontSize: 14,
-    color: "#4A4A4A",
-    lineHeight: 20,
   },
 });
