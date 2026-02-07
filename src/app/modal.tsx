@@ -16,16 +16,48 @@ import {
   getLearnedWordsPool,
 } from "../utils/storageUtils";
 import {
-  getAvailableWordsCount,
-  selectRandomWords,
+  getAvailableWordsCountByDifficulty,
+  selectWordsByDifficulty,
+  type DifficultyLevel,
 } from "../utils/wordSelectionUtils";
+
+const DIFFICULTY_CONFIGS: {
+  [key in DifficultyLevel]: {
+    label: string;
+    description: string;
+    distribution: { beginner: number; intermediate: number; advanced: number };
+  };
+} = {
+  beginner: {
+    label: "Beginner",
+    description: "Mostly easy words to build confidence",
+    distribution: { beginner: 7, intermediate: 3, advanced: 0 },
+  },
+  intermediate: {
+    label: "Intermediate",
+    description: "Balanced mix with a challenge",
+    distribution: { beginner: 4, intermediate: 5, advanced: 1 },
+  },
+  advanced: {
+    label: "Advanced",
+    description: "Harder words for serious learners",
+    distribution: { beginner: 0, intermediate: 4, advanced: 6 },
+  },
+};
 
 export default function CategorySelectionModal() {
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
+  const [selectedDifficulty, setSelectedDifficulty] =
+    useState<DifficultyLevel>("beginner");
   const [hasExistingWords, setHasExistingWords] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [learnedWordsPool, setLearnedWordsPool] = useState<string[]>([]);
-  const [availableWordsCount, setAvailableWordsCount] = useState(0);
+  const [availableWordsCount, setAvailableWordsCount] = useState({
+    beginner: 0,
+    intermediate: 0,
+    advanced: 0,
+    total: 0,
+  });
 
   useEffect(() => {
     checkExistingWords();
@@ -35,14 +67,19 @@ export default function CategorySelectionModal() {
   useEffect(() => {
     // Update available words count when categories change
     if (selectedCategories.length > 0) {
-      const count = getAvailableWordsCount(
+      const counts = getAvailableWordsCountByDifficulty(
         selectedCategories,
         CATEGORY_WORDS,
         learnedWordsPool,
       );
-      setAvailableWordsCount(count);
+      setAvailableWordsCount(counts);
     } else {
-      setAvailableWordsCount(0);
+      setAvailableWordsCount({
+        beginner: 0,
+        intermediate: 0,
+        advanced: 0,
+        total: 0,
+      });
     }
   }, [selectedCategories, learnedWordsPool]);
 
@@ -79,21 +116,71 @@ export default function CategorySelectionModal() {
     });
   };
 
+  const canProceedWithSelection = () => {
+    if (selectedCategories.length === 0) return false;
+
+    const distribution = DIFFICULTY_CONFIGS[selectedDifficulty].distribution;
+
+    // Check if we have enough words for each difficulty level
+    const hasEnoughBeginner =
+      distribution.beginner === 0 ||
+      availableWordsCount.beginner >= distribution.beginner;
+    const hasEnoughIntermediate =
+      distribution.intermediate === 0 ||
+      availableWordsCount.intermediate >= distribution.intermediate;
+    const hasEnoughAdvanced =
+      distribution.advanced === 0 ||
+      availableWordsCount.advanced >= distribution.advanced;
+
+    return hasEnoughBeginner && hasEnoughIntermediate && hasEnoughAdvanced;
+  };
+
+  const getInsufficientWordsMessage = () => {
+    const distribution = DIFFICULTY_CONFIGS[selectedDifficulty].distribution;
+    const insufficient: string[] = [];
+
+    if (
+      distribution.beginner > 0 &&
+      availableWordsCount.beginner < distribution.beginner
+    ) {
+      insufficient.push(
+        `${distribution.beginner - availableWordsCount.beginner} more beginner`,
+      );
+    }
+    if (
+      distribution.intermediate > 0 &&
+      availableWordsCount.intermediate < distribution.intermediate
+    ) {
+      insufficient.push(
+        `${distribution.intermediate - availableWordsCount.intermediate} more intermediate`,
+      );
+    }
+    if (
+      distribution.advanced > 0 &&
+      availableWordsCount.advanced < distribution.advanced
+    ) {
+      insufficient.push(
+        `${distribution.advanced - availableWordsCount.advanced} more advanced`,
+      );
+    }
+
+    return `Need ${insufficient.join(", ")} word${insufficient.length > 1 ? "s" : ""}`;
+  };
+
   const handleConfirmSelection = () => {
-    if (selectedCategories.length === 0) {
+    if (!canProceedWithSelection()) {
       return;
     }
 
-    // Select 10 random words from the chosen categories, excluding learned words
-    const randomWords = selectRandomWords(
+    // Select words based on difficulty distribution
+    const randomWords = selectWordsByDifficulty(
       selectedCategories,
       CATEGORY_WORDS,
-      10,
+      selectedDifficulty,
       learnedWordsPool,
     );
 
     if (randomWords.length === 0) {
-      // Show alert that no words are available
       alert(
         "No new words available in selected categories. You've already learned all words from these categories! Try selecting different categories.",
       );
@@ -106,6 +193,7 @@ export default function CategorySelectionModal() {
       params: {
         selectedWords: JSON.stringify(randomWords),
         selectedCategories: JSON.stringify(selectedCategories),
+        selectedDifficulty: selectedDifficulty,
       },
     });
   };
@@ -175,25 +263,15 @@ export default function CategorySelectionModal() {
     );
   }
 
+  const canProceed = canProceedWithSelection();
+
   return (
     <View style={styles.container}>
       <View style={styles.headerSection}>
-        <Text style={styles.title}>Choose Your Categories</Text>
+        <Text style={styles.title}>Choose Your Learning Path</Text>
         <Text style={styles.subtitle}>
-          Select up to 5 categories ({selectedCategories.length}/5 selected)
+          Select categories and difficulty level
         </Text>
-        {learnedWordsPool.length > 0 && (
-          <View style={styles.statsContainer}>
-            <Text style={styles.statsText}>
-              📚 {learnedWordsPool.length} words mastered
-            </Text>
-            {availableWordsCount > 0 && selectedCategories.length > 0 && (
-              <Text style={styles.availableWordsText}>
-                ✨ {availableWordsCount} new words available in selection
-              </Text>
-            )}
-          </View>
-        )}
       </View>
 
       <ScrollView
@@ -201,52 +279,167 @@ export default function CategorySelectionModal() {
         contentContainerStyle={styles.scrollContent}
         showsVerticalScrollIndicator={false}
       >
-        <View style={styles.categoriesContainer}>
-          {CATEGORIES.map((category) => {
-            const selected = isSelected(category.id);
-            const disabled = !selected && !canSelectMore;
+        {/* Difficulty Level Selection */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Difficulty Level</Text>
+          <Text style={styles.sectionDescription}>
+            Choose how challenging you want your words to be
+          </Text>
+          <View style={styles.difficultyContainer}>
+            {(Object.keys(DIFFICULTY_CONFIGS) as DifficultyLevel[]).map(
+              (level) => {
+                const config = DIFFICULTY_CONFIGS[level];
+                const isSelectedDifficulty = selectedDifficulty === level;
 
-            return (
-              <TouchableOpacity
-                key={category.id}
-                style={[
-                  styles.categoryPill,
-                  selected && styles.categoryPillSelected,
-                  disabled && styles.categoryPillDisabled,
-                ]}
-                onPress={() => toggleCategory(category.id)}
-                activeOpacity={0.7}
-                disabled={disabled}
-              >
-                <Text
+                return (
+                  <TouchableOpacity
+                    key={level}
+                    style={[
+                      styles.difficultyCard,
+                      isSelectedDifficulty && styles.difficultyCardSelected,
+                    ]}
+                    onPress={() => setSelectedDifficulty(level)}
+                    activeOpacity={0.7}
+                  >
+                    <View style={styles.difficultyHeader}>
+                      <Text
+                        style={[
+                          styles.difficultyLabel,
+                          isSelectedDifficulty &&
+                            styles.difficultyLabelSelected,
+                        ]}
+                      >
+                        {config.label}
+                      </Text>
+                      {isSelectedDifficulty && (
+                        <Text style={styles.checkmark}>✓</Text>
+                      )}
+                    </View>
+                    <Text
+                      style={[
+                        styles.difficultyDescription,
+                        isSelectedDifficulty &&
+                          styles.difficultyDescriptionSelected,
+                      ]}
+                    >
+                      {config.description}
+                    </Text>
+                    <View style={styles.distributionContainer}>
+                      {config.distribution.beginner > 0 && (
+                        <Text
+                          style={[
+                            styles.distributionText,
+                            isSelectedDifficulty &&
+                              styles.distributionTextSelected,
+                          ]}
+                        >
+                          {config.distribution.beginner} Beginner
+                        </Text>
+                      )}
+                      {config.distribution.intermediate > 0 && (
+                        <Text
+                          style={[
+                            styles.distributionText,
+                            isSelectedDifficulty &&
+                              styles.distributionTextSelected,
+                          ]}
+                        >
+                          {config.distribution.intermediate} Intermediate
+                        </Text>
+                      )}
+                      {config.distribution.advanced > 0 && (
+                        <Text
+                          style={[
+                            styles.distributionText,
+                            isSelectedDifficulty &&
+                              styles.distributionTextSelected,
+                          ]}
+                        >
+                          {config.distribution.advanced} Advanced
+                        </Text>
+                      )}
+                    </View>
+                  </TouchableOpacity>
+                );
+              },
+            )}
+          </View>
+        </View>
+
+        {/* Category Selection */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>Categories</Text>
+          <Text style={styles.sectionDescription}>
+            Select up to 5 categories ({selectedCategories.length}/5 selected)
+          </Text>
+
+          {learnedWordsPool.length > 0 && (
+            <View style={styles.statsContainer}>
+              <Text style={styles.statsText}>
+                📚 {learnedWordsPool.length} words mastered
+              </Text>
+              {availableWordsCount.total > 0 &&
+                selectedCategories.length > 0 && (
+                  <View style={styles.availableWordsBreakdown}>
+                    <Text style={styles.availableWordsText}>
+                      ✨ Available words in selection:
+                    </Text>
+                    <Text style={styles.availableWordsDetail}>
+                      {availableWordsCount.beginner} Beginner •{" "}
+                      {availableWordsCount.intermediate} Intermediate •{" "}
+                      {availableWordsCount.advanced} Advanced
+                    </Text>
+                  </View>
+                )}
+            </View>
+          )}
+
+          <View style={styles.categoriesContainer}>
+            {CATEGORIES.map((category) => {
+              const selected = isSelected(category.id);
+              const disabled = !selected && !canSelectMore;
+
+              return (
+                <TouchableOpacity
+                  key={category.id}
                   style={[
-                    styles.categoryTitle,
-                    selected && styles.categoryTitleSelected,
-                    disabled && styles.categoryTitleDisabled,
+                    styles.categoryPill,
+                    selected && styles.categoryPillSelected,
+                    disabled && styles.categoryPillDisabled,
                   ]}
+                  onPress={() => toggleCategory(category.id)}
+                  activeOpacity={0.7}
+                  disabled={disabled}
                 >
-                  {category.title}
-                </Text>
-              </TouchableOpacity>
-            );
-          })}
+                  <Text
+                    style={[
+                      styles.categoryTitle,
+                      selected && styles.categoryTitleSelected,
+                      disabled && styles.categoryTitleDisabled,
+                    ]}
+                  >
+                    {category.title}
+                  </Text>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
         </View>
       </ScrollView>
 
       <TouchableOpacity
         style={[
           styles.confirmButton,
-          (selectedCategories.length === 0 || availableWordsCount === 0) &&
-            styles.confirmButtonDisabled,
+          !canProceed && styles.confirmButtonDisabled,
         ]}
-        disabled={selectedCategories.length === 0 || availableWordsCount === 0}
+        disabled={!canProceed}
         onPress={handleConfirmSelection}
       >
         <Text style={styles.confirmButtonText}>
           {selectedCategories.length === 0
             ? "Select at least 1 category"
-            : availableWordsCount === 0
-              ? "No new words in selection"
+            : !canProceed
+              ? getInsufficientWordsMessage()
               : "Confirm Selection"}
         </Text>
       </TouchableOpacity>
@@ -342,14 +535,93 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#4A4A4A",
     textAlign: "center",
+  },
+  scrollView: {
+    flex: 1,
+  },
+  scrollContent: {
+    paddingBottom: 20,
+  },
+  section: {
+    marginBottom: 24,
+  },
+  sectionTitle: {
+    fontSize: 18,
+    fontWeight: "700",
+    color: "#1A1A1A",
+    marginBottom: 6,
+  },
+  sectionDescription: {
+    fontSize: 13,
+    color: "#4A4A4A",
     marginBottom: 12,
+  },
+  difficultyContainer: {
+    gap: 10,
+  },
+  difficultyCard: {
+    backgroundColor: "#FFFFFF",
+    borderRadius: 12,
+    padding: 16,
+    borderWidth: 2,
+    borderColor: "#E8E8E8",
+  },
+  difficultyCardSelected: {
+    borderColor: "#2E7D32",
+    backgroundColor: "#F1F8F4",
+  },
+  difficultyHeader: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginBottom: 6,
+  },
+  difficultyLabel: {
+    fontSize: 16,
+    fontWeight: "700",
+    color: "#1A1A1A",
+  },
+  difficultyLabelSelected: {
+    color: "#2E7D32",
+  },
+  checkmark: {
+    fontSize: 18,
+    color: "#2E7D32",
+    fontWeight: "700",
+  },
+  difficultyDescription: {
+    fontSize: 13,
+    color: "#4A4A4A",
+    marginBottom: 8,
+  },
+  difficultyDescriptionSelected: {
+    color: "#2E7D32",
+  },
+  distributionContainer: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 8,
+  },
+  distributionText: {
+    fontSize: 11,
+    fontWeight: "600",
+    color: "#6A6A6A",
+    backgroundColor: "#F5F5F5",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    borderRadius: 6,
+  },
+  distributionTextSelected: {
+    backgroundColor: "#E8F5E9",
+    color: "#2E7D32",
   },
   statsContainer: {
     backgroundColor: "#E8F5E9",
     paddingVertical: 10,
     paddingHorizontal: 16,
     borderRadius: 12,
-    gap: 4,
+    gap: 6,
+    marginBottom: 12,
   },
   statsText: {
     fontSize: 13,
@@ -357,16 +629,19 @@ const styles = StyleSheet.create({
     color: "#2E7D32",
     textAlign: "center",
   },
+  availableWordsBreakdown: {
+    gap: 2,
+  },
   availableWordsText: {
     fontSize: 12,
     color: "#388E3C",
     textAlign: "center",
   },
-  scrollView: {
-    flex: 1,
-  },
-  scrollContent: {
-    paddingBottom: 20,
+  availableWordsDetail: {
+    fontSize: 11,
+    color: "#388E3C",
+    textAlign: "center",
+    fontWeight: "600",
   },
   categoriesContainer: {
     flexDirection: "row",

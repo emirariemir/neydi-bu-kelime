@@ -1,5 +1,6 @@
 type Word = {
   word: string;
+  difficulty: string;
   meaning: string;
   example: string;
   hint: string;
@@ -9,10 +10,118 @@ type CategoryWords = {
   [key: string]: readonly Word[];
 };
 
+export type DifficultyLevel = "beginner" | "intermediate" | "advanced";
+
+type DifficultyDistribution = {
+  beginner: number;
+  intermediate: number;
+  advanced: number;
+};
+
+const DIFFICULTY_DISTRIBUTIONS: {
+  [key in DifficultyLevel]: DifficultyDistribution;
+} = {
+  beginner: { beginner: 7, intermediate: 3, advanced: 0 },
+  intermediate: { beginner: 4, intermediate: 5, advanced: 1 },
+  advanced: { beginner: 0, intermediate: 4, advanced: 6 },
+};
+
+/**
+ * Selects words based on difficulty level distribution
+ */
+export function selectWordsByDifficulty(
+  selectedCategories: string[],
+  categoryWords: CategoryWords,
+  difficultyLevel: DifficultyLevel,
+  learnedWordsPool: string[] = [],
+): Word[] {
+  if (selectedCategories.length === 0) {
+    return [];
+  }
+
+  const distribution = DIFFICULTY_DISTRIBUTIONS[difficultyLevel];
+  const selectedWords: Word[] = [];
+
+  // Collect all available words by difficulty from selected categories
+  const wordsByDifficulty: {
+    beginner: Word[];
+    intermediate: Word[];
+    advanced: Word[];
+  } = {
+    beginner: [],
+    intermediate: [],
+    advanced: [],
+  };
+
+  // Gather all unlearned words from selected categories
+  selectedCategories.forEach((categoryId) => {
+    const words = categoryWords[categoryId] || [];
+    words.forEach((word) => {
+      if (!learnedWordsPool.includes(word.word)) {
+        const difficulty = word.difficulty as DifficultyLevel;
+        if (wordsByDifficulty[difficulty]) {
+          wordsByDifficulty[difficulty].push({ ...word });
+        }
+      }
+    });
+  });
+
+  // Helper function to select random words from a pool
+  const selectRandomFromPool = (pool: Word[], count: number): Word[] => {
+    const shuffled = shuffleArray([...pool]);
+    return shuffled.slice(0, count);
+  };
+
+  // Select words according to the distribution
+  const difficulties: DifficultyLevel[] = [
+    "beginner",
+    "intermediate",
+    "advanced",
+  ];
+
+  difficulties.forEach((difficulty) => {
+    const needed = distribution[difficulty];
+    if (needed > 0) {
+      const available = wordsByDifficulty[difficulty];
+
+      if (available.length < needed) {
+        console.warn(
+          `Not enough ${difficulty} words available. Needed: ${needed}, Available: ${available.length}`,
+        );
+        // Take what we can get
+        selectedWords.push(...available);
+      } else {
+        // Select randomly from available words
+        const selected = selectRandomFromPool(available, needed);
+        selectedWords.push(...selected);
+      }
+    }
+  });
+
+  // If we couldn't get enough words, try to fill with any available words
+  const totalNeeded =
+    distribution.beginner + distribution.intermediate + distribution.advanced;
+  if (selectedWords.length < totalNeeded) {
+    const allAvailable = [
+      ...wordsByDifficulty.beginner,
+      ...wordsByDifficulty.intermediate,
+      ...wordsByDifficulty.advanced,
+    ].filter((word) => !selectedWords.some((sw) => sw.word === word.word));
+
+    const additionalNeeded = totalNeeded - selectedWords.length;
+    const additional = selectRandomFromPool(allAvailable, additionalNeeded);
+    selectedWords.push(...additional);
+  }
+
+  // Shuffle final selection so difficulties are mixed
+  return shuffleArray(selectedWords);
+}
+
 /**
  * Randomly selects words from the given categories,
  * ensuring at least one word from each selected category,
  * and excluding words that have already been learned
+ * @deprecated Use selectWordsByDifficulty instead for difficulty-based selection
  */
 export function selectRandomWords(
   selectedCategories: string[],
@@ -162,4 +271,40 @@ export const getAvailableWordsCount = (
   });
 
   return count;
+};
+
+/**
+ * Get count of available unlearned words by difficulty level
+ */
+export const getAvailableWordsCountByDifficulty = (
+  selectedCategories: string[],
+  categoryWords: CategoryWords,
+  learnedWordsPool: string[] = [],
+): {
+  beginner: number;
+  intermediate: number;
+  advanced: number;
+  total: number;
+} => {
+  const counts = {
+    beginner: 0,
+    intermediate: 0,
+    advanced: 0,
+    total: 0,
+  };
+
+  selectedCategories.forEach((categoryId) => {
+    const words = categoryWords[categoryId] || [];
+    words.forEach((word) => {
+      if (!learnedWordsPool.includes(word.word)) {
+        const difficulty = word.difficulty as DifficultyLevel;
+        if (counts[difficulty] !== undefined) {
+          counts[difficulty]++;
+          counts.total++;
+        }
+      }
+    });
+  });
+
+  return counts;
 };
