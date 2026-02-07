@@ -5,6 +5,7 @@ import { EMOTIONS_WORDS } from "./words/emotions-personality.beginner.words";
 import { FOOD_WORDS } from "./words/food-cooking-dining.extended.words";
 import { HEALTH_WORDS } from "./words/health-lifestyle.words";
 import { NATURE_WORDS } from "./words/nature-environment.v2.words";
+import { SPORTS_WORDS } from "./words/sports_words_all_levels";
 import { TECHNOLOGY_WORDS } from "./words/technology-internet.words";
 import { TRAVEL_WORDS } from "./words/travel-transportation.words";
 import { WORK_WORDS } from "./words/work-office-life.beginner.words";
@@ -19,6 +20,6 @@ export const CATEGORY_WORDS = {
   technology: TECHNOLOGY_WORDS,
   food: FOOD_WORDS,
   nature: NATURE_WORDS,
-  sports: [],
+  sports: SPORTS_WORDS,
   abstract: ABSTRACT_WORDS,
 } as const;
