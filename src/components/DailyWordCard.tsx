@@ -1,3 +1,4 @@
+import * as Speech from "expo-speech";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export type Word = {
@@ -36,23 +37,33 @@ export const WordCard = ({
             Difficulty: {formatDifficulty(item.difficulty)}
           </Text>
         </View>
-        <TouchableOpacity
-          style={[
-            styles.learnedButton,
-            isLearned && styles.learnedButtonActive,
-          ]}
-          onPress={() => onToggleLearned(item.word)}
-          activeOpacity={0.7}
-        >
-          <Text
-            style={[
-              styles.learnedButtonText,
-              isLearned && styles.learnedButtonTextActive,
-            ]}
+        <View style={styles.actionButtons}>
+          <TouchableOpacity
+            style={[styles.circleButton, styles.ttsButton]}
+            onPress={() => Speech.speak(item.word, { pitch: 0.9, rate: 0.45 })}
+            activeOpacity={0.7}
           >
-            {isLearned ? "✓ Learned" : "Mark as Learned"}
-          </Text>
-        </TouchableOpacity>
+            <Text style={styles.ttsButtonText}>TTS</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={[
+              styles.circleButton,
+              styles.learnedButton,
+              isLearned && styles.learnedButtonActive,
+            ]}
+            onPress={() => onToggleLearned(item.word)}
+            activeOpacity={0.7}
+          >
+            <Text
+              style={[
+                styles.learnedButtonText,
+                isLearned && styles.learnedButtonTextActive,
+              ]}
+            >
+              {isLearned ? "X" : "✓"}
+            </Text>
+          </TouchableOpacity>
+        </View>
       </View>
       <View style={styles.wordContent}>
         <View style={styles.wordSection}>
@@ -122,6 +133,29 @@ const styles = StyleSheet.create({
   wordHeaderLeft: {
     flex: 1,
   },
+  actionButtons: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+  },
+  circleButton: {
+    width: 36,
+    height: 36,
+    borderRadius: 18,
+    alignItems: "center",
+    justifyContent: "center",
+    borderWidth: 1.5,
+  },
+  ttsButton: {
+    backgroundColor: "#FFFFFF",
+    borderColor: "#D1D1D1",
+  },
+  ttsButtonText: {
+    fontSize: 10,
+    fontWeight: "700",
+    letterSpacing: 0.5,
+    color: "#4A4A4A",
+  },
   wordNumber: {
     fontSize: 12,
     fontWeight: "600",
@@ -136,11 +170,7 @@ const styles = StyleSheet.create({
     color: "#1A1A1A",
   },
   learnedButton: {
-    paddingVertical: 8,
-    paddingHorizontal: 14,
-    borderRadius: 8,
     backgroundColor: "#F5F5F5",
-    borderWidth: 1.5,
     borderColor: "#D1D1D1",
   },
   learnedButtonActive: {
@@ -148,8 +178,8 @@ const styles = StyleSheet.create({
     borderColor: "#2E7D32",
   },
   learnedButtonText: {
-    fontSize: 13,
-    fontWeight: "600",
+    fontSize: 16,
+    fontWeight: "700",
     color: "#4A4A4A",
   },
   learnedButtonTextActive: {
