@@ -18,33 +18,33 @@ const ONBOARDING_KEY = "hasSeenOnboarding";
 const SLIDES = [
   {
     emoji: "📖",
-    title: "Learn Every Day",
+    title: "Her Gün Öğren",
     description:
-      "Pick up 10 new English words each day — curated just for you based on your interests and skill level.",
+      "Her gün ilgi alanlarına ve seviyene göre senin için seçilmiş 10 yeni İngilizce kelime öğren.",
     accent: "#2E7D32",
     bg: "#F1F8F4",
   },
   {
     emoji: "🎯",
-    title: "Choose Your Path",
+    title: "Kendi Yolunu Seç",
     description:
-      "Select from dozens of categories — travel, business, science, and more. Learn words that actually matter to you.",
+      "Seyahat, iş, bilim ve daha fazlası gibi onlarca kategoriden seç. Sana gerçekten önemli olan kelimeleri öğren.",
     accent: "#1565C0",
     bg: "#E8F0FB",
   },
   {
     emoji: "✅",
-    title: "Prove You Know It",
+    title: "Bildiğini Kanıtla",
     description:
-      "Don't just tap 'learned' — we'll give you a quick challenge to confirm each word really sticks.",
+      "Sadece 'öğrendim' demekle kalma — her kelimenin gerçekten akılda kaldığını doğrulamak için hızlı bir mini sınav veriyoruz.",
     accent: "#6A1B9A",
     bg: "#F3E5F5",
   },
   {
     emoji: "📈",
-    title: "Watch Yourself Grow",
+    title: "Gelişimini İzle",
     description:
-      "Track your streak, see your total mastered words, and level up your vocabulary one day at a time.",
+      "Serini takip et, toplam öğrendiğin kelimeleri gör ve kelime dağarcığını her gün biraz daha geliştir.",
     accent: "#E65100",
     bg: "#FFF3E0",
   },
