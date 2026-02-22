@@ -2,14 +2,12 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { useEffect, useState, type RefObject } from "react";
-import {
-  Keyboard,
-  StyleSheet,
-  Text,
-  TextInput,
-  TouchableOpacity,
-} from "react-native";
+import { useEffect, useRef, useState, type RefObject } from "react";
+import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
+import VoiceChallengeStage from "./VoiceChallengeStage";
+import WritingChallengeStage from "./WritingChallengeStage";
+
+const SCREEN_WIDTH = Dimensions.get("window").width;
 
 type WordChallengeSheetProps = {
   bottomSheetRef?: RefObject<BottomSheet | null>;
@@ -24,128 +22,132 @@ export default function WordChallengeSheet({
   onCorrect,
   onClose,
 }: WordChallengeSheetProps) {
-  const [answer, setAnswer] = useState("");
-  const [status, setStatus] = useState<"idle" | "incorrect">("idle");
+  const [stage, setStage] = useState(0);
+  const translateX = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
-    setAnswer("");
-    setStatus("idle");
+    setStage(0);
+    translateX.setValue(0);
   }, [targetWord]);
 
-  const handleCheck = async () => {
-    if (!targetWord) {
-      return;
-    }
-
-    const normalizedAnswer = answer.trim().toLowerCase();
-    const normalizedTarget = targetWord.trim().toLowerCase();
-
-    if (normalizedAnswer === normalizedTarget) {
-      Keyboard.dismiss();
-      await onCorrect(targetWord);
-      return;
-    }
-
-    setStatus("incorrect");
+  const goToStage = (next: number) => {
+    Animated.timing(translateX, {
+      toValue: -next * SCREEN_WIDTH,
+      duration: 280,
+      useNativeDriver: true,
+    }).start();
+    setStage(next);
   };
+
+  const handleWritingSuccess = () => goToStage(1);
+
+  const handleVoiceSuccess = async () => {
+    if (!targetWord) return;
+    await onCorrect(targetWord);
+  };
+
+  if (!targetWord) return null;
 
   return (
     <BottomSheet
       ref={bottomSheetRef}
       index={-1}
-      snapPoints={["85%"]}
+      snapPoints={["75%"]}
       enablePanDownToClose
       onClose={onClose}
-      backgroundStyle={styles.bottomSheetBackground}
-      backdropComponent={(backdropProps) => (
+      backgroundStyle={styles.background}
+      backdropComponent={(props) => (
         <BottomSheetBackdrop
-          {...backdropProps}
+          {...props}
           appearsOnIndex={0}
           disappearsOnIndex={-1}
-          opacity={0.4}
+          opacity={0.35}
         />
       )}
     >
-      <BottomSheetView style={styles.bottomSheetContent}>
-        <Text style={styles.bottomSheetTitle}>Quick Challenge</Text>
-        <Text style={styles.bottomSheetText}>
-          Type the word you marked as learned to confirm.
-        </Text>
-        <TextInput
-          style={styles.input}
-          placeholder="Type the word here"
-          autoCapitalize="none"
-          autoCorrect={false}
-          value={answer}
-          onChangeText={(value) => {
-            setAnswer(value);
-            if (status !== "idle") {
-              setStatus("idle");
-            }
-          }}
-          onSubmitEditing={handleCheck}
-          returnKeyType="done"
-        />
-        {status === "incorrect" && (
-          <Text style={styles.errorText}>That spelling is not correct.</Text>
-        )}
-        <TouchableOpacity
-          style={styles.checkButton}
-          onPress={handleCheck}
-          activeOpacity={0.8}
-        >
-          <Text style={styles.checkButtonText}>Check</Text>
-        </TouchableOpacity>
+      <BottomSheetView style={styles.sheet}>
+        {/* Header */}
+        <View style={styles.header}>
+          <Text style={styles.headerTitle}>Quick challenge</Text>
+          {/* Step dots */}
+          <View style={styles.dots}>
+            <View style={[styles.dot, stage === 0 && styles.dotActive]} />
+            <View style={[styles.dot, stage === 1 && styles.dotActive]} />
+          </View>
+        </View>
+
+        {/* Sliding panes */}
+        <View style={styles.paneWindow}>
+          <Animated.View
+            style={[styles.paneTrack, { transform: [{ translateX }] }]}
+          >
+            <View style={styles.pane}>
+              <WritingChallengeStage
+                targetWord={targetWord}
+                onSuccess={handleWritingSuccess}
+              />
+            </View>
+            <View style={styles.pane}>
+              <VoiceChallengeStage
+                targetWord={targetWord}
+                onSuccess={handleVoiceSuccess}
+              />
+            </View>
+          </Animated.View>
+        </View>
       </BottomSheetView>
     </BottomSheet>
   );
 }
 
 const styles = StyleSheet.create({
-  bottomSheetBackground: {
+  background: {
     backgroundColor: "#FFFFFF",
   },
-  bottomSheetContent: {
-    paddingHorizontal: 24,
-    paddingTop: 12,
-    paddingBottom: 24,
-    gap: 10,
+  sheet: {
+    flex: 1,
+    paddingBottom: 28,
   },
-  bottomSheetTitle: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#1A1A1A",
-  },
-  bottomSheetText: {
-    fontSize: 14,
-    color: "#4A4A4A",
-    lineHeight: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: "#D1D1D1",
-    borderRadius: 10,
-    paddingHorizontal: 12,
-    paddingVertical: 10,
-    fontSize: 16,
-    color: "#1A1A1A",
-    backgroundColor: "#FAFAFA",
-  },
-  errorText: {
-    color: "#C62828",
-    fontSize: 13,
-    fontWeight: "600",
-  },
-  checkButton: {
-    marginTop: 4,
-    backgroundColor: "#2E7D32",
-    borderRadius: 10,
-    paddingVertical: 12,
+  header: {
+    flexDirection: "row",
     alignItems: "center",
+    justifyContent: "space-between",
+    paddingHorizontal: 24,
+    paddingTop: 4,
+    paddingBottom: 16,
+    borderBottomWidth: StyleSheet.hairlineWidth,
+    borderBottomColor: "#E8E8E8",
   },
-  checkButtonText: {
-    color: "#FFFFFF",
+  headerTitle: {
     fontSize: 15,
-    fontWeight: "700",
+    fontWeight: "600",
+    color: "#111111",
+  },
+  dots: {
+    flexDirection: "row",
+    gap: 6,
+  },
+  dot: {
+    width: 6,
+    height: 6,
+    borderRadius: 3,
+    backgroundColor: "#DDDDDD",
+  },
+  dotActive: {
+    backgroundColor: "#111111",
+  },
+  paneWindow: {
+    flex: 1,
+    overflow: "hidden",
+  },
+  paneTrack: {
+    flex: 1,
+    flexDirection: "row",
+    width: SCREEN_WIDTH * 2,
+  },
+  pane: {
+    width: SCREEN_WIDTH,
+    paddingHorizontal: 24,
+    paddingTop: 24,
   },
 });
