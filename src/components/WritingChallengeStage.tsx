@@ -1,5 +1,12 @@
-import React, { useEffect, useMemo, useState } from "react";
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import {
+  LayoutChangeEvent,
+  Pressable,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from "react-native";
 import Animated, {
   Easing,
   FadeIn,
@@ -67,12 +74,18 @@ export default function WritingChallengeStage({
   const [slots, setSlots] = useState<(Letter | null)[]>(() =>
     new Array(targetChars.length).fill(null),
   );
+  const [lastPlacedIndex, setLastPlacedIndex] = useState<number | null>(null);
+  const [slotsViewportWidth, setSlotsViewportWidth] = useState(0);
+  const slotsScrollRef = useRef<ScrollView | null>(null);
+  const slotLayouts = useRef<Array<{ x: number; width: number }>>([]);
 
   // Reset when targetWord changes
   useEffect(() => {
     setStatus("idle");
     setBank(shuffle(buildLetters(targetWord)));
     setSlots(new Array(targetChars.length).fill(null));
+    setLastPlacedIndex(null);
+    slotLayouts.current = [];
   }, [targetWord, targetChars.length]);
 
   const placedWord = useMemo(() => {
@@ -89,6 +102,7 @@ export default function WritingChallengeStage({
     if (emptyIndex === -1) return;
 
     setStatus("idle");
+    setLastPlacedIndex(emptyIndex);
 
     setBank((prev) => prev.filter((l) => l.id !== letter.id));
     setSlots((prev) => {
@@ -129,9 +143,27 @@ export default function WritingChallengeStage({
   const handleClear = () => {
     if (status === "correct") return;
     setStatus("idle");
+    setLastPlacedIndex(null);
     const allLetters = slots.filter(Boolean) as Letter[];
     setSlots(new Array(targetChars.length).fill(null));
     setBank((prev) => shuffle([...prev, ...allLetters]));
+  };
+
+  useEffect(() => {
+    if (lastPlacedIndex === null || slotsViewportWidth <= 0) return;
+    const layout = slotLayouts.current[lastPlacedIndex];
+    if (!layout) return;
+    const targetX = Math.max(
+      0,
+      layout.x - (slotsViewportWidth - layout.width) / 2,
+    );
+    requestAnimationFrame(() => {
+      slotsScrollRef.current?.scrollTo({ x: targetX, animated: true });
+    });
+  }, [lastPlacedIndex, slotsViewportWidth, slots]);
+
+  const handleSlotsLayout = (event: LayoutChangeEvent) => {
+    setSlotsViewportWidth(event.nativeEvent.layout.width);
   };
 
   return (
@@ -142,51 +174,64 @@ export default function WritingChallengeStage({
       {/* SLOTS */}
       <View
         style={[
-          styles.slotsWrap,
+          styles.slotsFrame,
           status === "incorrect" && styles.slotsWrapError,
           status === "correct" && styles.slotsWrapSuccess,
         ]}
       >
-        {slots.map((slot, idx) => {
-          const filled = Boolean(slot);
+        <ScrollView
+          horizontal
+          ref={slotsScrollRef}
+          onLayout={handleSlotsLayout}
+          showsHorizontalScrollIndicator={false}
+          bounces={true}
+          contentContainerStyle={styles.slotsRow}
+        >
+          {slots.map((slot, idx) => {
+            const filled = Boolean(slot);
 
-          return (
-            <Pressable
-              key={`slot-${idx}`}
-              onPress={() => handleRemoveFromSlot(idx)}
-              disabled={!filled || status === "correct"}
-              style={({ pressed }) => [
-                styles.slot,
-                filled ? styles.slotFilled : styles.slotEmpty,
-                pressed && filled && styles.slotPressed,
-              ]}
-              accessibilityRole="button"
-              accessibilityLabel={
-                filled
-                  ? `Remove letter ${slot?.char} from position ${idx + 1}`
-                  : `Empty slot ${idx + 1}`
-              }
-            >
-              {/* Layout animation for the letter appearing inside slot */}
-              <Animated.View
-                layout={Layout.duration(140).easing(Easing.out(Easing.quad))}
-                style={styles.slotInner}
+            return (
+              <Pressable
+                key={`slot-${idx}`}
+                onPress={() => handleRemoveFromSlot(idx)}
+                disabled={!filled || status === "correct"}
+                onLayout={(event) => {
+                  const { x, width } = event.nativeEvent.layout;
+                  slotLayouts.current[idx] = { x, width };
+                }}
+                style={({ pressed }) => [
+                  styles.slot,
+                  filled ? styles.slotFilled : styles.slotEmpty,
+                  pressed && filled && styles.slotPressed,
+                ]}
+                accessibilityRole="button"
+                accessibilityLabel={
+                  filled
+                    ? `Remove letter ${slot?.char} from position ${idx + 1}`
+                    : `Empty slot ${idx + 1}`
+                }
               >
-                {slot ? (
-                  <Animated.View
-                    entering={FadeIn.duration(120)}
-                    exiting={FadeOut.duration(80)}
-                    style={styles.letterCardInSlot}
-                  >
-                    <Text style={styles.letterText}>{slot.char}</Text>
-                  </Animated.View>
-                ) : (
-                  <Text style={styles.slotPlaceholder}> </Text>
-                )}
-              </Animated.View>
-            </Pressable>
-          );
-        })}
+                {/* Layout animation for the letter appearing inside slot */}
+                <Animated.View
+                  layout={Layout.duration(140).easing(Easing.out(Easing.quad))}
+                  style={styles.slotInner}
+                >
+                  {slot ? (
+                    <Animated.View
+                      entering={FadeIn.duration(120)}
+                      exiting={FadeOut.duration(80)}
+                      style={styles.letterCardInSlot}
+                    >
+                      <Text style={styles.letterText}>{slot.char}</Text>
+                    </Animated.View>
+                  ) : (
+                    <Text style={styles.slotPlaceholder}> </Text>
+                  )}
+                </Animated.View>
+              </Pressable>
+            );
+          })}
+        </ScrollView>
       </View>
 
       {/* BANK */}
@@ -275,16 +320,19 @@ const styles = StyleSheet.create({
   },
 
   // Slots
-  slotsWrap: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
+  slotsFrame: {
     marginTop: 8,
     padding: 12,
     borderRadius: 14,
     borderWidth: 1,
     borderColor: "#E6E6E6",
     backgroundColor: "#FAFAFA",
+  },
+  slotsRow: {
+    flexDirection: "row",
+    flexWrap: "nowrap",
+    alignItems: "center",
+    gap: 10,
   },
   slotsWrapError: {
     borderColor: "#E53935",
