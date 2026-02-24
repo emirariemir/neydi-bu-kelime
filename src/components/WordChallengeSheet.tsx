@@ -2,12 +2,9 @@ import BottomSheet, {
   BottomSheetBackdrop,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
-import { useEffect, useRef, useState, type RefObject } from "react";
-import { Animated, Dimensions, StyleSheet, Text, View } from "react-native";
-import VoiceChallengeStage from "./VoiceChallengeStage";
+import { type RefObject } from "react";
+import { StyleSheet, Text, View } from "react-native";
 import WritingChallengeStage from "./WritingChallengeStage";
-
-const SCREEN_WIDTH = Dimensions.get("window").width;
 
 type WordChallengeSheetProps = {
   bottomSheetRef?: RefObject<BottomSheet | null>;
@@ -22,26 +19,7 @@ export default function WordChallengeSheet({
   onCorrect,
   onClose,
 }: WordChallengeSheetProps) {
-  const [stage, setStage] = useState(0);
-  const translateX = useRef(new Animated.Value(0)).current;
-
-  useEffect(() => {
-    setStage(0);
-    translateX.setValue(0);
-  }, [targetWord]);
-
-  const goToStage = (next: number) => {
-    Animated.timing(translateX, {
-      toValue: -next * SCREEN_WIDTH,
-      duration: 280,
-      useNativeDriver: true,
-    }).start();
-    setStage(next);
-  };
-
-  const handleWritingSuccess = () => goToStage(1);
-
-  const handleVoiceSuccess = async () => {
+  const handleWritingSuccess = async () => {
     if (!targetWord) return;
     await onCorrect(targetWord);
   };
@@ -69,31 +47,13 @@ export default function WordChallengeSheet({
         {/* Header */}
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Quick challenge</Text>
-          {/* Step dots */}
-          <View style={styles.dots}>
-            <View style={[styles.dot, stage === 0 && styles.dotActive]} />
-            <View style={[styles.dot, stage === 1 && styles.dotActive]} />
-          </View>
         </View>
 
-        {/* Sliding panes */}
-        <View style={styles.paneWindow}>
-          <Animated.View
-            style={[styles.paneTrack, { transform: [{ translateX }] }]}
-          >
-            <View style={styles.pane}>
-              <WritingChallengeStage
-                targetWord={targetWord}
-                onSuccess={handleWritingSuccess}
-              />
-            </View>
-            <View style={styles.pane}>
-              <VoiceChallengeStage
-                targetWord={targetWord}
-                onSuccess={handleVoiceSuccess}
-              />
-            </View>
-          </Animated.View>
+        <View style={styles.pane}>
+          <WritingChallengeStage
+            targetWord={targetWord}
+            onSuccess={handleWritingSuccess}
+          />
         </View>
       </BottomSheetView>
     </BottomSheet>
@@ -123,30 +83,8 @@ const styles = StyleSheet.create({
     fontWeight: "600",
     color: "#111111",
   },
-  dots: {
-    flexDirection: "row",
-    gap: 6,
-  },
-  dot: {
-    width: 6,
-    height: 6,
-    borderRadius: 3,
-    backgroundColor: "#DDDDDD",
-  },
-  dotActive: {
-    backgroundColor: "#111111",
-  },
-  paneWindow: {
-    flex: 1,
-    overflow: "hidden",
-  },
-  paneTrack: {
-    flex: 1,
-    flexDirection: "row",
-    width: SCREEN_WIDTH * 2,
-  },
   pane: {
-    width: SCREEN_WIDTH,
+    flex: 1,
     paddingHorizontal: 24,
     paddingTop: 24,
   },
