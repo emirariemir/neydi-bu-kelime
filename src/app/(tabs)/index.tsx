@@ -131,6 +131,7 @@ export default function Index() {
     }
 
     setChallengeWord(word);
+    await new Promise((resolve) => setTimeout(resolve, 1000));
     bottomSheetRef.current?.expand();
   };
 
@@ -274,13 +275,14 @@ export default function Index() {
           contentContainerStyle={styles.listContent}
           showsVerticalScrollIndicator={false}
         />
-        <WordChallengeSheet
-          bottomSheetRef={bottomSheetRef}
-          targetWord={challengeWord}
-          onCorrect={handleChallengeCorrect}
-          onClose={handleChallengeClose}
-        />
       </View>
+
+      <WordChallengeSheet
+        bottomSheetRef={bottomSheetRef}
+        targetWord={challengeWord}
+        onCorrect={handleChallengeCorrect}
+        onClose={handleChallengeClose}
+      />
     </GestureHandlerRootView>
   );
 }

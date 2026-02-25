@@ -1,5 +1,12 @@
+import { useState } from "react";
 import * as Speech from "expo-speech";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 
 export type Word = {
   word: string;
@@ -13,7 +20,7 @@ type WordCardProps = {
   item: Word;
   index: number;
   isLearned: boolean;
-  onToggleLearned: (word: string) => void;
+  onToggleLearned: (word: string) => void | Promise<void>;
 };
 
 export const WordCard = ({
@@ -22,9 +29,28 @@ export const WordCard = ({
   isLearned,
   onToggleLearned,
 }: WordCardProps) => {
+  const [isLoading, setIsLoading] = useState(false);
+
   const formatDifficulty = (difficulty: string) => {
     if (!difficulty) return "Unknown";
     return `${difficulty.charAt(0).toUpperCase()}${difficulty.slice(1)}`;
+  };
+
+  const handleTogglePress = async () => {
+    if (isLoading) return;
+    const shouldShowLoading = !isLearned;
+
+    if (shouldShowLoading) {
+      setIsLoading(true);
+    }
+
+    try {
+      await onToggleLearned(item.word);
+    } finally {
+      if (shouldShowLoading) {
+        setIsLoading(false);
+      }
+    }
   };
 
   return (
@@ -40,7 +66,7 @@ export const WordCard = ({
         <View style={styles.actionButtons}>
           <TouchableOpacity
             style={[styles.circleButton, styles.ttsButton]}
-            onPress={() => Speech.speak(item.word, { pitch: 0.9, rate: 0.45 })}
+            onPress={() => Speech.speak(item.word)}
             activeOpacity={0.7}
           >
             <Text style={styles.ttsButtonText}>TTS</Text>
@@ -50,18 +76,24 @@ export const WordCard = ({
               styles.circleButton,
               styles.learnedButton,
               isLearned && styles.learnedButtonActive,
+              isLoading && styles.learnedButtonLoading,
             ]}
-            onPress={() => onToggleLearned(item.word)}
+            onPress={handleTogglePress}
             activeOpacity={0.7}
+            disabled={isLoading}
           >
-            <Text
-              style={[
-                styles.learnedButtonText,
-                isLearned && styles.learnedButtonTextActive,
-              ]}
-            >
-              {isLearned ? "X" : "✓"}
-            </Text>
+            {isLoading && !isLearned ? (
+              <ActivityIndicator size="small" color="#4A4A4A" />
+            ) : (
+              <Text
+                style={[
+                  styles.learnedButtonText,
+                  isLearned && styles.learnedButtonTextActive,
+                ]}
+              >
+                {isLearned ? "X" : "✓"}
+              </Text>
+            )}
           </TouchableOpacity>
         </View>
       </View>
@@ -176,6 +208,9 @@ const styles = StyleSheet.create({
   learnedButtonActive: {
     backgroundColor: "#2E7D32",
     borderColor: "#2E7D32",
+  },
+  learnedButtonLoading: {
+    opacity: 0.7,
   },
   learnedButtonText: {
     fontSize: 16,
