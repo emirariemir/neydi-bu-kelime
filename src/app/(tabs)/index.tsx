@@ -22,12 +22,15 @@ import {
   toggleWordLearned,
 } from "../../utils/storageUtils";
 
+type WordFilter = "all" | "learning" | "learned";
+
 export default function Index() {
   const params = useLocalSearchParams();
   const insets = useSafeAreaInsets();
   const [dailyWords, setDailyWords] = useState<Word[]>([]);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [learnedWords, setLearnedWords] = useState<string[]>([]);
+  const [activeFilter, setActiveFilter] = useState<WordFilter>("all");
   const [isLoading, setIsLoading] = useState(true);
   const [showCongratulations, setShowCongratulations] = useState(false);
   const [totalLearnedWords, setTotalLearnedWords] = useState(0);
@@ -64,6 +67,7 @@ export default function Index() {
           setDailyWords(words);
           setSelectedCategories(categories);
           setLearnedWords([]);
+          setActiveFilter("all");
           setShowCongratulations(false);
         });
       } catch (error) {
@@ -181,7 +185,7 @@ export default function Index() {
             <Text style={styles.congratsEmoji}>🎉</Text>
             <Text style={styles.congratsTitle}>Congratulations!</Text>
             <Text style={styles.congratsMessage}>
-              You've mastered all {dailyWords.length} words for today!
+              You have mastered all {dailyWords.length} words for today!
             </Text>
             <Text style={styles.congratsStats}>
               Total words learned: {totalLearnedWords}
@@ -215,7 +219,7 @@ export default function Index() {
               Ready to start your daily goal?
             </Text>
             <Text style={styles.emptySubtitle}>
-              Choose your favorite categories and we'll pick words for you to
+              Choose your favorite categories and we will pick words for you to
               learn every day.
             </Text>
             {totalLearnedWords > 0 && (
@@ -239,12 +243,45 @@ export default function Index() {
 
   const learnedCount = learnedWords.length;
   const totalWords = dailyWords.length;
+  const remainingCount = totalWords - learnedCount;
+  const filterOptions: {
+    key: WordFilter;
+    label: string;
+    count: number;
+  }[] = [
+    { key: "all", label: "All", count: totalWords },
+    { key: "learning", label: "Learning", count: remainingCount },
+    { key: "learned", label: "Learned", count: learnedCount },
+  ];
+  const filteredWords = dailyWords.filter((word) => {
+    const isLearned = learnedWords.includes(word.word);
+
+    if (activeFilter === "learning") {
+      return !isLearned;
+    }
+
+    if (activeFilter === "learned") {
+      return isLearned;
+    }
+
+    return true;
+  });
+  const filterSummary =
+    activeFilter === "all"
+      ? `${filteredWords.length} words in today's session`
+      : `${filteredWords.length} ${
+          filteredWords.length === 1 ? "word" : "words"
+        } ${activeFilter === "learned" ? "mastered" : "left to learn"}`;
+  const emptyFilterMessage =
+    activeFilter === "learned"
+      ? "No words are marked as learned yet. Finish a challenge and they will show up here."
+      : "You have no words left in this filter right now.";
 
   return (
     <GestureHandlerRootView style={styles.root}>
       <View style={containerStyle}>
         <View style={styles.header}>
-          <Text style={styles.headerTitle}>Today's Words</Text>
+          <Text style={styles.headerTitle}>Today&apos;s Words</Text>
           <Text style={styles.headerSubtitle}>
             {learnedCount}/{totalWords} learned • {selectedCategories.length}{" "}
             {selectedCategories.length === 1 ? "category" : "categories"}
@@ -262,20 +299,81 @@ export default function Index() {
           </TouchableOpacity>
         </View>
 
-        <FlatList
-          data={dailyWords}
-          renderItem={({ item, index }) => (
-            <WordCard
-              item={item}
-              index={index}
-              isLearned={learnedWords.includes(item.word)}
-              onToggleLearned={handleToggleLearned}
-            />
-          )}
-          keyExtractor={(item, index) => `${item.word}-${index}`}
-          contentContainerStyle={styles.listContent}
-          showsVerticalScrollIndicator={false}
-        />
+        <View style={styles.filterSection}>
+          <View style={styles.filterRow}>
+            {filterOptions.map((filterOption) => {
+              const isActive = activeFilter === filterOption.key;
+
+              return (
+                <TouchableOpacity
+                  key={filterOption.key}
+                  style={[
+                    styles.filterChip,
+                    isActive && styles.filterChipActive,
+                  ]}
+                  onPress={() => setActiveFilter(filterOption.key)}
+                  activeOpacity={0.8}
+                >
+                  <Text
+                    style={[
+                      styles.filterChipText,
+                      isActive && styles.filterChipTextActive,
+                    ]}
+                  >
+                    {filterOption.label}
+                  </Text>
+                  <View
+                    style={[
+                      styles.filterCountBadge,
+                      isActive && styles.filterCountBadgeActive,
+                    ]}
+                  >
+                    <Text
+                      style={[
+                        styles.filterCountText,
+                        isActive && styles.filterCountTextActive,
+                      ]}
+                    >
+                      {filterOption.count}
+                    </Text>
+                  </View>
+                </TouchableOpacity>
+              );
+            })}
+          </View>
+          <Text style={styles.filterSummary}>{filterSummary}</Text>
+        </View>
+
+        {filteredWords.length === 0 ? (
+          <View style={styles.filteredEmptyState}>
+            <Text style={styles.filteredEmptyTitle}>Nothing to show here</Text>
+            <Text style={styles.filteredEmptyText}>{emptyFilterMessage}</Text>
+            {activeFilter !== "all" && (
+              <TouchableOpacity
+                style={styles.resetFilterButton}
+                onPress={() => setActiveFilter("all")}
+                activeOpacity={0.8}
+              >
+                <Text style={styles.resetFilterButtonText}>Show All Words</Text>
+              </TouchableOpacity>
+            )}
+          </View>
+        ) : (
+          <FlatList
+            data={filteredWords}
+            renderItem={({ item, index }) => (
+              <WordCard
+                item={item}
+                index={index}
+                isLearned={learnedWords.includes(item.word)}
+                onToggleLearned={handleToggleLearned}
+              />
+            )}
+            keyExtractor={(item, index) => `${item.word}-${index}`}
+            contentContainerStyle={styles.listContent}
+            showsVerticalScrollIndicator={false}
+          />
+        )}
       </View>
 
       <WordChallengeSheet
@@ -448,6 +546,95 @@ const styles = StyleSheet.create({
   },
   changeCategoriesText: {
     fontSize: 13,
+    fontWeight: "600",
+    color: "#2E7D32",
+  },
+  filterSection: {
+    marginBottom: 16,
+  },
+  filterRow: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    gap: 10,
+  },
+  filterChip: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 8,
+    paddingVertical: 10,
+    paddingHorizontal: 14,
+    borderRadius: 999,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#DAD4C7",
+  },
+  filterChipActive: {
+    backgroundColor: "#2E7D32",
+    borderColor: "#2E7D32",
+  },
+  filterChipText: {
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#3A3A3A",
+  },
+  filterChipTextActive: {
+    color: "#FFFFFF",
+  },
+  filterCountBadge: {
+    minWidth: 24,
+    paddingHorizontal: 6,
+    paddingVertical: 3,
+    borderRadius: 999,
+    backgroundColor: "#EEF2E8",
+    alignItems: "center",
+  },
+  filterCountBadgeActive: {
+    backgroundColor: "#FFFFFF",
+  },
+  filterCountText: {
+    fontSize: 12,
+    fontWeight: "700",
+    color: "#2E7D32",
+  },
+  filterCountTextActive: {
+    color: "#2E7D32",
+  },
+  filterSummary: {
+    marginTop: 10,
+    fontSize: 13,
+    color: "#5C5C5C",
+  },
+  filteredEmptyState: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    paddingHorizontal: 24,
+    paddingBottom: 48,
+  },
+  filteredEmptyTitle: {
+    fontSize: 22,
+    fontWeight: "700",
+    color: "#1A1A1A",
+    textAlign: "center",
+    marginBottom: 10,
+  },
+  filteredEmptyText: {
+    fontSize: 15,
+    lineHeight: 22,
+    color: "#5C5C5C",
+    textAlign: "center",
+    marginBottom: 18,
+  },
+  resetFilterButton: {
+    paddingVertical: 12,
+    paddingHorizontal: 18,
+    borderRadius: 10,
+    backgroundColor: "#FFFFFF",
+    borderWidth: 1,
+    borderColor: "#D1D1D1",
+  },
+  resetFilterButtonText: {
+    fontSize: 14,
     fontWeight: "600",
     color: "#2E7D32",
   },
