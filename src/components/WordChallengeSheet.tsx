@@ -5,6 +5,7 @@ import BottomSheet, {
 import { type RefObject } from "react";
 import { StyleSheet, Text, View } from "react-native";
 import WritingChallengeStage from "./WritingChallengeStage";
+import { duoTheme } from "../theme/duoTheme";
 
 type WordChallengeSheetProps = {
   bottomSheetRef?: RefObject<BottomSheet | null>;
@@ -44,7 +45,7 @@ export default function WordChallengeSheet({
       )}
     >
       <BottomSheetView style={styles.sheet}>
-        {/* Header */}
+        <View style={styles.handle} />
         <View style={styles.header}>
           <Text style={styles.headerTitle}>Quick challenge</Text>
         </View>
@@ -62,11 +63,25 @@ export default function WordChallengeSheet({
 
 const styles = StyleSheet.create({
   background: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: duoTheme.colors.surface,
+    borderTopLeftRadius: duoTheme.radii.xl,
+    borderTopRightRadius: duoTheme.radii.xl,
+    borderWidth: 2,
+    borderBottomWidth: 0,
+    borderColor: duoTheme.colors.cardBorder,
   },
   sheet: {
     flex: 1,
     paddingBottom: 28,
+  },
+  handle: {
+    alignSelf: "center",
+    width: 54,
+    height: 6,
+    borderRadius: 999,
+    backgroundColor: duoTheme.colors.cardBorder,
+    marginTop: 8,
+    marginBottom: 12,
   },
   header: {
     flexDirection: "row",
@@ -74,14 +89,14 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     paddingHorizontal: 24,
     paddingTop: 4,
-    paddingBottom: 16,
-    borderBottomWidth: StyleSheet.hairlineWidth,
-    borderBottomColor: "#E8E8E8",
+    paddingBottom: 18,
+    borderBottomWidth: 2,
+    borderBottomColor: duoTheme.colors.surfaceMuted,
   },
   headerTitle: {
-    fontSize: 15,
-    fontWeight: "600",
-    color: "#111111",
+    fontSize: 18,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   pane: {
     flex: 1,

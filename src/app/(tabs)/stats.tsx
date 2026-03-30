@@ -9,6 +9,7 @@ import {
   View,
 } from "react-native";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { duoCardShadow, duoTheme } from "../../theme/duoTheme";
 
 type Stats = {
   totalLearnedWords: number;
@@ -33,7 +34,6 @@ export default function StatsScreen() {
     { paddingTop: insets.top, paddingBottom: insets.bottom },
   ];
 
-  // Load stats whenever the screen comes into focus
   useFocusEffect(
     useCallback(() => {
       loadStats();
@@ -56,7 +56,7 @@ export default function StatsScreen() {
     return (
       <View style={containerStyle}>
         <View style={loadingStyle}>
-          <ActivityIndicator size="large" color="#2E7D32" />
+          <ActivityIndicator size="large" color={duoTheme.colors.green} />
           <Text style={styles.loadingText}>Loading your stats...</Text>
         </View>
       </View>
@@ -92,7 +92,7 @@ export default function StatsScreen() {
 
   return (
     <View style={containerStyle}>
-      <View style={styles.header}>
+      <View style={styles.heroCard}>
         <Text style={styles.title}>Your Progress</Text>
         <Text style={styles.subtitle}>Joined at {joinDate}</Text>
       </View>
@@ -167,7 +167,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 24,
     paddingTop: 48,
     paddingBottom: 32,
-    backgroundColor: "#F6F4EF",
+    backgroundColor: duoTheme.colors.background,
   },
   loadingContainer: {
     flex: 1,
@@ -177,73 +177,93 @@ const styles = StyleSheet.create({
   loadingText: {
     marginTop: 12,
     fontSize: 16,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
   },
-  header: {
-    gap: 6,
-    marginBottom: 24,
+  heroCard: {
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.xl,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    padding: 22,
+    marginBottom: 20,
+    ...duoCardShadow,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontSize: 30,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    marginBottom: 4,
   },
   subtitle: {
     fontSize: 14,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
   },
   content: {
-    gap: 12,
+    gap: 14,
     paddingBottom: 12,
   },
   statCard: {
-    paddingVertical: 18,
+    paddingVertical: 20,
     paddingHorizontal: 20,
-    borderRadius: 14,
-    backgroundColor: "#FFFFFF",
+    borderRadius: duoTheme.radii.lg,
+    backgroundColor: duoTheme.colors.surface,
     borderWidth: 2,
-    borderColor: "transparent",
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoCardShadow,
   },
   statCardHighlight: {
-    backgroundColor: "#E8F5E9",
-    borderColor: "#66BB6A",
+    backgroundColor: duoTheme.colors.greenSoft,
+    borderColor: duoTheme.colors.green,
   },
   statLabel: {
-    fontSize: 14,
-    color: "#5A5A5A",
-    marginBottom: 6,
+    fontSize: 13,
+    color: duoTheme.colors.textSecondary,
+    marginBottom: 8,
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
+    fontWeight: "800",
   },
   statLabelHighlight: {
-    color: "#2E7D32",
-    fontWeight: "600",
+    color: duoTheme.colors.greenDark,
   },
   statValueContainer: {
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    gap: 10,
+    flexWrap: "wrap",
   },
   statValue: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#1F1F1F",
+    fontSize: 30,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   statValueHighlight: {
-    color: "#2E7D32",
+    color: duoTheme.colors.greenDark,
   },
   completedBadge: {
     fontSize: 12,
-    fontWeight: "600",
-    color: "#2E7D32",
-    backgroundColor: "#C8E6C9",
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    borderRadius: 6,
+    fontWeight: "800",
+    color: duoTheme.colors.greenDark,
+    backgroundColor: duoTheme.colors.surface,
+    paddingVertical: 6,
+    paddingHorizontal: 10,
+    borderRadius: 999,
   },
   emptyState: {
-    marginTop: 40,
+    marginTop: 24,
     alignItems: "center",
     paddingVertical: 32,
     paddingHorizontal: 24,
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.lg,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoCardShadow,
   },
   emptyStateEmoji: {
     fontSize: 48,
@@ -251,20 +271,23 @@ const styles = StyleSheet.create({
   },
   emptyStateText: {
     fontSize: 15,
-    color: "#6A6A6A",
+    color: duoTheme.colors.textSecondary,
     textAlign: "center",
     lineHeight: 22,
+    fontWeight: "700",
   },
   motivationCard: {
-    marginTop: 20,
-    backgroundColor: "#FFF9E6",
-    borderRadius: 14,
+    marginTop: 6,
+    backgroundColor: duoTheme.colors.yellowSoft,
+    borderRadius: duoTheme.radii.lg,
     padding: 20,
     borderWidth: 2,
-    borderColor: "#FFD54F",
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.yellowDark,
     flexDirection: "row",
     alignItems: "center",
     gap: 12,
+    ...duoCardShadow,
   },
   motivationEmoji: {
     fontSize: 32,
@@ -272,8 +295,8 @@ const styles = StyleSheet.create({
   motivationText: {
     flex: 1,
     fontSize: 14,
-    color: "#5D4E00",
+    color: duoTheme.colors.textPrimary,
     lineHeight: 20,
-    fontWeight: "500",
+    fontWeight: "700",
   },
 });

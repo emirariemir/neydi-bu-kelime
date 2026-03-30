@@ -69,7 +69,7 @@ export default function OnboardingModal() {
       tension: 60,
       friction: 10,
     }).start();
-  }, [currentIndex]);
+  }, [currentIndex, progressAnim]);
 
   const transitionToSlide = (nextIndex: number) => {
     // Animate out
@@ -132,7 +132,7 @@ export default function OnboardingModal() {
   const handleFinish = async () => {
     try {
       await AsyncStorage.setItem(ONBOARDING_KEY, "true");
-    } catch (_) {}
+    } catch {}
     router.replace("/modal");
   };
 
@@ -194,9 +194,9 @@ export default function OnboardingModal() {
 
       {/* Dot indicators */}
       <View style={styles.dots}>
-        {SLIDES.map((_, i) => (
+        {SLIDES.map((slideItem, i) => (
           <TouchableOpacity
-            key={i}
+            key={slideItem.title}
             onPress={() => {
               if (i !== currentIndex) transitionToSlide(i);
             }}

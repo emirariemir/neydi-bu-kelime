@@ -10,6 +10,7 @@ import {
 } from "react-native";
 import { CATEGORY_WORDS } from "../constants/category-words";
 import { CATEGORIES } from "../constants/word-categories";
+import { duoCardShadow, duoTheme } from "../theme/duoTheme";
 import {
   clearDailyWords,
   getDailyWords,
@@ -218,7 +219,7 @@ export default function CategorySelectionModal() {
   if (isLoading) {
     return (
       <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#2E7D32" />
+        <ActivityIndicator size="large" color={duoTheme.colors.green} />
       </View>
     );
   }
@@ -228,35 +229,37 @@ export default function CategorySelectionModal() {
     return (
       <View style={styles.container}>
         <View style={styles.warningContainer}>
-          <Text style={styles.warningIcon}>⚠️</Text>
-          <Text style={styles.warningTitle}>
-            You Already Have Today's Words
-          </Text>
-          <Text style={styles.warningMessage}>
-            You still have words to learn from your current selection. Please
-            complete those first before choosing new categories.
-          </Text>
-          <Text style={styles.warningSubtext}>
-            If you want to reset and get new words, you can clear your current
-            progress.
-          </Text>
+          <View style={styles.warningCard}>
+            <Text style={styles.warningIcon}>⚠️</Text>
+            <Text style={styles.warningTitle}>
+              You Already Have Today&apos;s Words
+            </Text>
+            <Text style={styles.warningMessage}>
+              You still have words to learn from your current selection. Please
+              complete those first before choosing new categories.
+            </Text>
+            <Text style={styles.warningSubtext}>
+              If you want to reset and get new words, you can clear your
+              current progress.
+            </Text>
 
-          <View style={styles.warningButtons}>
-            <TouchableOpacity
-              style={styles.warningButtonSecondary}
-              onPress={handleGoBack}
-            >
-              <Text style={styles.warningButtonSecondaryText}>Go Back</Text>
-            </TouchableOpacity>
+            <View style={styles.warningButtons}>
+              <TouchableOpacity
+                style={styles.warningButtonSecondary}
+                onPress={handleGoBack}
+              >
+                <Text style={styles.warningButtonSecondaryText}>Go Back</Text>
+              </TouchableOpacity>
 
-            <TouchableOpacity
-              style={styles.warningButtonDanger}
-              onPress={handleClearAndContinue}
-            >
-              <Text style={styles.warningButtonDangerText}>
-                Clear & Choose New
-              </Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.warningButtonDanger}
+                onPress={handleClearAndContinue}
+              >
+                <Text style={styles.warningButtonDangerText}>
+                  Clear & Choose New
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </View>
@@ -450,14 +453,14 @@ export default function CategorySelectionModal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#F6F4EF",
+    backgroundColor: duoTheme.colors.background,
     padding: 24,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F6F4EF",
+    backgroundColor: duoTheme.colors.background,
   },
   warningContainer: {
     flex: 1,
@@ -465,27 +468,39 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
+  warningCard: {
+    width: "100%",
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.xl,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    padding: 24,
+    alignItems: "center",
+    ...duoCardShadow,
+  },
   warningIcon: {
     fontSize: 64,
     marginBottom: 20,
   },
   warningTitle: {
     fontSize: 24,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
     textAlign: "center",
     marginBottom: 12,
   },
   warningMessage: {
     fontSize: 16,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textPrimary,
     textAlign: "center",
     lineHeight: 24,
     marginBottom: 16,
+    fontWeight: "600",
   },
   warningSubtext: {
     fontSize: 14,
-    color: "#6A6A6A",
+    color: duoTheme.colors.textSecondary,
     textAlign: "center",
     lineHeight: 20,
     marginBottom: 32,
@@ -497,44 +512,58 @@ const styles = StyleSheet.create({
   },
   warningButtonSecondary: {
     flex: 1,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1.5,
-    borderColor: "#D1D1D1",
-    borderRadius: 12,
+    backgroundColor: duoTheme.colors.surface,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.cardBorder,
+    borderRadius: duoTheme.radii.md,
     paddingVertical: 14,
     alignItems: "center",
   },
   warningButtonSecondaryText: {
     fontSize: 15,
-    fontWeight: "600",
-    color: "#4A4A4A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   warningButtonDanger: {
     flex: 1,
-    backgroundColor: "#D32F2F",
-    borderRadius: 12,
+    backgroundColor: duoTheme.colors.red,
+    borderRadius: duoTheme.radii.md,
     paddingVertical: 14,
     alignItems: "center",
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: "#D83A3A",
   },
   warningButtonDangerText: {
     fontSize: 15,
-    fontWeight: "600",
-    color: "#FFFFFF",
+    fontWeight: "800",
+    color: duoTheme.colors.white,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   headerSection: {
     marginBottom: 20,
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.xl,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    padding: 22,
+    ...duoCardShadow,
   },
   title: {
-    fontSize: 24,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontSize: 30,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
     marginBottom: 6,
-    textAlign: "center",
   },
   subtitle: {
     fontSize: 14,
-    color: "#4A4A4A",
-    textAlign: "center",
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
   },
   scrollView: {
     flex: 1,
@@ -547,28 +576,31 @@ const styles = StyleSheet.create({
   },
   sectionTitle: {
     fontSize: 18,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
     marginBottom: 6,
   },
   sectionDescription: {
     fontSize: 13,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
     marginBottom: 12,
+    fontWeight: "700",
   },
   difficultyContainer: {
     gap: 10,
   },
   difficultyCard: {
-    backgroundColor: "#FFFFFF",
-    borderRadius: 12,
-    padding: 16,
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.lg,
+    padding: 18,
     borderWidth: 2,
-    borderColor: "#E8E8E8",
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoCardShadow,
   },
   difficultyCardSelected: {
-    borderColor: "#2E7D32",
-    backgroundColor: "#F1F8F4",
+    borderColor: duoTheme.colors.green,
+    backgroundColor: duoTheme.colors.greenSoft,
   },
   difficultyHeader: {
     flexDirection: "row",
@@ -578,24 +610,25 @@ const styles = StyleSheet.create({
   },
   difficultyLabel: {
     fontSize: 16,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   difficultyLabelSelected: {
-    color: "#2E7D32",
+    color: duoTheme.colors.greenDark,
   },
   checkmark: {
     fontSize: 18,
-    color: "#2E7D32",
-    fontWeight: "700",
+    color: duoTheme.colors.greenDark,
+    fontWeight: "800",
   },
   difficultyDescription: {
     fontSize: 13,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
     marginBottom: 8,
+    fontWeight: "600",
   },
   difficultyDescriptionSelected: {
-    color: "#2E7D32",
+    color: duoTheme.colors.greenDark,
   },
   distributionContainer: {
     flexDirection: "row",
@@ -604,86 +637,98 @@ const styles = StyleSheet.create({
   },
   distributionText: {
     fontSize: 11,
-    fontWeight: "600",
-    color: "#6A6A6A",
-    backgroundColor: "#F5F5F5",
+    fontWeight: "800",
+    color: duoTheme.colors.textSecondary,
+    backgroundColor: duoTheme.colors.surfaceMuted,
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderRadius: 6,
+    borderRadius: 999,
   },
   distributionTextSelected: {
-    backgroundColor: "#E8F5E9",
-    color: "#2E7D32",
+    backgroundColor: duoTheme.colors.surface,
+    color: duoTheme.colors.greenDark,
   },
   statsContainer: {
-    backgroundColor: "#E8F5E9",
+    backgroundColor: duoTheme.colors.blueSoft,
     paddingVertical: 10,
     paddingHorizontal: 16,
-    borderRadius: 12,
+    borderRadius: duoTheme.radii.lg,
     gap: 6,
     marginBottom: 12,
+    borderWidth: 2,
+    borderColor: "#BFE8FA",
   },
   statsText: {
     fontSize: 13,
-    fontWeight: "600",
-    color: "#2E7D32",
-    textAlign: "center",
+    fontWeight: "800",
+    color: duoTheme.colors.blueDark,
   },
   availableWordsBreakdown: {
     gap: 2,
   },
   availableWordsText: {
     fontSize: 12,
-    color: "#388E3C",
-    textAlign: "center",
+    color: duoTheme.colors.blueDark,
+    fontWeight: "700",
   },
   availableWordsDetail: {
     fontSize: 11,
-    color: "#388E3C",
-    textAlign: "center",
-    fontWeight: "600",
+    color: duoTheme.colors.blueDark,
+    fontWeight: "800",
   },
   categoriesContainer: {
     flexDirection: "row",
     flexWrap: "wrap",
-    gap: 8,
+    gap: 10,
   },
   categoryPill: {
-    backgroundColor: "#E8E8E8",
-    borderRadius: 20,
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: 999,
     paddingVertical: 10,
     paddingHorizontal: 18,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.cardBorder,
   },
   categoryPillSelected: {
-    backgroundColor: "#2E7D32",
+    backgroundColor: duoTheme.colors.green,
+    borderColor: duoTheme.colors.greenDark,
   },
   categoryPillDisabled: {
     opacity: 0.4,
   },
   categoryTitle: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   categoryTitleSelected: {
-    color: "#FFFFFF",
+    color: duoTheme.colors.white,
   },
   categoryTitleDisabled: {
-    color: "#9E9E9E",
+    color: duoTheme.colors.textMuted,
   },
   confirmButton: {
-    backgroundColor: "#2E7D32",
-    borderRadius: 12,
+    backgroundColor: duoTheme.colors.green,
+    borderRadius: duoTheme.radii.md,
     paddingVertical: 16,
     alignItems: "center",
     marginTop: 16,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.greenDark,
   },
   confirmButtonDisabled: {
-    backgroundColor: "#BDBDBD",
+    backgroundColor: duoTheme.colors.disabled,
+    borderColor: duoTheme.colors.disabledDark,
   },
   confirmButtonText: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
+    fontWeight: "800",
+    color: duoTheme.colors.white,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
 });

@@ -66,7 +66,7 @@ export default function VoiceChallengeStage({
       </TouchableOpacity>
 
       {status === "failure" && (
-        <Text style={styles.errorText}>Couldn't recognise the word.</Text>
+        <Text style={styles.errorText}>Couldn&apos;t recognise the word.</Text>
       )}
     </View>
   );

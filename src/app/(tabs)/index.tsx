@@ -13,6 +13,7 @@ import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { WordCard, type Word } from "../../components/DailyWordCard";
 import WordChallengeSheet from "../../components/WordChallengeSheet";
+import { duoCardShadow, duoSoftShadow, duoTheme } from "../../theme/duoTheme";
 import {
   areAllWordsMastered,
   completeTodaysSession,
@@ -46,12 +47,10 @@ export default function Index() {
     { paddingTop: insets.top, paddingBottom: insets.bottom },
   ];
 
-  // Load words from storage on mount
   useEffect(() => {
     loadWordsFromStorage();
   }, []);
 
-  // Handle new words from modal
   useEffect(() => {
     if (params.selectedWords && typeof params.selectedWords === "string") {
       try {
@@ -62,7 +61,6 @@ export default function Index() {
             ? JSON.parse(params.selectedCategories)
             : [];
 
-        // Save to storage and update state
         saveDailyWords(words, categories, []).then(() => {
           setDailyWords(words);
           setSelectedCategories(categories);
@@ -80,11 +78,7 @@ export default function Index() {
     const syncMasteryState = async () => {
       const allMastered = await areAllWordsMastered();
 
-      if (!allMastered || showCongratulations) {
-        return;
-      }
-
-      if (challengeWord) {
+      if (!allMastered || showCongratulations || challengeWord) {
         return;
       }
 
@@ -108,12 +102,10 @@ export default function Index() {
         setSelectedCategories(storedData.categories);
         setLearnedWords(storedData.learnedWords || []);
 
-        // Check if already completed
         const allMastered = await areAllWordsMastered();
         setShowCongratulations(allMastered);
       }
 
-      // Load stats
       const stats = await getLearningStats();
       setTotalLearnedWords(stats.totalLearnedWords);
     } catch (error) {
@@ -169,41 +161,42 @@ export default function Index() {
     return (
       <GestureHandlerRootView style={styles.root}>
         <View style={loadingStyle}>
-          <ActivityIndicator size="large" color="#2E7D32" />
+          <ActivityIndicator size="large" color={duoTheme.colors.green} />
           <Text style={styles.loadingText}>Loading your words...</Text>
         </View>
       </GestureHandlerRootView>
     );
   }
 
-  // Show congratulations screen when all words are mastered
   if (showCongratulations) {
     return (
       <GestureHandlerRootView style={styles.root}>
         <View style={containerStyle}>
           <View style={styles.congratulationsContainer}>
-            <Text style={styles.congratsEmoji}>🎉</Text>
-            <Text style={styles.congratsTitle}>Congratulations!</Text>
-            <Text style={styles.congratsMessage}>
-              You have mastered all {dailyWords.length} words for today!
-            </Text>
-            <Text style={styles.congratsStats}>
-              Total words learned: {totalLearnedWords}
-            </Text>
-            <Text style={styles.congratsSubtext}>
-              Ready to learn more? Choose new categories and continue your
-              learning journey!
-            </Text>
-
-            <TouchableOpacity
-              style={styles.newSessionButton}
-              onPress={handleStartNewSession}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.newSessionButtonText}>
-                Choose New Categories
+            <View style={styles.stateCard}>
+              <Text style={styles.congratsEmoji}>🎉</Text>
+              <Text style={styles.congratsTitle}>Congratulations!</Text>
+              <Text style={styles.congratsMessage}>
+                You have mastered all {dailyWords.length} words for today!
               </Text>
-            </TouchableOpacity>
+              <Text style={styles.congratsStats}>
+                Total words learned: {totalLearnedWords}
+              </Text>
+              <Text style={styles.congratsSubtext}>
+                Ready to learn more? Choose new categories and continue your
+                learning journey!
+              </Text>
+
+              <TouchableOpacity
+                style={styles.primaryButton}
+                onPress={handleStartNewSession}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.primaryButtonText}>
+                  Choose New Categories
+                </Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </GestureHandlerRootView>
@@ -215,26 +208,28 @@ export default function Index() {
       <GestureHandlerRootView style={styles.root}>
         <View style={containerStyle}>
           <View style={styles.emptyStateContainer}>
-            <Text style={styles.emptyTitle}>
-              Ready to start your daily goal?
-            </Text>
-            <Text style={styles.emptySubtitle}>
-              Choose your favorite categories and we will pick words for you to
-              learn every day.
-            </Text>
-            {totalLearnedWords > 0 && (
-              <Text style={styles.totalLearnedBadge}>
-                📚 {totalLearnedWords} words learned so far
+            <View style={styles.stateCard}>
+              <Text style={styles.emptyTitle}>
+                Ready to start your daily goal?
               </Text>
-            )}
+              <Text style={styles.emptySubtitle}>
+                Choose your favorite categories and we will pick words for you
+                to learn every day.
+              </Text>
+              {totalLearnedWords > 0 && (
+                <Text style={styles.totalLearnedBadge}>
+                  📚 {totalLearnedWords} words learned so far
+                </Text>
+              )}
 
-            <TouchableOpacity
-              style={styles.startButton}
-              onPress={handleOpenModal}
-              activeOpacity={0.8}
-            >
-              <Text style={styles.startButtonText}>Choose Categories</Text>
-            </TouchableOpacity>
+              <TouchableOpacity
+                style={styles.primaryButton}
+                onPress={handleOpenModal}
+                activeOpacity={0.85}
+              >
+                <Text style={styles.primaryButtonText}>Choose Categories</Text>
+              </TouchableOpacity>
+            </View>
           </View>
         </View>
       </GestureHandlerRootView>
@@ -244,6 +239,8 @@ export default function Index() {
   const learnedCount = learnedWords.length;
   const totalWords = dailyWords.length;
   const remainingCount = totalWords - learnedCount;
+  const progressPercent =
+    totalWords === 0 ? 0 : Math.round((learnedCount / totalWords) * 100);
   const filterOptions: {
     key: WordFilter;
     label: string;
@@ -276,88 +273,118 @@ export default function Index() {
     activeFilter === "learned"
       ? "No words are marked as learned yet. Finish a challenge and they will show up here."
       : "You have no words left in this filter right now.";
+  const listHeader = (
+    <View style={styles.listHeader}>
+      <View style={styles.headerTopRow}>
+        <View style={styles.headerCopy}>
+          <Text style={styles.headerTitle}>Today&apos;s Words</Text>
+          <Text style={styles.headerSubtitle}>
+            {learnedCount}/{totalWords} learned
+          </Text>
+        </View>
+
+        <TouchableOpacity
+          style={styles.secondaryButton}
+          onPress={handleOpenModal}
+          activeOpacity={0.85}
+        >
+          <Text style={styles.secondaryButtonText}>Change Categories</Text>
+        </TouchableOpacity>
+      </View>
+
+      <View style={styles.headerBadgeRow}>
+        <View style={styles.headerBadge}>
+          <Text style={styles.headerBadgeText}>
+            {selectedCategories.length}{" "}
+            {selectedCategories.length === 1 ? "category" : "categories"}
+          </Text>
+        </View>
+        {totalLearnedWords > 0 && (
+          <View style={[styles.headerBadge, styles.headerBadgeBlue]}>
+            <Text style={[styles.headerBadgeText, styles.headerBadgeBlueText]}>
+              {totalLearnedWords} mastered
+            </Text>
+          </View>
+        )}
+      </View>
+
+      <View style={styles.progressTrack}>
+        <View
+          style={[
+            styles.progressFill,
+            {
+              width: `${Math.max(progressPercent, learnedCount > 0 ? 10 : 0)}%`,
+            },
+          ]}
+        />
+      </View>
+
+      <View style={styles.filterRow}>
+        {filterOptions.map((filterOption) => {
+          const isActive = activeFilter === filterOption.key;
+
+          return (
+            <TouchableOpacity
+              key={filterOption.key}
+              style={[styles.filterChip, isActive && styles.filterChipActive]}
+              onPress={() => setActiveFilter(filterOption.key)}
+              activeOpacity={0.85}
+            >
+              <Text
+                style={[
+                  styles.filterChipText,
+                  isActive && styles.filterChipTextActive,
+                ]}
+              >
+                {filterOption.label}
+              </Text>
+              <View
+                style={[
+                  styles.filterCountBadge,
+                  isActive && styles.filterCountBadgeActive,
+                ]}
+              >
+                <Text
+                  style={[
+                    styles.filterCountText,
+                    isActive && styles.filterCountTextActive,
+                  ]}
+                >
+                  {filterOption.count}
+                </Text>
+              </View>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+      <Text style={styles.filterSummary}>{filterSummary}</Text>
+    </View>
+  );
 
   return (
     <GestureHandlerRootView style={styles.root}>
       <View style={containerStyle}>
-        <View style={styles.header}>
-          <Text style={styles.headerTitle}>Today&apos;s Words</Text>
-          <Text style={styles.headerSubtitle}>
-            {learnedCount}/{totalWords} learned • {selectedCategories.length}{" "}
-            {selectedCategories.length === 1 ? "category" : "categories"}
-          </Text>
-          {totalLearnedWords > 0 && (
-            <Text style={styles.totalLearnedText}>
-              📚 {totalLearnedWords} total words mastered
-            </Text>
-          )}
-          <TouchableOpacity
-            style={styles.changeCategoriesButton}
-            onPress={handleOpenModal}
-          >
-            <Text style={styles.changeCategoriesText}>Change Categories</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.filterSection}>
-          <View style={styles.filterRow}>
-            {filterOptions.map((filterOption) => {
-              const isActive = activeFilter === filterOption.key;
-
-              return (
-                <TouchableOpacity
-                  key={filterOption.key}
-                  style={[
-                    styles.filterChip,
-                    isActive && styles.filterChipActive,
-                  ]}
-                  onPress={() => setActiveFilter(filterOption.key)}
-                  activeOpacity={0.8}
-                >
-                  <Text
-                    style={[
-                      styles.filterChipText,
-                      isActive && styles.filterChipTextActive,
-                    ]}
-                  >
-                    {filterOption.label}
-                  </Text>
-                  <View
-                    style={[
-                      styles.filterCountBadge,
-                      isActive && styles.filterCountBadgeActive,
-                    ]}
-                  >
-                    <Text
-                      style={[
-                        styles.filterCountText,
-                        isActive && styles.filterCountTextActive,
-                      ]}
-                    >
-                      {filterOption.count}
-                    </Text>
-                  </View>
-                </TouchableOpacity>
-              );
-            })}
-          </View>
-          <Text style={styles.filterSummary}>{filterSummary}</Text>
-        </View>
-
         {filteredWords.length === 0 ? (
-          <View style={styles.filteredEmptyState}>
-            <Text style={styles.filteredEmptyTitle}>Nothing to show here</Text>
-            <Text style={styles.filteredEmptyText}>{emptyFilterMessage}</Text>
-            {activeFilter !== "all" && (
-              <TouchableOpacity
-                style={styles.resetFilterButton}
-                onPress={() => setActiveFilter("all")}
-                activeOpacity={0.8}
-              >
-                <Text style={styles.resetFilterButtonText}>Show All Words</Text>
-              </TouchableOpacity>
-            )}
-          </View>
+          <>
+            {listHeader}
+            <View style={styles.filteredEmptyState}>
+              <View style={styles.filteredEmptyCard}>
+                <Text style={styles.filteredEmptyTitle}>
+                  Nothing to show here
+                </Text>
+                <Text style={styles.filteredEmptyText}>{emptyFilterMessage}</Text>
+              </View>
+              {activeFilter !== "all" && (
+                <TouchableOpacity
+                  style={styles.secondaryButton}
+                  onPress={() => setActiveFilter("all")}
+                  activeOpacity={0.85}
+                >
+                  <Text style={styles.secondaryButtonText}>Show All Words</Text>
+                </TouchableOpacity>
+              )}
+            </View>
+          </>
         ) : (
           <FlatList
             data={filteredWords}
@@ -370,6 +397,7 @@ export default function Index() {
               />
             )}
             keyExtractor={(item, index) => `${item.word}-${index}`}
+            ListHeaderComponent={listHeader}
             contentContainerStyle={styles.listContent}
             showsVerticalScrollIndicator={false}
           />
@@ -389,25 +417,26 @@ export default function Index() {
 const styles = StyleSheet.create({
   root: {
     flex: 1,
-    backgroundColor: "#F6F4EF",
+    backgroundColor: duoTheme.colors.background,
   },
   container: {
     flex: 1,
-    paddingHorizontal: 24,
-    paddingTop: 48,
-    paddingBottom: 32,
-    backgroundColor: "#F6F4EF",
+    paddingHorizontal: 18,
+    paddingTop: 28,
+    paddingBottom: 0,
+    backgroundColor: duoTheme.colors.background,
   },
   loadingContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F6F4EF",
+    backgroundColor: duoTheme.colors.background,
   },
   loadingText: {
     marginTop: 12,
     fontSize: 16,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
   },
   congratulationsContainer: {
     flex: 1,
@@ -415,230 +444,272 @@ const styles = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 20,
   },
-  congratsEmoji: {
-    fontSize: 80,
-    marginBottom: 20,
-  },
-  congratsTitle: {
-    fontSize: 32,
-    fontWeight: "700",
-    color: "#1A1A1A",
-    textAlign: "center",
-    marginBottom: 12,
-  },
-  congratsMessage: {
-    fontSize: 18,
-    color: "#4A4A4A",
-    textAlign: "center",
-    lineHeight: 26,
-    marginBottom: 16,
-  },
-  congratsStats: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#2E7D32",
-    textAlign: "center",
-    marginBottom: 8,
-  },
-  congratsSubtext: {
-    fontSize: 15,
-    color: "#6A6A6A",
-    textAlign: "center",
-    lineHeight: 22,
-    marginBottom: 32,
-  },
-  newSessionButton: {
-    backgroundColor: "#2E7D32",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-  },
-  newSessionButtonText: {
-    fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
-  },
   emptyStateContainer: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
     paddingHorizontal: 20,
   },
+  stateCard: {
+    width: "100%",
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.xl,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    padding: 24,
+    alignItems: "center",
+    ...duoCardShadow,
+  },
+  congratsEmoji: {
+    fontSize: 80,
+    marginBottom: 18,
+  },
+  congratsTitle: {
+    fontSize: 32,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  congratsMessage: {
+    fontSize: 18,
+    color: duoTheme.colors.textPrimary,
+    textAlign: "center",
+    lineHeight: 26,
+    marginBottom: 16,
+    fontWeight: "600",
+  },
+  congratsStats: {
+    fontSize: 16,
+    fontWeight: "800",
+    color: duoTheme.colors.greenDark,
+    backgroundColor: duoTheme.colors.greenSoft,
+    paddingHorizontal: 12,
+    paddingVertical: 8,
+    borderRadius: 999,
+    textAlign: "center",
+    marginBottom: 12,
+  },
+  congratsSubtext: {
+    fontSize: 15,
+    color: duoTheme.colors.textSecondary,
+    textAlign: "center",
+    lineHeight: 22,
+    marginBottom: 32,
+  },
   emptyTitle: {
     fontSize: 26,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
     textAlign: "center",
     marginBottom: 12,
   },
   emptySubtitle: {
     fontSize: 15,
-    color: "#4A4A4A",
+    color: duoTheme.colors.textSecondary,
     textAlign: "center",
     lineHeight: 22,
-    marginBottom: 16,
+    marginBottom: 18,
   },
   totalLearnedBadge: {
     fontSize: 14,
-    fontWeight: "600",
-    color: "#2E7D32",
-    backgroundColor: "#E8F5E9",
+    fontWeight: "800",
+    color: duoTheme.colors.greenDark,
+    backgroundColor: duoTheme.colors.greenSoft,
     paddingVertical: 8,
     paddingHorizontal: 16,
-    borderRadius: 20,
+    borderRadius: 999,
     marginBottom: 24,
   },
-  startButton: {
-    backgroundColor: "#2E7D32",
+  primaryButton: {
+    width: "100%",
+    backgroundColor: duoTheme.colors.green,
+    borderRadius: duoTheme.radii.md,
     paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 12,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
+    paddingHorizontal: 18,
+    alignItems: "center",
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.greenDark,
   },
-  startButtonText: {
+  primaryButtonText: {
     fontSize: 16,
-    fontWeight: "600",
-    color: "#FFFFFF",
+    fontWeight: "800",
+    color: duoTheme.colors.white,
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
   },
-  header: {
-    marginBottom: 20,
+  secondaryButton: {
+    alignSelf: "flex-start",
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.md,
+    paddingVertical: 12,
+    paddingHorizontal: 16,
+    alignItems: "center",
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoSoftShadow,
+  },
+  secondaryButtonText: {
+    fontSize: 15,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  listHeader: {
+    paddingBottom: 14,
+    gap: 12,
+  },
+  headerTopRow: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
+    gap: 10,
+    flexWrap: "wrap",
+  },
+  headerBadgeRow: {
+    flexDirection: "row",
+    gap: 8,
+    flexWrap: "wrap",
+  },
+  headerBadge: {
+    backgroundColor: duoTheme.colors.greenSoft,
+    borderRadius: 999,
+    paddingHorizontal: 10,
+    paddingVertical: 6,
+  },
+  headerBadgeBlue: {
+    backgroundColor: duoTheme.colors.blueSoft,
+  },
+  headerBadgeText: {
+    color: duoTheme.colors.greenDark,
+    fontSize: 11,
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
+  },
+  headerBadgeBlueText: {
+    color: duoTheme.colors.blueDark,
+  },
+  headerCopy: {
+    flexShrink: 1,
+    gap: 2,
   },
   headerTitle: {
     fontSize: 28,
-    fontWeight: "700",
-    color: "#1A1A1A",
-    marginBottom: 4,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   headerSubtitle: {
-    fontSize: 14,
-    color: "#4A4A4A",
-    marginBottom: 4,
+    fontSize: 15,
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
   },
-  totalLearnedText: {
-    fontSize: 13,
-    color: "#2E7D32",
-    fontWeight: "600",
-    marginBottom: 12,
-  },
-  changeCategoriesButton: {
-    alignSelf: "flex-start",
-    paddingVertical: 8,
-    paddingHorizontal: 16,
-    backgroundColor: "#FFFFFF",
-    borderRadius: 8,
+  progressTrack: {
+    height: 12,
+    borderRadius: 999,
+    backgroundColor: duoTheme.colors.surfaceMuted,
+    overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#D1D1D1",
+    borderColor: "#E2EBD9",
   },
-  changeCategoriesText: {
-    fontSize: 13,
-    fontWeight: "600",
-    color: "#2E7D32",
-  },
-  filterSection: {
-    marginBottom: 16,
+  progressFill: {
+    height: "100%",
+    borderRadius: 999,
+    backgroundColor: duoTheme.colors.green,
   },
   filterRow: {
     flexDirection: "row",
-    flexWrap: "wrap",
-    gap: 10,
+    gap: 8,
   },
   filterChip: {
+    flex: 1,
     flexDirection: "row",
     alignItems: "center",
-    gap: 8,
+    justifyContent: "center",
+    gap: 6,
     paddingVertical: 10,
-    paddingHorizontal: 14,
-    borderRadius: 999,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#DAD4C7",
+    paddingHorizontal: 12,
+    borderRadius: duoTheme.radii.md,
+    backgroundColor: duoTheme.colors.surfaceSoft,
+    borderWidth: 2,
+    borderBottomWidth: 4,
+    borderColor: duoTheme.colors.cardBorder,
   },
   filterChipActive: {
-    backgroundColor: "#2E7D32",
-    borderColor: "#2E7D32",
+    backgroundColor: duoTheme.colors.green,
+    borderColor: duoTheme.colors.greenDark,
   },
   filterChipText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#3A3A3A",
+    fontSize: 11,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
+    textTransform: "uppercase",
+    letterSpacing: 0.5,
   },
   filterChipTextActive: {
-    color: "#FFFFFF",
+    color: duoTheme.colors.white,
   },
   filterCountBadge: {
     minWidth: 24,
-    paddingHorizontal: 6,
-    paddingVertical: 3,
-    borderRadius: 999,
-    backgroundColor: "#EEF2E8",
+    height: 24,
+    borderRadius: 12,
+    backgroundColor: duoTheme.colors.surface,
     alignItems: "center",
+    justifyContent: "center",
   },
   filterCountBadgeActive: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "rgba(255,255,255,0.22)",
   },
   filterCountText: {
     fontSize: 12,
-    fontWeight: "700",
-    color: "#2E7D32",
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   filterCountTextActive: {
-    color: "#2E7D32",
+    color: duoTheme.colors.white,
   },
   filterSummary: {
-    marginTop: 10,
     fontSize: 13,
-    color: "#5C5C5C",
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
+    marginBottom: 2,
   },
   filteredEmptyState: {
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    paddingHorizontal: 24,
-    paddingBottom: 48,
+    paddingHorizontal: 20,
+    gap: 18,
+  },
+  filteredEmptyCard: {
+    width: "100%",
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.lg,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    padding: 22,
+    alignItems: "center",
+    ...duoCardShadow,
   },
   filteredEmptyTitle: {
-    fontSize: 22,
-    fontWeight: "700",
-    color: "#1A1A1A",
+    fontSize: 20,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
     textAlign: "center",
-    marginBottom: 10,
+    marginBottom: 8,
   },
   filteredEmptyText: {
     fontSize: 15,
-    lineHeight: 22,
-    color: "#5C5C5C",
+    color: duoTheme.colors.textSecondary,
     textAlign: "center",
-    marginBottom: 18,
-  },
-  resetFilterButton: {
-    paddingVertical: 12,
-    paddingHorizontal: 18,
-    borderRadius: 10,
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#D1D1D1",
-  },
-  resetFilterButtonText: {
-    fontSize: 14,
-    fontWeight: "600",
-    color: "#2E7D32",
+    lineHeight: 22,
   },
   listContent: {
-    paddingBottom: 0,
+    paddingBottom: 24,
   },
 });

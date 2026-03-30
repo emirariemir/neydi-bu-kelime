@@ -2,8 +2,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import type { Word } from "../components/DailyWordCard";
 
 const DAILY_WORDS_KEY = "@daily_words";
-const SELECTED_CATEGORIES_KEY = "@selected_categories";
-const WORDS_DATE_KEY = "@words_date";
 const LEARNED_WORDS_POOL_KEY = "@learned_words_pool";
 
 export type StoredWordsData = {

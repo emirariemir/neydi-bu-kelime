@@ -13,6 +13,11 @@ import Animated, {
   FadeOut,
   Layout,
 } from "react-native-reanimated";
+import {
+  duoCardShadow,
+  duoSoftShadow,
+  duoTheme,
+} from "../theme/duoTheme";
 
 type WritingChallengeStageProps = {
   targetWord: string;
@@ -77,7 +82,7 @@ export default function WritingChallengeStage({
   const [lastPlacedIndex, setLastPlacedIndex] = useState<number | null>(null);
   const [slotsViewportWidth, setSlotsViewportWidth] = useState(0);
   const slotsScrollRef = useRef<ScrollView | null>(null);
-  const slotLayouts = useRef<Array<{ x: number; width: number }>>([]);
+  const slotLayouts = useRef<{ x: number; width: number }[]>([]);
 
   // Reset when targetWord changes
   useEffect(() => {
@@ -168,8 +173,10 @@ export default function WritingChallengeStage({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Put the letters in order</Text>
-      <Text style={styles.hint}>{targetChars.length} letters</Text>
+      <View style={styles.titleWrap}>
+        <Text style={styles.title}>Put the letters in order</Text>
+        <Text style={styles.hint}>{targetChars.length} letters</Text>
+      </View>
 
       {/* SLOTS */}
       <View
@@ -259,10 +266,14 @@ export default function WritingChallengeStage({
 
       {/* FEEDBACK */}
       {status === "incorrect" && (
-        <Text style={styles.errorText}>Not quite — try again.</Text>
+        <View style={[styles.feedbackCard, styles.feedbackCardError]}>
+          <Text style={styles.errorText}>Not quite - try again.</Text>
+        </View>
       )}
       {status === "correct" && (
-        <Text style={styles.successText}>Correct ✓</Text>
+        <View style={[styles.feedbackCard, styles.feedbackCardSuccess]}>
+          <Text style={styles.successText}>Correct ✓</Text>
+        </View>
       )}
 
       {/* ACTIONS */}
@@ -306,27 +317,34 @@ export default function WritingChallengeStage({
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    gap: 12,
+    gap: 14,
+  },
+  titleWrap: {
+    gap: 6,
   },
   title: {
-    fontSize: 20,
-    fontWeight: "700",
-    color: "#111111",
+    fontSize: 28,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
   hint: {
     fontSize: 13,
-    color: "#9A9A9A",
-    marginTop: -4,
+    color: duoTheme.colors.textSecondary,
+    fontWeight: "700",
+    textTransform: "uppercase",
+    letterSpacing: 0.8,
   },
 
   // Slots
   slotsFrame: {
     marginTop: 8,
-    padding: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#E6E6E6",
-    backgroundColor: "#FAFAFA",
+    padding: 14,
+    borderRadius: duoTheme.radii.lg,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    backgroundColor: duoTheme.colors.surfaceSoft,
+    ...duoCardShadow,
   },
   slotsRow: {
     flexDirection: "row",
@@ -335,29 +353,29 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   slotsWrapError: {
-    borderColor: "#E53935",
-    backgroundColor: "#FFF7F7",
+    borderColor: duoTheme.colors.red,
+    backgroundColor: duoTheme.colors.redSoft,
   },
   slotsWrapSuccess: {
-    borderColor: "#43A047",
-    backgroundColor: "#F6FFF7",
+    borderColor: duoTheme.colors.green,
+    backgroundColor: duoTheme.colors.greenSoft,
   },
   slot: {
-    width: 42,
-    height: 48,
-    borderRadius: 12,
+    width: 48,
+    height: 54,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
   },
   slotEmpty: {
-    borderWidth: 1,
-    borderColor: "#E3E3E3",
-    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: duoTheme.colors.cardBorder,
+    backgroundColor: duoTheme.colors.surface,
   },
   slotFilled: {
-    borderWidth: 1,
-    borderColor: "#E1E1E1",
-    backgroundColor: "#FFFFFF",
+    borderWidth: 2,
+    borderColor: duoTheme.colors.cardBorder,
+    backgroundColor: duoTheme.colors.surface,
   },
   slotPressed: {
     transform: [{ scale: 0.98 }],
@@ -371,19 +389,16 @@ const styles = StyleSheet.create({
     color: "transparent",
   },
   letterCardInSlot: {
-    width: 38,
-    height: 44,
-    borderRadius: 10,
+    width: 42,
+    height: 48,
+    borderRadius: 14,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#ECECEC",
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 6,
-    shadowOffset: { width: 0, height: 2 },
-    elevation: 1,
+    backgroundColor: duoTheme.colors.surface,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoSoftShadow,
   },
 
   // Bank
@@ -391,89 +406,113 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     flexWrap: "wrap",
     gap: 10,
-    padding: 12,
-    borderRadius: 14,
-    borderWidth: 1,
-    borderColor: "#EFEFEF",
-    backgroundColor: "#FFFFFF",
+    padding: 14,
+    borderRadius: duoTheme.radii.lg,
+    borderWidth: 2,
+    borderBottomWidth: 6,
+    borderColor: duoTheme.colors.cardBorder,
+    backgroundColor: duoTheme.colors.surface,
+    ...duoCardShadow,
   },
   letterCard: {
-    width: 42,
-    height: 48,
-    borderRadius: 12,
+    width: 48,
+    height: 54,
+    borderRadius: 16,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#FFFFFF",
-    borderWidth: 1,
-    borderColor: "#EAEAEA",
-    shadowColor: "#000",
-    shadowOpacity: 0.06,
-    shadowRadius: 8,
-    shadowOffset: { width: 0, height: 3 },
-    elevation: 1,
+    backgroundColor: duoTheme.colors.surface,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.cardBorder,
+    ...duoSoftShadow,
   },
   letterCardPressed: {
     transform: [{ scale: 0.97 }],
     opacity: 0.92,
   },
   letterText: {
-    fontSize: 18,
-    fontWeight: "700",
-    color: "#121212",
+    fontSize: 20,
+    fontWeight: "800",
+    color: duoTheme.colors.textPrimary,
   },
 
   // Feedback
+  feedbackCard: {
+    borderRadius: duoTheme.radii.md,
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    paddingHorizontal: 14,
+    paddingVertical: 12,
+  },
+  feedbackCardError: {
+    backgroundColor: duoTheme.colors.redSoft,
+    borderColor: "#F3B2B2",
+  },
+  feedbackCardSuccess: {
+    backgroundColor: duoTheme.colors.greenSoft,
+    borderColor: "#B7E090",
+  },
   errorText: {
-    fontSize: 13,
-    color: "#E53935",
+    fontSize: 15,
+    color: duoTheme.colors.red,
+    fontWeight: "800",
   },
   successText: {
-    fontSize: 13,
-    color: "#43A047",
-    fontWeight: "600",
+    fontSize: 15,
+    color: duoTheme.colors.greenDark,
+    fontWeight: "800",
   },
 
   // Actions
   actionsRow: {
     flexDirection: "row",
     gap: 10,
-    marginTop: 4,
+    marginTop: 2,
   },
   primaryButton: {
     flex: 1,
-    backgroundColor: "#111111",
-    borderRadius: 12,
-    paddingVertical: 14,
+    backgroundColor: duoTheme.colors.green,
+    borderRadius: duoTheme.radii.md,
+    paddingVertical: 16,
     alignItems: "center",
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.greenDark,
   },
   primaryButtonDisabled: {
-    backgroundColor: "#CFCFCF",
+    backgroundColor: duoTheme.colors.disabled,
+    borderColor: duoTheme.colors.disabledDark,
   },
   primaryButtonPressed: {
     transform: [{ scale: 0.99 }],
     opacity: 0.95,
   },
   primaryButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "700",
+    color: duoTheme.colors.white,
+    fontSize: 16,
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
   },
   secondaryButton: {
     paddingHorizontal: 16,
-    backgroundColor: "#F2F2F2",
-    borderRadius: 12,
-    paddingVertical: 14,
+    backgroundColor: duoTheme.colors.surface,
+    borderRadius: duoTheme.radii.md,
+    paddingVertical: 16,
     alignItems: "center",
-    borderWidth: 1,
-    borderColor: "#E6E6E6",
+    borderWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: duoTheme.colors.cardBorder,
   },
   secondaryButtonPressed: {
     transform: [{ scale: 0.99 }],
     opacity: 0.95,
   },
   secondaryButtonText: {
-    color: "#222222",
-    fontSize: 15,
-    fontWeight: "700",
+    color: duoTheme.colors.textPrimary,
+    fontSize: 16,
+    fontWeight: "800",
+    textTransform: "uppercase",
+    letterSpacing: 0.6,
   },
 });
