@@ -72,10 +72,27 @@ export default function Index() {
     }
   }, [params.selectedWords, params.selectedCategories]);
 
-  // Check if all words are mastered whenever learnedWords changes
   useEffect(() => {
-    checkIfAllWordsMastered();
-  }, [learnedWords]);
+    const syncMasteryState = async () => {
+      const allMastered = await areAllWordsMastered();
+
+      if (!allMastered || showCongratulations) {
+        return;
+      }
+
+      if (challengeWord) {
+        return;
+      }
+
+      await completeTodaysSession();
+
+      const stats = await getLearningStats();
+      setTotalLearnedWords(stats.totalLearnedWords);
+      setShowCongratulations(true);
+    };
+
+    syncMasteryState();
+  }, [challengeWord, learnedWords, showCongratulations]);
 
   const loadWordsFromStorage = async () => {
     setIsLoading(true);
@@ -99,21 +116,6 @@ export default function Index() {
       console.error("Error loading words from storage:", error);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const checkIfAllWordsMastered = async () => {
-    const allMastered = await areAllWordsMastered();
-
-    if (allMastered && !showCongratulations) {
-      // Complete the session and move words to pool
-      await completeTodaysSession();
-
-      // Update stats
-      const stats = await getLearningStats();
-      setTotalLearnedWords(stats.totalLearnedWords);
-
-      setShowCongratulations(true);
     }
   };
 
@@ -143,7 +145,6 @@ export default function Index() {
       console.error("Error toggling learned state:", error);
     } finally {
       bottomSheetRef.current?.close();
-      setChallengeWord(null);
     }
   };
 
