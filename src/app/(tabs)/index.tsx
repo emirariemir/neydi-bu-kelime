@@ -153,7 +153,6 @@ export default function Index() {
   };
 
   const handleStartNewSession = () => {
-    setShowCongratulations(false);
     handleOpenModal();
   };
 
